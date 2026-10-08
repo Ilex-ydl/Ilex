@@ -127,6 +127,39 @@
     }
     .tool-box p { color: var(--muted); font-size: 14px; }
 
+    /* 计算工具 */
+    .calc-tool {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 28px; box-shadow: var(--shadow);
+    }
+    .calc-tool h3 { font-size: 17px; margin-bottom: 6px; }
+    .calc-tool .calc-desc { color: var(--muted); font-size: 13px; margin-bottom: 20px; line-height: 1.6; }
+    .calc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+    .calc-field label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; }
+    .calc-field textarea, .calc-field select {
+      width: 100%; padding: 10px 12px; font-size: 14px; font-family: inherit;
+      border: 1px solid var(--border); border-radius: 8px; background: #fff;
+      resize: vertical; min-height: 96px; line-height: 1.5;
+    }
+    .calc-field textarea:focus, .calc-field select:focus { outline: 2px solid rgba(37,99,235,0.25); outline-offset: 1px; border-color: var(--accent); }
+    .calc-row { display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end; margin-bottom: 16px; }
+    .calc-row .calc-field { flex: 1; min-width: 180px; }
+    .calc-row .calc-field select { min-height: auto; height: 40px; }
+    .calc-btn {
+      padding: 10px 22px; background: var(--accent); color: #fff; border: none;
+      border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer;
+      transition: background .15s;
+    }
+    .calc-btn:hover { background: #1d4ed8; }
+    .calc-result { font-size: 14px; line-height: 1.7; }
+    .calc-result .highlight { font-size: 18px; font-weight: 700; color: var(--accent); }
+    .calc-result .err { color: #dc2626; }
+    .calc-table { width: 100%; border-collapse: collapse; margin-top: 14px; font-size: 13px; }
+    .calc-table th, .calc-table td { border: 1px solid var(--border); padding: 6px 10px; text-align: right; }
+    .calc-table th { background: #f9fafb; font-weight: 600; text-align: center; }
+    .calc-table tr.max-row td { background: #eff6ff; font-weight: 700; color: var(--accent); }
+    @media (max-width: 600px) { .calc-grid { grid-template-columns: 1fr; } }
+
     footer { padding: 32px 0; text-align: center; color: var(--muted); font-size: 13px; }
 
     @media (max-width: 600px) {
@@ -458,8 +491,35 @@
   <div class="container">
     <h2 class="section-title">互动工具</h2>
     <p class="section-desc">预留给后续嵌入计算器、表单、可视化图表等交互组件。</p>
-    <div class="tool-box">
-      <p>此区域将放置互动工具，例如：输入框 + 按钮、简单计算、画布或图表。</p>
+
+    <!-- 深度-密度剖面计算工具 -->
+    <div class="calc-tool">
+      <h3>混合层深度的最大角度法</h3>
+      <p class="calc-desc">
+        输入一组深度 z 与对应密度 ρ 数据（逗号、空格或换行分隔），先将两组数据分别归一化到 [0,1]，
+        再计算相邻数据点差值的比值，求出各比值的反正切值 arctan，最后显示其中的最大值。
+      </p>
+      <div class="calc-grid">
+        <div class="calc-field">
+          <label for="calc-z">深度 z（如 0, 10, 20, 30 …）</label>
+          <textarea id="calc-z" placeholder="0, 10, 20, 30, 40, 50"></textarea>
+        </div>
+        <div class="calc-field">
+          <label for="calc-rho">密度 ρ（如 1025, 1026 …）</label>
+          <textarea id="calc-rho" placeholder="1025.1, 1025.8, 1026.5, 1027.0, 1027.3, 1027.5"></textarea>
+        </div>
+      </div>
+      <div class="calc-row">
+        <div class="calc-field">
+          <label for="calc-mode">比值方向</label>
+          <select id="calc-mode">
+            <option value="drhodz" selected>Δρ / Δz（相邻密度差 ÷ 相邻深度差）</option>
+            <option value="dzdrho">Δz / Δρ（相邻深度差 ÷ 相邻密度差）</option>
+          </select>
+        </div>
+        <button class="calc-btn" id="calc-run">计算</button>
+      </div>
+      <div class="calc-result" id="calc-result"></div>
     </div>
   </div>
 </section>
@@ -478,6 +538,76 @@
       }
     });
   });
+
+  // 深度-密度剖面计算工具
+  (function () {
+    function parseNums(str) {
+      return str.split(/[\s,;，、]+/).map(function (s) { return parseFloat(s); })
+        .filter(function (v) { return !isNaN(v); });
+    }
+    function normalize(arr) {
+      var min = Math.min.apply(null, arr), max = Math.max.apply(null, arr);
+      var span = max - min;
+      if (span === 0) return null;
+      return arr.map(function (v) { return (v - min) / span; });
+    }
+    function fmt(v) {
+      if (!isFinite(v)) return v > 0 ? '+∞' : '−∞';
+      return Number(v.toPrecision(6)).toString();
+    }
+
+    var btn = document.getElementById('calc-run');
+    if (!btn) return;
+    btn.addEventListener('click', function () {
+      var res = document.getElementById('calc-result');
+      var z = parseNums(document.getElementById('calc-z').value);
+      var rho = parseNums(document.getElementById('calc-rho').value);
+      var mode = document.getElementById('calc-mode').value;
+
+      if (z.length < 2 || rho.length < 2) {
+        res.innerHTML = '<span class="err">错误：每组至少需要 2 个有效数字。</span>';
+        return;
+      }
+      if (z.length !== rho.length) {
+        res.innerHTML = '<span class="err">错误：z（' + z.length + ' 个）与 ρ（' + rho.length + ' 个）的数据个数不一致。</span>';
+        return;
+      }
+      var zn = normalize(z), rn = normalize(rho);
+      if (!zn) { res.innerHTML = '<span class="err">错误：z 数据的最大值与最小值相同，无法归一化。</span>'; return; }
+      if (!rn) { res.innerHTML = '<span class="err">错误：ρ 数据的最大值与最小值相同，无法归一化。</span>'; return; }
+
+      var rows = [];
+      for (var i = 0; i < z.length - 1; i++) {
+        var dz = zn[i + 1] - zn[i];
+        var drho = rn[i + 1] - rn[i];
+        var ratio = (mode === 'dzdrho') ? dz / drho : drho / dz;
+        var ang = Math.atan(ratio);
+        rows.push({ i: i, dz: dz, drho: drho, ratio: ratio, ang: ang });
+      }
+
+      var maxIdx = 0;
+      for (var j = 1; j < rows.length; j++) {
+        if (rows[j].ang > rows[maxIdx].ang) maxIdx = j;
+      }
+      var best = rows[maxIdx];
+
+      var html = '<div>共计算 <strong>' + rows.length + '</strong> 个相邻区间的比值。</div>'
+        + '<div>最大反正切值：<span class="highlight">' + fmt(best.ang) + ' rad（约 '
+        + fmt(best.ang * 180 / Math.PI) + '°）</span>'
+        + '，出现在第 ' + (best.i + 1) + ' – ' + (best.i + 2) + ' 个数据点之间，'
+        + '对应比值 r = ' + fmt(best.ratio) + '。</div>'
+        + '<div>对应深度：<span class="highlight">z ≈ ' + fmt((z[best.i] + z[best.i + 1]) / 2) + '</span>'
+        + '（区间 ' + fmt(z[best.i]) + ' ~ ' + fmt(z[best.i + 1]) + ' 的中点）</div>';
+
+      html += '<table class="calc-table"><thead><tr><th>区间</th><th>Δz（归一化）</th><th>Δρ（归一化）</th><th>比值 r</th><th>arctan(r) / rad</th></tr></thead><tbody>';
+      rows.forEach(function (r, k) {
+        html += '<tr' + (k === maxIdx ? ' class="max-row"' : '') + '><td>' + (r.i + 1) + ' – ' + (r.i + 2) + '</td><td>'
+          + fmt(r.dz) + '</td><td>' + fmt(r.drho) + '</td><td>' + fmt(r.ratio) + '</td><td>' + fmt(r.ang) + '</td></tr>';
+      });
+      html += '</tbody></table>';
+      res.innerHTML = html;
+    });
+  })();
 </script>
 
 </body>
