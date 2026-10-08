@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>描述性物理海洋</title>
+  <style>
+    :root {
+      --bg: #fafafa;
+      --surface: #ffffff;
+      --text: #1a1a1a;
+      --muted: #6b7280;
+      --accent: #2563eb;
+      --border: #e5e7eb;
+      --radius: 12px;
+      --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+    .container { max-width: 960px; margin: 0 auto; padding: 0 24px; }
+
+    /* 顶部导航 */
+    header {
+      position: sticky; top: 0; z-index: 10;
+      background: rgba(255,255,255,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    nav { display: flex; align-items: center; justify-content: space-between; height: 64px; }
+    .brand { font-weight: 700; font-size: 18px; }
+    .nav-links { display: flex; gap: 24px; }
+    .nav-links a { color: var(--muted); text-decoration: none; font-size: 14px; transition: color .2s; }
+    .nav-links a:hover { color: var(--text); }
+
+    /* 通用区块 */
+    section { padding: 64px 0; border-bottom: 1px solid var(--border); }
+    section:last-of-type { border-bottom: none; }
+    .section-title { font-size: 24px; font-weight: 700; margin-bottom: 8px; }
+    .section-desc { color: var(--muted); font-size: 14px; margin-bottom: 32px; }
+
+    /* 问题列表 */
+    .question-list { list-style: none; counter-reset: q; display: flex; flex-direction: column; gap: 12px; font-family: "Times New Roman", Times, serif; }
+    .question-list li {
+      counter-increment: q;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 8px; padding: 16px 20px 16px 52px;
+      position: relative; font-size: 16px; line-height: 1.7;
+    }
+    .question-list li::before {
+      content: counter(q) ".";
+      position: absolute; left: 18px; top: 16px;
+      font-family: "Times New Roman", Times, serif;
+      font-size: 16px; font-weight: 700; color: var(--accent);
+    }
+    .question-list li p + p { margin-top: 8px; }
+    .question-list a { color: inherit; text-decoration: none; display: block; transition: color .15s; }
+    .question-list a:hover { color: var(--accent); }
+    html { scroll-behavior: smooth; }
+    #answers .question-list li { scroll-margin-top: 80px; }
+
+    /* 答案折叠 */
+    .question-list details summary {
+      cursor: pointer; font-weight: 700; font-size: 15px;
+      list-style: none; user-select: none;
+    }
+    .question-list details summary::-webkit-details-marker { display: none; }
+    .question-list details summary::before {
+      content: "▸"; display: inline-block; margin-right: 8px;
+      color: var(--accent); transition: transform .15s;
+    }
+    .question-list details[open] summary::before { transform: rotate(90deg); }
+    .question-list details[open] summary { margin-bottom: 8px; }
+
+    /* Hero */
+    .hero { padding: 96px 0 64px; text-align: center; }
+    .hero h1 { font-size: 40px; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 16px; }
+    .hero p { color: var(--muted); font-size: 18px; max-width: 560px; margin: 0 auto 32px; }
+    .btn {
+      display: inline-block; padding: 12px 24px;
+      background: var(--accent); color: #fff;
+      border-radius: 8px; text-decoration: none; font-size: 14px; font-weight: 600;
+      transition: transform .15s, box-shadow .15s;
+    }
+    .btn:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(37,99,235,0.25); }
+
+    /* 图文网格 */
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; }
+    .card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow);
+    }
+    .card img { width: 100%; height: 180px; object-fit: cover; display: block; background: #f0f0f0; }
+    .card-body { padding: 20px; }
+    .card-body h3 { font-size: 16px; margin-bottom: 8px; }
+    .card-body p { font-size: 14px; color: var(--muted); }
+
+    /* 链接列表 */
+    .link-list { display: flex; flex-direction: column; gap: 12px; }
+    .link-item {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 16px 20px; background: var(--surface);
+      border: 1px solid var(--border); border-radius: 8px;
+      text-decoration: none; color: var(--text);
+      transition: border-color .2s, transform .15s;
+    }
+    .link-item:hover { border-color: var(--accent); transform: translateX(2px); }
+    .link-item .arrow { color: var(--muted); }
+
+    /* 数据展示 */
+    .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px; }
+    .stat {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 24px; text-align: center;
+    }
+    .stat .num { font-size: 32px; font-weight: 800; color: var(--accent); }
+    .stat .label { font-size: 13px; color: var(--muted); margin-top: 4px; }
+
+    /* 互动工具占位 */
+    .tool-box {
+      background: var(--surface); border: 1px dashed var(--border);
+      border-radius: var(--radius); padding: 32px; text-align: center;
+    }
+    .tool-box p { color: var(--muted); font-size: 14px; }
+
+    footer { padding: 32px 0; text-align: center; color: var(--muted); font-size: 13px; }
+
+    @media (max-width: 600px) {
+      .hero h1 { font-size: 30px; }
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <nav>
+      <div class="brand">描述性物理海洋</div>
+      <div class="nav-links">
+        <a href="#about">关于</a>
+        <a href="#gallery">图文</a>
+        <a href="#links">链接</a>
+        <a href="#data">数据</a>
+        <a href="#tools">工具</a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<!-- Hero -->
+<section class="hero" id="top">
+  <div class="container">
+    <h1>描述性物理海洋</h1>
+    <p>这里会放置文字、图片、链接、数据展示和互动工具。结构已预留好，后续按需填充内容即可。</p>
+    <a class="btn" href="#about">开始浏览</a>
+  </div>
+</section>
+
+<!-- 文字介绍 -->
+<section id="about">
+  <div class="container">
+    <h2 class="section-title">Questions</h2>
+    <ol class="question-list">
+      <li><a href="#a1">How deep is a typical mixed layer if mixed by wind? How deep can it reach if driven by cooling?</a></li>
+      <li><a href="#a2">What are the typical vertical temperature and salinity profiles in the subtropical and subpolar regions of the North Pacific?</a></li>
+      <li><a href="#a3">What are the dominant regions of net evaporation in the ocean?</a></li>
+      <li><a href="#a4">What are the key components of the Mixed Layer heat budget?</a></li>
+      <li><a href="#a5">Is the North Atlantic Ocean saltier or fresher on average than the Pacific? Why?</a></li>
+      <li><a href="#a6">What regions of the ocean are characterized by large differences from summer to winter? What regions have the least seasonal variability?</a></li>
+      <li><a href="#a7">Please describe the two processes that maintain the thermocline.</a></li>
+      <li><a href="#a8">What factors determine the heat budget terms, Qs, Qb, Qe and Qh, respectively? Make clear the importance of each factor of each term.</a></li>
+      <li><a href="#a9">What are the ranges of the magnitude of the four terms? For each term, please specify the location and value of the maximum and minimum center.</a></li>
+    </ol>
+  </div>
+</section>
+
+<!-- Answer -->
+<section id="answers">
+  <div class="container">
+    <h2 class="section-title">Answer</h2>
+    <ol class="question-list">
+      <li id="a1">
+        <details>
+          <summary>混合层深度：风混合的典型深度与冷却驱动的最大深度</summary>
+          <p><strong>1. 由风混合形成的典型混合层深度</strong></p>
+          <p><strong>典型深度：</strong>一般来说，由风驱动的典型海洋混合层深度大约在 20米到100米 之间（通常在大洋中低纬度地区多为 50-100 米左右）。</p>
+          <p><strong>物理机制：</strong>风通过海表面的摩擦应力产生湍流，同时波浪破碎也会产生湍流。这种机械混合作用会将表层热量和动量向下传递。其深度主要取决于风速的大小以及海洋上层的层结稳定性（层结越强，越难混合得更深）。</p>
+          <p><strong>2. 由冷却驱动的混合层最深可达深度</strong></p>
+          <p><strong>最深深度：</strong>如果是由表面冷却驱动的对流混合，混合层可以变得非常深，在极地或高纬度海区（如北大西洋副极地海区），混合层深度通常可以达到几百米（如 300-500 米），在极端情况下甚至可以超过 1000 米至 2000 米（例如拉布拉多海或威德尔海的深对流区域）。</p>
+          <p><strong>物理机制：</strong>当海表面发生强烈的冷却（或蒸发导致盐度增加）时，表层海水密度增大，产生重力不稳定，引发剧烈的对流（深对流）。这种热力学驱动的混合比单纯的风力搅拌要强烈得多，能够穿透温跃层，将表层水一直混合到与下方水体密度相当的中性浮力深度。</p>
+        </details>
+      </li>
+      <li id="a2">
+        <details>
+          <summary>北太平洋副热带与副极地海区的典型温盐剖面</summary>
+          <p><strong>1. 北太平洋副热带海区（Subtropical Region，约 20°N-35°N）</strong></p>
+          <p><strong>温度剖面（Temperature Profile）特征：</strong>表现为典型的永久性温跃层（Permanent Thermocline）结构。</p>
+          <p>表层温度高（通常大于 20℃），形成较薄的混合层（约 50-100 米）。</p>
+          <p>混合层之下，温度随深度急剧下降（即主温跃层），温度梯度极大。</p>
+          <p>温跃层之下，温度缓慢降低，直到深层（1000 米以下）温度趋于均匀且极低（约 2-4℃）。</p>
+          <p>由于副热带海区蒸发大于降水，表层盐度高，因此其密度跃层（Pycnocline）主要由温度跃层主导。</p>
+          <p><strong>盐度剖面（Salinity Profile）特征：</strong>表现为表层盐度最大（Surface Salinity Maximum）。</p>
+          <p>由于该区域净蒸发强烈，表层盐度较高（约 35-37 psu）。</p>
+          <p>随着深度增加，盐度迅速降低，在温跃层附近或下方（约 200-800 米）存在一个盐度最小值（Salinity Minimum）。</p>
+          <p>这个次表层盐度最小值的水团被称为北太平洋中层水（North Pacific Intermediate Water, NPIW），它来源于副极地海区，因密度较大而潜入副热带海区之下。</p>
+          <p><strong>2. 北太平洋副极地海区（Subpolar Region，约 45°N 以北）</strong></p>
+          <p><strong>温度剖面（Temperature Profile）特征：</strong>表现为季节性温跃层（Seasonal Thermocline），且冬季混合极深。</p>
+          <p>夏季：表层受太阳辐射增温，形成浅而强的季节性温跃层（约 20-50 米），其下存在一个温度最小值（冬季残留的冷水）。</p>
+          <p>冬季：由于强烈的表面冷却和风混合，层结被破坏，混合层深度可加深至几百米，导致垂向上温度近乎均匀（等温层）。</p>
+          <p>深层：温度随深度缓慢降低，最终与深层冷水（约 1.5-3℃）混合。</p>
+          <p><strong>盐度剖面（Salinity Profile）特征：</strong>表现为表层盐度低，随深度增加而升高。</p>
+          <p>由于该区域降水大于蒸发，加上河流径流和冰雪融化，表层盐度较低（通常小于 34 psu）。</p>
+          <p>随着深度增加，盐度逐渐升高，在几百米深处达到最大值，这反映了来自副热带的高盐度中层水的入侵。</p>
+          <p>在更深处，盐度略有降低，但仍高于表层。</p>
+        </details>
+      </li>
+      <li id="a3">
+        <details>
+          <summary>海洋净蒸发的主要区域</summary>
+          <p><strong>1. 副热带高压带（Subtropical Highs / 副热带海区）</strong></p>
+          <p><strong>主要区域：</strong>南北纬 20°~30° 附近的海域。具体包括：</p>
+          <p>北大西洋：尤其是马尾藻海（Sargasso Sea）区域。</p>
+          <p>南太平洋：智利北部和秘鲁以西的广阔海域。</p>
+          <p>南印度洋：马达加斯加以东至澳大利亚以西的海域。</p>
+          <p>地中海和红海：这些是半封闭的强蒸发海区。</p>
+          <p><strong>物理机制：</strong>这些区域受副热带高压控制，盛行下沉气流，天气晴朗少云，降水量极少。同时，这里纬度较低，太阳辐射强，海表温度较高，且信风稳定，风速适中，导致蒸发非常强烈。因此，这些区域是全球海洋表层盐度最高的地方（如北大西洋副热带海区表层盐度可达 37 psu 以上）。</p>
+          <p><strong>2. 信风带（Trade Wind Zones）</strong></p>
+          <p><strong>主要区域：</strong>赤道两侧的信风区（大致在南北纬 10°~20° 之间）。</p>
+          <p><strong>物理机制：</strong>虽然赤道附近降水较多（赤道辐合带 ITCZ），但在信风带，空气相对干燥，且风速较大且稳定。强风加速了海面水汽的输送，使得蒸发量大于降水量，形成净蒸发区。</p>
+          <p><strong>3. 局部强风或暖流区域</strong></p>
+          <p><strong>主要区域：</strong>例如北大西洋的湾流（Gulf Stream）延伸区、北太平洋的黑潮（Kuroshio）延伸区。</p>
+          <p><strong>物理机制：</strong>强大的暖流将低纬度的暖水输送到较高纬度，使得这些区域的海表温度远高于同纬度其他海域。温暖的海水加上冬季冷空气的爆发（导致海气温差和湿度差增大），会引发极其强烈的蒸发（即海洋向大气释放大量潜热）。</p>
+        </details>
+      </li>
+      <li id="a4">
+        <details>
+          <summary>混合层热量收支的关键组成项</summary>
+          <p><strong>1. 表面热通量（Surface Heat Fluxes，通常记为 Q_net）</strong></p>
+          <p>这是混合层热量收支中最主要的外部强迫项，代表海洋与大气之间的热量交换。它由四个部分组成（也就是第二张 PPT 中提到的 Qs, Qb, Qe, Qh）：</p>
+          <p>净短波辐射（Q_s 或 SW）：太阳辐射穿透海面进入混合层，是主要的热量收入项。</p>
+          <p>净长波辐射（Q_b 或 LW）：海面向上发射的长波辐射与大气向下长波辐射的差值，通常是热量支出项。</p>
+          <p>潜热通量（Q_e 或 LH）：由海表蒸发引起的热量损失（蒸发吸热），是主要的热量支出项。</p>
+          <p>感热通量（Q_h 或 SH）：由海气之间的温度差引起的热量交换（通常海洋向大气输送热量），也是热量支出项。</p>
+          <p><strong>2. 水平平流（Horizontal Advection）</strong></p>
+          <p>指海水水平流动（洋流）将热量带入或带出所研究海域的混合层。</p>
+          <p>例如，暖流经过会使局地混合层增温，冷流经过则使其降温。在强洋流区（如湾流、黑潮），水平平流对局地热量收支的影响非常大。</p>
+          <p><strong>3. 卷夹（Entrainment）</strong></p>
+          <p>指混合层底部的夹卷过程。当混合层加深时（如风速增大或表面冷却导致对流），它会将下方温跃层中的冷水卷夹（entrain）进混合层中。</p>
+          <p>这通常是一个强烈的冷却项，因为温跃层的水温远低于混合层。</p>
+          <p><strong>4. 垂直扩散（Vertical Diffusion）</strong></p>
+          <p>指在混合层底部，通过小尺度湍流混合，热量从混合层向下方温跃层扩散的过程。</p>
+          <p>虽然相对于表面热通量和卷夹，垂直扩散的量级通常较小，但在某些特定条件下（如弱风、强层结时）也是不可忽略的。</p>
+          <p><strong>5. 淡水通量（Freshwater Flux）对热量的间接影响</strong></p>
+          <p>虽然淡水通量（降水、蒸发、径流）本身不是直接的热量项，但蒸发（Q_e）同时伴随着淡水的流失，降水则带来淡水。这些过程会改变混合层的盐度，进而改变其密度和层结稳定性，从而影响混合层的深度和对流，间接影响热量的垂直分布。</p>
+        </details>
+      </li>
+      <li id="a5">
+        <details>
+          <summary>北大西洋比太平洋更咸及其原因</summary>
+          <p>平均而言，北大西洋比太平洋更咸（盐度更高）。北大西洋的平均盐度约为 35.9 psu，而北太平洋的平均盐度约为 34.6 psu。</p>
+          <p>造成这种差异的主要原因包括以下几个方面：</p>
+          <p><strong>1. 水汽输送与降水/蒸发的差异（最主要原因）</strong></p>
+          <p>净蒸发：北大西洋副热带海区（如马尾藻海）是全球海洋净蒸发最强烈的区域之一，蒸发远大于降水，导致表层海水盐度升高。</p>
+          <p>水汽输送：从大西洋蒸发的大量水汽，随着信风和西风带被输送到太平洋一侧（如通过巴拿马地峡上空）。这些水汽在太平洋上空凝结并形成大量降水，导致北太平洋的降水量远大于蒸发量。因此，太平洋获得大量淡水补给，盐度被稀释。</p>
+          <p><strong>2. 河流径流输入的差异</strong></p>
+          <p>太平洋周围有众多世界级大河注入，如亚洲的长江、黄河、黑龙江，以及北美的育空河等。这些河流每年向太平洋输入巨量的淡水。</p>
+          <p>相比之下，注入北大西洋的大型河流较少（如圣劳伦斯河、密西西比河等），其淡水输入总量远不及太平洋。</p>
+          <p><strong>3. 海陆分布与洋流的影响</strong></p>
+          <p>大西洋：北大西洋受强大的湾流（Gulf Stream）及其延伸影响，将低纬度高盐暖水向北输送。同时，大西洋与北冰洋之间的水体交换（如拉布拉多海深层水形成）也影响了其盐度结构。</p>
+          <p>太平洋：北太平洋相对封闭，受副极地环流影响，表层存在一个明显的低盐度区域（被称为北太平洋表层低盐水）。此外，太平洋通过印尼贯穿流（Indonesian Throughflow）与大西洋和印度洋进行水体交换，但其自身的淡水收支使其整体盐度偏低。</p>
+          <p><strong>4. 海冰过程</strong></p>
+          <p>北冰洋的海冰形成和融化也会影响北大西洋的盐度，但相对于水汽输送和径流，其影响相对局部。</p>
+        </details>
+      </li>
+      <li id="a6">
+        <details>
+          <summary>季节性变化大与变化小的海区分布</summary>
+          <p><strong>1. 具有显著夏冬季节差异的区域（季节性变化大）</strong></p>
+          <p>这些区域通常位于中纬度，且受大陆影响较大或混合层较浅：</p>
+          <p>中纬度大陆边缘海和半封闭海区：</p>
+          <p>例如西北太平洋（如日本海、黄海、渤海）、西北大西洋（如北美东岸近海）。</p>
+          <p>原因：这些区域受大陆性气候影响显著，冬季受强劲的冷空气爆发（冷潮）影响，海表温度急剧下降；夏季则受强烈的太阳辐射增温。此外，这些区域混合层相对较浅，热容量小，因此温度响应非常敏感，年温差可达 10℃ 甚至 20℃ 以上。</p>
+          <p>中纬度西边界流及其延伸区：</p>
+          <p>例如湾流（Gulf Stream）延伸区和黑潮（Kuroshio）延伸区。</p>
+          <p>原因：这些区域是暖流与冷空气交汇的地方。冬季，强大的暖流将热量输送到高纬度，与南下的极地冷空气发生强烈的海气热交换，导致海表温度大幅下降；夏季则受副热带高压控制，太阳辐射强，温度高。</p>
+          <p>副极地海区（部分区域）：</p>
+          <p>例如北太平洋副极地海区。</p>
+          <p>原因：冬季混合层极深（可达几百米），强烈的冷却和对流将深层冷水带到表面，导致海表温度极低；夏季则因太阳辐射增加和层结稳定，表面迅速增温。</p>
+          <p><strong>2. 季节性变化最小的区域（季节性变化小）</strong></p>
+          <p>这些区域通常位于低纬度或极地，且受海洋内部动力过程调节较强：</p>
+          <p>赤道及热带海区（低纬度）：</p>
+          <p>例如赤道太平洋、赤道大西洋、印度洋热带区域。</p>
+          <p>原因：太阳辐射全年变化很小，海表温度常年维持在 28℃ 左右。此外，赤道区域强烈的上升流和水平平流也会调节温度，使得季节温差通常小于 2℃。</p>
+          <p>副热带环流内部（中低纬度大洋中心）：</p>
+          <p>例如北太平洋副热带环流中心（夏威夷附近）、南太平洋副热带环流中心。</p>
+          <p>原因：这些区域位于副热带高压中心，全年天气晴朗，风速小，混合层较厚（约 100 米），热容量大。冬季虽有冷却，但深层暖水会通过卷夹补充，使得海表温度年温差较小（通常小于 5℃）。</p>
+          <p>极地海区（高纬度）：</p>
+          <p>例如北冰洋中心、南极威德尔海。</p>
+          <p>原因：虽然极地太阳辐射季节变化极大（有极昼极夜），但由于常年被海冰覆盖，海冰的融化/冻结过程会吸收/释放大量潜热，起到“恒温器”的作用，使得海表温度常年接近冰点（约 -1.8℃），季节性变化反而很小。</p>
+        </details>
+      </li>
+      <li id="a7">
+        <details>
+          <summary>维持温跃层的两个过程</summary>
+          <p><strong>维持温跃层的过程一：表层暖水的浮力输入与平流（暖水堆积）</strong></p>
+          <p><strong>物理机制：</strong>在热带和副热带海区，强烈的太阳辐射使表层海水增温，形成密度较小的暖水。同时，副热带海区的净蒸发导致表层盐度升高，进一步增加了表层水的密度（但温度效应通常占主导）。这些轻而暖的表层水会通过大洋环流的水平平流（如副热带环流）向特定区域堆积。</p>
+          <p><strong>作用：</strong>这个过程不断在海洋上层补充暖水，维持了表层与深层之间的密度跃层（Pycnocline），即温跃层。它提供了温跃层得以存在的“热源”和“轻水来源”。</p>
+          <p><strong>2. 维持温跃层的过程二：深层冷水的缓慢上升与垂直扩散（冷水平衡）</strong></p>
+          <p><strong>物理机制：</strong>在温跃层下方，深层水（源自高纬度下沉的冷水）通过上升流（Upwelling）和垂直湍流扩散（Vertical Turbulent Diffusion）缓慢向上输送。虽然这个向上的热通量很小，但它持续不断地将冷水输送到温跃层底部。</p>
+          <p><strong>作用：</strong>这个过程不断消耗温跃层上方的热量，防止暖水无限向下扩散。它提供了温跃层底部的“冷源”，与上方的暖水形成动态平衡。</p>
+        </details>
+      </li>
+      <li id="a8">
+        <details>
+          <summary>Qs、Qb、Qe、Qh 的决定因素与重要性</summary>
+          <p><strong>1. Qs：净短波辐射（Net Shortwave Radiation）</strong></p>
+          <p><strong>决定因素：</strong></p>
+          <p>太阳高度角与日地距离：决定了到达大气层顶的太阳辐射量（随纬度、季节和昼夜变化）。</p>
+          <p>云量（Cloud Cover）：云层会反射和吸收大量短波辐射，是地表短波辐射最强的调节因子。</p>
+          <p>大气透明度：水汽、气溶胶和臭氧等会吸收部分短波辐射。</p>
+          <p>海表反照率（Albedo）：海面反射率通常较低（约 6%-8%），但受太阳高度角影响。</p>
+          <p><strong>重要性：</strong>Qs 通常是海洋混合层最主要的热量收入项（正值），尤其在低纬度海区，它主导了海洋的增温过程。</p>
+          <p><strong>2. Qb：净长波辐射（Net Longwave Radiation）</strong></p>
+          <p><strong>决定因素：</strong></p>
+          <p>海表温度（SST）：根据斯特藩-玻尔兹曼定律，海表温度越高，向上发射的长波辐射越强。</p>
+          <p>大气向下长波辐射：主要由大气中的水汽、二氧化碳和云量决定。云层和水汽越多，大气逆辐射越强，Qb 的净损失越小。</p>
+          <p>海气温差与湿度：影响海气界面的长波辐射交换。</p>
+          <p><strong>重要性：</strong>Qb 通常是一个持续的热量支出项（负值）。虽然量级通常小于 Qs，但在夜间或高纬度冬季，它是重要的冷却机制。</p>
+          <p><strong>3. Qe：潜热通量（Latent Heat Flux）</strong></p>
+          <p><strong>决定因素：</strong></p>
+          <p>海表饱和水汽压与空气比湿之差：这是最核心的因素。海表温度越高，饱和水汽压越大；空气越干燥，比湿越小，蒸发越强。</p>
+          <p>风速：风速越大，海面水汽越容易被带走，蒸发越强（通常用块体公式计算，与风速成正比）。</p>
+          <p>海表温度（SST）：直接决定海面水汽的供应能力。</p>
+          <p><strong>重要性：</strong>Qe 通常是海洋最大的热量支出项（负值），尤其在副热带高压区（强蒸发）和冬季冷空气爆发时（海气温差大、风速大）。它也是驱动全球水循环和热盐环流的关键。</p>
+          <p><strong>4. Qh：感热通量（Sensible Heat Flux）</strong></p>
+          <p><strong>决定因素：</strong></p>
+          <p>海气温差（SST - 气温）：当海面温度高于空气温度时，热量从海洋向大气输送（正值支出）；反之则可能从大气向海洋输送（收入）。</p>
+          <p>风速：风速越大，湍流交换越强，感热通量越大。</p>
+          <p>大气层结稳定性：不稳定层结（暖海面、冷空气）会增强感热交换。</p>
+          <p><strong>重要性：</strong>Qh 的量级通常小于 Qe 和 Qs，但在冬季中纬度西边界流区（如湾流、黑潮延伸区），当强冷空气爆发时，海气温差极大，Qh 会急剧增大，成为重要的冷却项。</p>
+        </details>
+      </li>
+      <li id="a9">
+        <details>
+          <summary>Qs、Qb、Qe、Qh 的量级范围及极值中心</summary>
+          <p><strong>1. 净短波辐射（Qs）</strong></p>
+          <p><strong>量级范围：</strong>全球海洋年平均约为 +150 ~ +200 W/m²（海洋获得热量）。</p>
+          <p><strong>最大值中心：</strong></p>
+          <p>位置：副热带高压带（南北纬 20°~30°）的大洋中心区域，以及赤道附近云量较少的区域。</p>
+          <p>数值：可达 +250 ~ +300 W/m² 以上。</p>
+          <p><strong>最小值中心：</strong></p>
+          <p>位置：赤道辐合带（ITCZ）和南太平洋辐合带（SPCZ）等强对流多云雨区域，以及高纬度冬季极夜区域。</p>
+          <p>数值：在强云区可低至 +100 W/m² 以下，极夜区甚至接近 0 W/m²。</p>
+          <p><strong>2. 净长波辐射（Qb）</strong></p>
+          <p><strong>量级范围：</strong>全球海洋年平均约为 -40 ~ -60 W/m²（海洋失去热量）。</p>
+          <p><strong>最大值（指绝对值最大，即冷却最强）中心：</strong></p>
+          <p>位置：副热带海区（如北太平洋和北大西洋副热带中心）。这些区域海表温度高，且大气干燥、云量少，导致向上的长波辐射损失最大。</p>
+          <p>数值：可达 -70 ~ -80 W/m²。</p>
+          <p><strong>最小值（指绝对值最小，即冷却最弱）中心：</strong></p>
+          <p>位置：高纬度海区（如北冰洋、南大洋）和赤道多云区。高纬度海表温度低，且云量较多，大气逆辐射强。</p>
+          <p>数值：可低至 -20 ~ -30 W/m²。</p>
+          <p><strong>3. 潜热通量（Qe）</strong></p>
+          <p><strong>量级范围：</strong>全球海洋年平均约为 -80 ~ -100 W/m²（海洋失去热量）。</p>
+          <p><strong>最大值（冷却最强）中心：</strong></p>
+          <p>位置：冬季中纬度西边界流延伸区（如湾流延伸区和黑潮延伸区）。这里暖流与冷空气交汇，海气温差和湿度差极大，风速也大。此外，副热带海区（净蒸发强）也是高值区。</p>
+          <p>数值：在冬季西边界流区可超过 -200 W/m²，甚至达到 -300 W/m²。</p>
+          <p><strong>最小值（冷却最弱）中心：</strong></p>
+          <p>位置：赤道无风带和低纬度降水丰富的区域（如西太平洋暖池）。这些区域空气湿润、风速小，蒸发弱。</p>
+          <p>数值：可低至 -20 ~ -40 W/m²。</p>
+          <p><strong>4. 感热通量（Qh）</strong></p>
+          <p><strong>量级范围：</strong>全球海洋年平均约为 -10 ~ -20 W/m²（海洋失去热量）。它是四个项中量级最小的。</p>
+          <p><strong>最大值（冷却最强）中心：</strong></p>
+          <p>位置：与 Qe 类似，位于冬季中纬度西边界流区（湾流、黑潮延伸区）以及高纬度海区。当强冷空气爆发时，海气温差极大，感热交换剧烈。</p>
+          <p>数值：在冷空气爆发期间，局地可超过 -100 W/m²，但在年平均气候态中，高值中心通常在 -30 ~ -50 W/m² 左右。</p>
+          <p><strong>最小值（冷却最弱）中心：</strong></p>
+          <p>位置：低纬度热带海区。这些区域海气温差很小，甚至有时大气温度高于海表温度（海洋获得感热）。</p>
+          <p>数值：接近于 0 W/m²，甚至在局部区域为微弱的正值（+5 W/m²）。</p>
+        </details>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- 图文展示 -->
+<section id="gallery">
+  <div class="container">
+    <h2 class="section-title">图文展示</h2>
+    <p class="section-desc">图片 + 文字卡片，自适应网格布局。</p>
+    <div class="grid">
+      <div class="card">
+        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=minimal%20abstract%20landscape%2C%20soft%20blue%20and%20gray%2C%20clean%20composition&image_size=landscape_4_3" alt="配图1">
+        <div class="card-body">
+          <h3>卡片标题一</h3>
+          <p>这里写图片的说明文字，描述内容或背景。</p>
+        </div>
+      </div>
+      <div class="card">
+        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=minimal%20abstract%20geometry%2C%20warm%20neutral%20tones&image_size=landscape_4_3" alt="配图2">
+        <div class="card-body">
+          <h3>卡片标题二</h3>
+          <p>这里写图片的说明文字，描述内容或背景。</p>
+        </div>
+      </div>
+      <div class="card">
+        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=minimal%20abstract%20waves%2C%20green%20and%20white&image_size=landscape_4_3" alt="配图3">
+        <div class="card-body">
+          <h3>卡片标题三</h3>
+          <p>这里写图片的说明文字，描述内容或背景。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 链接区 -->
+<section id="links">
+  <div class="container">
+    <h2 class="section-title">链接</h2>
+    <p class="section-desc">外链或站内跳转列表。</p>
+    <div class="link-list">
+      <a class="link-item" href="#">
+        <span>示例链接一 — 指向某篇文章或资源</span>
+        <span class="arrow">→</span>
+      </a>
+      <a class="link-item" href="#">
+        <span>示例链接二 — GitHub 仓库 / 项目主页</span>
+        <span class="arrow">→</span>
+      </a>
+      <a class="link-item" href="#">
+        <span>示例链接三 — 联系方式 / 社交账号</span>
+        <span class="arrow">→</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- 数据展示 -->
+<section id="data">
+  <div class="container">
+    <h2 class="section-title">数据</h2>
+    <p class="section-desc">关键数字一览，可接入真实数据源。</p>
+    <div class="stats">
+      <div class="stat"><div class="num">128</div><div class="label">项目数</div></div>
+      <div class="stat"><div class="num">96%</div><div class="label">完成率</div></div>
+      <div class="stat"><div class="num">2.4k</div><div class="label">访问量</div></div>
+      <div class="stat"><div class="num">5.0</div><div class="label">评分</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 互动工具 -->
+<section id="tools">
+  <div class="container">
+    <h2 class="section-title">互动工具</h2>
+    <p class="section-desc">预留给后续嵌入计算器、表单、可视化图表等交互组件。</p>
+    <div class="tool-box">
+      <p>此区域将放置互动工具，例如：输入框 + 按钮、简单计算、画布或图表。</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">© 2026 我站点 · 由 Trae 协助搭建</div>
+</footer>
+
+<script>
+  document.querySelectorAll('.question-list a[href^="#a"]').forEach(function (a) {
+    a.addEventListener('click', function () {
+      var li = document.querySelector(a.getAttribute('href'));
+      if (li) {
+        var d = li.querySelector('details');
+        if (d) d.open = true;
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
