@@ -103,6 +103,82 @@
     .dyn-formula i { font-style: italic; }
     .dyn-formula .f-label { font-size: 13px; color: var(--muted); font-family: "Microsoft YaHei", "PingFang SC", sans-serif; }
 
+    /* 教材内配图 */
+    .dyn-figure {
+      margin: 18px 0; text-align: center;
+    }
+    .dyn-figure img {
+      max-width: 100%; height: auto;
+      border: 1px solid var(--border); border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      cursor: zoom-in;
+    }
+    .dyn-fig-cap {
+      margin-top: 10px; font-size: 13px; color: var(--muted);
+      line-height: 1.6; text-align: center;
+    }
+
+    /* 五大洋卡片网格 */
+    .ocean-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr);
+      gap: 16px; margin-top: 16px;
+    }
+    .ocean-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 10px; padding: 18px 20px;
+      transition: box-shadow .2s, transform .2s;
+    }
+    .ocean-card:hover {
+      box-shadow: 0 4px 16px rgba(0,0,0,0.08); transform: translateY(-2px);
+    }
+    .ocean-card-full { grid-column: 1 / -1; }
+    .ocean-name {
+      font-size: 17px; font-weight: 700; color: var(--accent);
+      margin-bottom: 8px;
+    }
+    .ocean-zh {
+      font-size: 13px; font-weight: 400; color: var(--muted);
+      margin-left: 6px;
+    }
+    .ocean-text-en {
+      font-size: 14px; line-height: 1.75; color: var(--text);
+      margin: 0 0 8px 0; font-family: "Times New Roman", Times, serif;
+    }
+    .ocean-text-zh {
+      font-size: 14px; line-height: 1.75; color: var(--text);
+      margin: 0;
+    }
+
+    /* 板块构造：子标题与板块网格 */
+    .sub-label {
+      font-size: 15px; font-weight: 700; color: var(--accent);
+      margin: 18px 0 12px 0;
+    }
+    .sub-label-zh {
+      font-size: 13px; font-weight: 400; color: var(--muted);
+      margin-left: 6px;
+    }
+    .plate-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 12px;
+    }
+    .plate-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 8px; padding: 12px 14px;
+      display: flex; flex-direction: column; gap: 2px;
+      transition: box-shadow .2s, transform .2s;
+    }
+    .plate-card:hover {
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08); transform: translateY(-2px);
+    }
+    .plate-en {
+      font-size: 14px; font-weight: 600; color: var(--text);
+      font-family: "Times New Roman", Times, serif;
+    }
+    .plate-zh {
+      font-size: 13px; color: var(--muted);
+    }
+
     /* 问题列表 */
     .question-list { list-style: none; counter-reset: q; display: flex; flex-direction: column; gap: 12px; font-family: "Times New Roman", Times, serif; }
     .question-list li {
@@ -225,10 +301,77 @@
 
     footer { padding: 32px 0; text-align: center; color: var(--muted); font-size: 13px; }
 
+    /* 出门票样式 */
+    .exit-ticket {
+      margin-top: 20px; padding: 20px 24px;
+      background: #fefce8; border: 1px solid #fde047;
+      border-radius: 8px;
+    }
+    .exit-ticket h4 {
+      font-size: 15px; font-weight: 700; margin-bottom: 12px;
+      color: #854d0e; display: flex; align-items: center; gap: 6px;
+    }
+    .exit-ticket h4::before { content: "🎫"; }
+    .exit-ticket ul { list-style: none; padding-left: 0; }
+    .exit-ticket li {
+      padding: 8px 0; font-size: 14px; line-height: 1.6;
+      color: #713f12; border-bottom: 1px dashed #fde68a;
+    }
+    .exit-ticket li:last-child { border-bottom: none; }
+    .exit-ticket li::before { content: "• "; color: #ca8a04; font-weight: 700; margin-right: 4px; }
+    .exit-ticket-text {
+      font-size: 14px; line-height: 1.8; color: #713f12;
+    }
+    .exit-ticket-text strong {
+      color: #854d0e; font-weight: 700;
+    }
+
+    /* 知识检测样式 */
+    .knowledge-check {
+      margin-top: 20px; padding: 20px 24px;
+      background: #eff6ff; border: 1px solid #93c5fd;
+      border-radius: 8px;
+    }
+    .knowledge-check h4 {
+      font-size: 15px; font-weight: 700; margin-bottom: 12px;
+      color: #1e40af; display: flex; align-items: center; gap: 6px;
+    }
+    .knowledge-check h4::before { content: "📝"; }
+    .quiz-item { margin-bottom: 16px; }
+    .quiz-item:last-child { margin-bottom: 0; }
+    .quiz-q {
+      font-size: 14px; font-weight: 600; margin-bottom: 8px;
+      color: #1e3a8a; line-height: 1.5;
+    }
+    .quiz-options { list-style: none; padding-left: 0; }
+    .quiz-options li {
+      padding: 8px 12px; margin-bottom: 6px; font-size: 13px;
+      background: #fff; border: 1px solid #bfdbfe; border-radius: 6px;
+      cursor: pointer; transition: all .15s; line-height: 1.5;
+    }
+    .quiz-options li:hover { border-color: #3b82f6; background: #dbeafe; }
+    .quiz-options li.selected { border-color: #2563eb; background: #dbeafe; }
+    .quiz-options li.correct { border-color: #16a34a; background: #dcfce7; color: #166534; }
+    .quiz-options li.incorrect { border-color: #dc2626; background: #fee2e2; color: #991b1b; }
+    .quiz-answer {
+      margin-top: 10px; padding: 12px; font-size: 13px;
+      background: #fff; border-left: 3px solid #2563eb;
+      border-radius: 0 6px 6px 0; display: none; line-height: 1.6;
+    }
+    .quiz-answer.show { display: block; }
+    .quiz-toggle {
+      margin-top: 8px; padding: 6px 14px; font-size: 12px;
+      background: #2563eb; color: #fff; border: none;
+      border-radius: 4px; cursor: pointer;
+    }
+    .quiz-toggle:hover { background: #1d4ed8; }
+
     @media (max-width: 600px) {
       .hero h1 { font-size: 30px; }
       .nav-links { display: none; }
       .calc-grid { grid-template-columns: 1fr; }
+      .ocean-grid { grid-template-columns: 1fr; }
+      .ocean-card-full { grid-column: auto; }
     }
   </style>
 </head>
@@ -243,7 +386,7 @@
           <summary>教材</summary>
           <div class="toc-menu">
             <a href="#lec1">第一讲 描述性物理海洋学导论<small>Lecture 1: Introduction to Descriptive Physical Oceanography</small></a>
-            <a href="#lec2">第二讲 海洋维度、形态与海底物质<small>Lecture 2: Ocean Dimensions, Morphology, and Seafloor Materials</small></a>
+            <a href="#lec2">第二讲 海洋的尺度、形态与海底物质<small>Lecture 2: Ocean Dimensions, Shapes, and Bottom Materials</small></a>
             <a href="#lec3">第三讲 海水的物理性质<small>Lecture 3: Physical Properties of Seawater</small></a>
             <a href="#lec4">第四讲 水特征的典型分布<small>Lecture 4: Typical Distributions of Water Characteristics</small></a>
             <a href="#lec5">第五讲 质量、盐量与热收支及风强迫<small>Lecture 5: Mass, Salt, and Heat Budgets with Wind Forcing</small></a>
@@ -258,6 +401,7 @@
           </div>
         </details>
         <a href="#classroom" style="padding:8px 16px;border:1px solid var(--border);border-radius:8px;font-size:14px;font-weight:600;color:var(--text);text-decoration:none;">课堂</a>
+        <a href="#stories" style="padding:8px 16px;border:1px solid var(--border);border-radius:8px;font-size:14px;font-weight:600;color:var(--text);text-decoration:none;">故事会</a>
       </div>
     </nav>
   </div>
@@ -281,6 +425,7 @@
     <p style="margin-top: 24px;">
       <a class="btn" href="#lec1">教材</a>
       <a class="btn" href="#classroom" style="margin-left: 12px; background:#fff; color:var(--text); border:1px solid var(--border);">课堂</a>
+      <a class="btn" href="#stories" style="margin-left: 12px; background:#fff; color:var(--text); border:1px solid var(--border);">故事会</a>
     </p>
   </div>
 </section>
@@ -307,37 +452,355 @@
 
     <div class="dyn-card" id="cls1">
       <h3 class="dyn-title">第一讲<span class="dyn-zh-sub">Lecture 1</span></h3>
+
+      <div class="exit-ticket">
+        <h4>出门票 · Exit Ticket</h4>
+        <p class="exit-ticket-text">
+          <strong>What 内容：</strong>物理海洋学的内容包括海水的物理性质、海洋的观测工具、海流的形成机理、海洋的数学模型等。<br><br>
+          <strong>Why 机理：</strong>什么样的物理因素导致了这些现象，有哪些性质发生了变化，哪些作用力互相影响，海洋的变化对我们有何关联。<br><br>
+          <strong>How 应对：</strong>如何利用这些公式和模型去解析和预测新的现象。这也是研究的一般逻辑，首先对现象进行观测、总结和归纳，并尝试去分析和归因，最后利用得到的新理论和新模型去做进一步的应用和推进。
+        </p>
+      </div>
+
+      <div class="knowledge-check">
+        <h4>知识检测 · Knowledge Check</h4>
+        <div class="quiz-item">
+          <div class="quiz-q">1. 海洋中尺度涡的典型空间尺度约为？</div>
+          <ul class="quiz-options">
+            <li data-correct="false">A. 1-10 米</li>
+            <li data-correct="true">B. 10-100 公里</li>
+            <li data-correct="false">C. 1000-10000 公里</li>
+            <li data-correct="false">D. 1-10 厘米</li>
+          </ul>
+          <button class="quiz-toggle" onclick="toggleAnswer(this)">查看解析</button>
+          <div class="quiz-answer">
+            <strong>正确答案：B</strong><br>
+            中尺度涡（Mesoscale eddies）的典型空间尺度为10-100公里，时间尺度为数周到数月。它们是海洋中最重要的动力过程之一，对能量串级和物质输运起着关键作用。
+          </div>
+        </div>
+        <div class="quiz-item">
+          <div class="quiz-q">2. 以下哪个现象的时间尺度最长？</div>
+          <ul class="quiz-options">
+            <li data-correct="false">A. 表面重力波</li>
+            <li data-correct="false">B. 惯性振荡</li>
+            <li data-correct="true">C. 温盐环流</li>
+            <li data-correct="false">D. 湍流混合</li>
+          </ul>
+          <button class="quiz-toggle" onclick="toggleAnswer(this)">查看解析</button>
+          <div class="quiz-answer">
+            <strong>正确答案：C</strong><br>
+            温盐环流（Thermohaline circulation）的时间尺度可达百年至千年，是海洋中最慢的过程之一。相比之下，表面重力波只有几秒到几十秒，惯性振荡约12-25小时，湍流混合只有秒到分钟级。
+          </div>
+        </div>
+      </div>
+      <a class="back-top" href="#top">↑ 返回顶层</a>
     </div>
 
     <div class="dyn-card" id="cls2">
       <h3 class="dyn-title">第二讲<span class="dyn-zh-sub">Lecture 2</span></h3>
+
+      <div class="exit-ticket">
+        <h4>出门票 · Exit Ticket</h4>
+        <!-- 待补充 -->
+      </div>
+
+      <div class="knowledge-check">
+        <h4>知识检测 · Knowledge Check</h4>
+        <div class="quiz-item">
+          <div class="quiz-q">1. 全球海洋的平均深度约为？</div>
+          <ul class="quiz-options">
+            <li data-correct="false">A. 约 2000 米</li>
+            <li data-correct="true">B. 约 3700-3800 米</li>
+            <li data-correct="false">C. 约 5000 米</li>
+            <li data-correct="false">D. 约 1000 米</li>
+          </ul>
+          <button class="quiz-toggle" onclick="toggleAnswer(this)">查看解析</button>
+          <div class="quiz-answer">
+            <strong>正确答案：B</strong><br>
+            全球海洋的平均深度约为3700-3800米。最深处是马里亚纳海沟，深度超过11000米。
+          </div>
+        </div>
+        <div class="quiz-item">
+          <div class="quiz-q">2. 被动大陆边缘与活动大陆边缘的主要区别在于？</div>
+          <ul class="quiz-options">
+            <li data-correct="false">A. 是否有海沟</li>
+            <li data-correct="true">B. 是否位于板块边界</li>
+            <li data-correct="false">C. 是否有大陆架</li>
+            <li data-correct="false">D. 水深是否较浅</li>
+          </ul>
+          <button class="quiz-toggle" onclick="toggleAnswer(this)">查看解析</button>
+          <div class="quiz-answer">
+            <strong>正确答案：B</strong><br>
+            被动大陆边缘（如大西洋型）不位于板块边界，通常有宽广的大陆架、大陆坡和大陆隆；活动大陆边缘（如太平洋型）位于板块汇聚边界，通常有海沟和火山岛弧，大陆架较窄。
+          </div>
+        </div>
+      </div>
+      <a class="back-top" href="#top">↑ 返回顶层</a>
     </div>
 
     <div class="dyn-card" id="cls3">
       <h3 class="dyn-title">第三讲<span class="dyn-zh-sub">Lecture 3</span></h3>
+
+      <div class="exit-ticket">
+        <h4>出门票 · Exit Ticket</h4>
+        <!-- 待补充 -->
+      </div>
+
+      <div class="knowledge-check">
+        <h4>知识检测 · Knowledge Check</h4>
+        <div class="quiz-item">
+          <div class="quiz-q">1. 海水密度最大的温度（TMD）随盐度增加而如何变化？</div>
+          <ul class="quiz-options">
+            <li data-correct="false">A. 升高</li>
+            <li data-correct="true">B. 降低</li>
+            <li data-correct="false">C. 不变</li>
+            <li data-correct="false">D. 先升后降</li>
+          </ul>
+          <button class="quiz-toggle" onclick="toggleAnswer(this)">查看解析</button>
+          <div class="quiz-answer">
+            <strong>正确答案：B</strong><br>
+            纯水的密度最大温度约为4°C，随着盐度增加，密度最大温度降低。在盐度约为24.7 psu时，密度最大温度与冰点重合；盐度更高时，海水在结冰前密度持续增加。
+          </div>
+        </div>
+        <div class="quiz-item">
+          <div class="quiz-q">2. 关于海水状态方程，以下说法正确的是？</div>
+          <ul class="quiz-options">
+            <li data-correct="false">A. 海水密度只与温度有关</li>
+            <li data-correct="false">B. 海水是完美的线性膨胀介质</li>
+            <li data-correct="true">C. 海水密度是温度、盐度和压力的非线性函数</li>
+            <li data-correct="false">D. 压力对海水密度的影响可以忽略</li>
+          </ul>
+          <button class="quiz-toggle" onclick="toggleAnswer(this)">查看解析</button>
+          <div class="quiz-answer">
+            <strong>正确答案：C</strong><br>
+            海水状态方程（EOS）是温度、盐度和压力的非线性函数。这种非线性导致了诸如热收缩（thermobaricity）和 cabbeling 等重要现象。压力在深海中对密度有显著影响。
+          </div>
+        </div>
+      </div>
+      <a class="back-top" href="#top">↑ 返回顶层</a>
     </div>
 
     <div class="dyn-card" id="cls4">
       <h3 class="dyn-title">第四讲<span class="dyn-zh-sub">Lecture 4</span></h3>
+
+      <div class="exit-ticket">
+        <h4>出门票 · Exit Ticket</h4>
+        <!-- 待补充 -->
+      </div>
+
+      <div class="knowledge-check">
+        <h4>知识检测 · Knowledge Check</h4>
+        <div class="quiz-item">
+          <div class="quiz-q">1. 全球海洋表层盐度最高值通常出现在？</div>
+          <ul class="quiz-options">
+            <li data-correct="false">A. 赤道地区</li>
+            <li data-correct="true">B. 副热带高压带（约20-30°纬度）</li>
+            <li data-correct="false">C. 极地海区</li>
+            <li data-correct="false">D. 大河入海口</li>
+          </ul>
+          <button class="quiz-toggle" onclick="toggleAnswer(this)">查看解析</button>
+          <div class="quiz-answer">
+            <strong>正确答案：B</strong><br>
+            副热带高压带（约20-30°纬度）是全球海洋表层盐度最高的区域，因为这里蒸发强烈而降水稀少，净蒸发量大。赤道地区虽然温度高，但降水丰富，盐度反而较低。
+          </div>
+        </div>
+        <div class="quiz-item">
+          <div class="quiz-q">2. 关于大洋垂向结构，以下描述正确的是？</div>
+          <ul class="quiz-options">
+            <li data-correct="false">A. 混合层温度随深度增加而升高</li>
+            <li data-correct="false">B. 温跃层是温度均匀的水层</li>
+            <li data-correct="true">C. 深层水温度低且变化缓慢</li>
+            <li data-correct="false">D. 密度跃层总是与温跃层重合</li>
+          </ul>
+          <button class="quiz-toggle" onclick="toggleAnswer(this)">查看解析</button>
+          <div class="quiz-answer">
+            <strong>正确答案：C</strong><br>
+            深层水（Deep water）温度低（通常0-4°C）且变化缓慢。混合层温度均匀或随深度降低；温跃层是温度随深度快速降低的水层；密度跃层通常与温跃层重合，但在某些海区（如副极地）可能主要由盐度控制。
+          </div>
+        </div>
+      </div>
+      <a class="back-top" href="#top">↑ 返回顶层</a>
     </div>
 
     <div class="dyn-card" id="cls5">
       <h3 class="dyn-title">第五讲<span class="dyn-zh-sub">Lecture 5</span></h3>
+
+      <div class="exit-ticket">
+        <h4>出门票 · Exit Ticket</h4>
+        <!-- 待补充 -->
+      </div>
+
+      <div class="knowledge-check">
+        <h4>知识检测 · Knowledge Check</h4>
+        <div class="quiz-item">
+          <div class="quiz-q">1. 在混合层热量收支中，通常最大的热量支出项是？</div>
+          <ul class="quiz-options">
+            <li data-correct="false">A. 感热通量（Qh）</li>
+            <li data-correct="false">B. 净长波辐射（Qb）</li>
+            <li data-correct="true">C. 潜热通量（Qe）</li>
+            <li data-correct="false">D. 水平平流</li>
+          </ul>
+          <button class="quiz-toggle" onclick="toggleAnswer(this)">查看解析</button>
+          <div class="quiz-answer">
+            <strong>正确答案：C</strong><br>
+            潜热通量（Latent Heat Flux, Qe）通常是海洋最大的热量支出项，全球年平均约为80-100 W/m²。它是由海表蒸发引起的，在副热带高压区和冬季西边界流区特别强烈。
+          </div>
+        </div>
+        <div class="quiz-item">
+          <div class="quiz-q">2. 艾克曼输运的方向与风向的关系是？</div>
+          <ul class="quiz-options">
+            <li data-correct="false">A. 与风向相同</li>
+            <li data-correct="false">B. 北半球偏左，南半球偏右</li>
+            <li data-correct="true">C. 北半球偏右90°，南半球偏左90°</li>
+            <li data-correct="false">D. 与风向垂直但方向不确定</li>
+          </ul>
+          <button class="quiz-toggle" onclick="toggleAnswer(this)">查看解析</button>
+          <div class="quiz-answer">
+            <strong>正确答案：C</strong><br>
+            根据艾克曼理论，体积输运（Ekman transport）在北半球垂直于风向向右偏90°，在南半球向左偏90°。这是科里奥利力与风应力平衡的结果。
+          </div>
+        </div>
+      </div>
+      <a class="back-top" href="#top">↑ 返回顶层</a>
     </div>
 
     <div class="dyn-card" id="cls6">
       <h3 class="dyn-title">第六讲<span class="dyn-zh-sub">Lecture 6</span></h3>
+
+      <div class="exit-ticket">
+        <h4>出门票 · Exit Ticket</h4>
+        <!-- 待补充 -->
+      </div>
+
+      <div class="knowledge-check">
+        <h4>知识检测 · Knowledge Check</h4>
+        <div class="quiz-item">
+          <div class="quiz-q">1. 目前全球海洋观测网Argo计划使用的浮标主要测量什么参数？</div>
+          <ul class="quiz-options">
+            <li data-correct="false">A. 海流速度和方向</li>
+            <li data-correct="false">B. 海面高度</li>
+            <li data-correct="true">C. 温度和盐度剖面</li>
+            <li data-correct="false">D. 海底地形</li>
+          </ul>
+          <button class="quiz-toggle" onclick="toggleAnswer(this)">查看解析</button>
+          <div class="quiz-answer">
+            <strong>正确答案：C</strong><br>
+            Argo浮标（剖面浮标）主要测量海洋上层2000米的温度和盐度剖面。它们随海流漂移，定期下潜到1000米（漂移深度），然后下潜到2000米后上浮，在上升过程中进行测量。
+          </div>
+        </div>
+        <div class="quiz-item">
+          <div class="quiz-q">2. EOF分析（经验正交函数分解）在海洋学中的主要用途是？</div>
+          <ul class="quiz-options">
+            <li data-correct="false">A. 直接测量海流速度</li>
+            <li data-correct="true">B. 提取时空数据的主要模态和降维</li>
+            <li data-correct="false">C. 计算海水密度</li>
+            <li data-correct="false">D. 预测厄尔尼诺事件</li>
+          </ul>
+          <button class="quiz-toggle" onclick="toggleAnswer(this)">查看解析</button>
+          <div class="quiz-answer">
+            <strong>正确答案：B</strong><br>
+            EOF分析（Empirical Orthogonal Function analysis）是一种统计方法，用于将时空数据分解为正交的空间模态和时间系数。它主要用于气候信号提取、数据降维和识别主要变异模态。
+          </div>
+        </div>
+      </div>
+      <a class="back-top" href="#top">↑ 返回顶层</a>
     </div>
 
     <div class="dyn-card" id="cls7">
       <h3 class="dyn-title">第七讲<span class="dyn-zh-sub">Lecture 7</span></h3>
+
+      <div class="exit-ticket">
+        <h4>出门票 · Exit Ticket</h4>
+        <!-- 待补充 -->
+      </div>
+
+      <div class="knowledge-check">
+        <h4>知识检测 · Knowledge Check</h4>
+        <div class="quiz-item">
+          <div class="quiz-q">1. 地转流是哪种力的平衡结果？</div>
+          <ul class="quiz-options">
+            <li data-correct="false">A. 重力与摩擦力</li>
+            <li data-correct="true">B. 压强梯度力与科里奥利力</li>
+            <li data-correct="false">C. 风应力与压强梯度力</li>
+            <li data-correct="false">D. 惯性力与科里奥利力</li>
+          </ul>
+          <button class="quiz-toggle" onclick="toggleAnswer(this)">查看解析</button>
+          <div class="quiz-answer">
+            <strong>正确答案：B</strong><br>
+            地转流（Geostrophic current）是水平压强梯度力与科里奥利力相平衡时的稳定流动。在这种平衡下，海水沿等压线运动，北半球高压在右，低压在左。
+          </div>
+        </div>
+        <div class="quiz-item">
+          <div class="quiz-q">2. 位涡（Potential Vorticity）守恒成立的条件是？</div>
+          <ul class="quiz-options">
+            <li data-correct="false">A. 有摩擦、绝热</li>
+            <li data-correct="true">B. 无摩擦、绝热</li>
+            <li data-correct="false">C. 有摩擦、非绝热</li>
+            <li data-correct="false">D. 仅在赤道地区成立</li>
+          </ul>
+          <button class="quiz-toggle" onclick="toggleAnswer(this)">查看解析</button>
+          <div class="quiz-answer">
+            <strong>正确答案：B</strong><br>
+            位涡守恒（PV conservation）仅在无摩擦（inviscid）和绝热（adiabatic）条件下成立。它是旋转流体中角动量守恒的表达方式，是理解风生环流和罗斯贝波等动力学现象的核心原理。
+          </div>
+        </div>
+      </div>
+      <a class="back-top" href="#top">↑ 返回顶层</a>
     </div>
 
     <div class="dyn-card" id="cls8">
       <h3 class="dyn-title">第八讲<span class="dyn-zh-sub">Lecture 8</span></h3>
+
+      <div class="exit-ticket">
+        <h4>出门票 · Exit Ticket</h4>
+        <!-- 待补充 -->
+      </div>
+
+      <div class="knowledge-check">
+        <h4>知识检测 · Knowledge Check</h4>
+        <div class="quiz-item">
+          <div class="quiz-q">1. 表面重力波的恢复力主要是？</div>
+          <ul class="quiz-options">
+            <li data-correct="false">A. 科里奥利力</li>
+            <li data-correct="false">B. 压强梯度力</li>
+            <li data-correct="true">C. 重力</li>
+            <li data-correct="false">D. 表面张力</li>
+          </ul>
+          <button class="quiz-toggle" onclick="toggleAnswer(this)">查看解析</button>
+          <div class="quiz-answer">
+            <strong>正确答案：C</strong><br>
+            表面重力波（Surface gravity waves）的主要恢复力是重力。当海面受到扰动偏离平衡位置时，重力试图将其拉回原位，形成波动。表面张力只对波长极小的毛细波起作用。
+          </div>
+        </div>
+        <div class="quiz-item">
+          <div class="quiz-q">2. 内波与表面波的主要区别在于？</div>
+          <ul class="quiz-options">
+            <li data-correct="false">A. 内波只发生在深海</li>
+            <li data-correct="false">B. 内波的传播速度比表面波快</li>
+            <li data-correct="true">C. 内波发生在密度分层的海水内部，振幅可以很大</li>
+            <li data-correct="false">D. 内波不受科里奥利力影响</li>
+          </ul>
+          <button class="quiz-toggle" onclick="toggleAnswer(this)">查看解析</button>
+          <div class="quiz-answer">
+            <strong>正确答案：C</strong><br>
+            内波（Internal waves）发生在密度分层的海水内部（如温跃层），由于上下层密度差较小，恢复力（约化重力）比重力小得多，因此内波的传播速度较慢，但振幅可以比表面波大得多（可达几十米）。
+          </div>
+        </div>
+      </div>
+      <a class="back-top" href="#top">↑ 返回顶层</a>
     </div>
 
     <a class="back-top" href="#top">↑ 返回教材</a>
+  </div>
+</section>
+
+<!-- 故事会 -->
+<section id="stories">
+  <div class="container">
+    <h2 class="section-title">故事会 · Story Hall</h2>
+    <p class="section-desc">海洋故事与趣闻</p>
+    <!-- 待补充 -->
+    <a class="back-top" href="#top">↑ 返回顶层</a>
   </div>
 </section>
 
@@ -358,6 +821,10 @@
       <h3 class="dyn-title">Spatial and Temporal Scales of the Ocean<span class="dyn-zh-sub">海洋的空间尺度与时间尺度</span></h3>
       <p class="dyn-text">Oceanic motions span an enormous range of spatial and temporal scales, from millimetre-scale turbulence lasting seconds to the global thermohaline circulation that extends over entire ocean basins and evolves over centuries to millennia. A central idea in physical oceanography is the separation of scales: every phenomenon is characterized by a typical length scale <i>L</i> and time scale <i>T</i>, and the dominant dynamics—wave motion, geostrophic balance, or turbulent mixing—depend strongly on these scales. Interactions across scales, such as mesoscale eddies feeding back on the mean circulation, are a core topic of modern oceanography.</p>
       <p class="dyn-text">海洋的运动跨越极其宽广的空间与时间尺度：小到毫米级的湍流、秒级的表面波动，大到上万公里的全球温盐环流、长达百年甚至千年的深层水循环。物理海洋学的一个核心思想是尺度分离——每种现象都有其特征长度 <i>L</i> 与特征时间 <i>T</i>，其主导动力机制（波动、地转平衡、湍流混合等）随尺度不同而不同；而不同尺度之间的相互作用（如中尺度涡对大尺度环流的反馈）正是现代海洋学的核心问题之一。</p>
+      <div class="dyn-figure">
+        <img src="images/ocean-scales.png" alt="海洋现象的空间与时间尺度">
+        <p class="dyn-fig-cap">图 1-1 海洋现象的空间与时间尺度谱（Spatial and temporal scales of oceanic processes）。横坐标为水平空间尺度，纵坐标为时间尺度，不同颜色的椭圆代表不同类型的海洋动力过程。</p>
+      </div>
       <div class="dyn-formula">
         <div><span class="f-label">湍流与毛细波：</span>L ~ 1 mm – 1 m，T ~ 秒 – 分钟</div>
         <div><span class="f-label">表面重力波：</span>L ~ 1 – 100 m，T ~ 1 – 20 s</div>
@@ -376,8 +843,149 @@
 <!-- 第二讲 -->
 <section id="lec2">
   <div class="container">
-    <h2 class="section-title">Lecture 2: Ocean Dimensions, Morphology, and Seafloor Materials</h2>
-    <p class="section-desc">第二讲 海洋维度、形态与海底物质</p>
+    <h2 class="section-title">Lecture 2: Ocean Dimensions, Shapes, and Bottom Materials</h2>
+    <p class="section-desc">第二讲 海洋的尺度、形态与海底物质</p>
+
+    <div class="dyn-card" id="five-oceans">
+      <h3 class="dyn-title">The Five Oceans<span class="dyn-zh-sub">五大洋</span></h3>
+      <div class="dyn-figure">
+        <img src="images/ocean-distribution.png" alt="世界海洋分布图">
+        <p class="dyn-fig-cap">图 2-1 世界海洋分布图（Distribution of the world's oceans），标注了太平洋、大西洋、印度洋、北冰洋和南大洋的地理位置。</p>
+      </div>
+      <div class="ocean-grid">
+        <div class="ocean-card">
+          <h4 class="ocean-name">Pacific Ocean<span class="ocean-zh">太平洋</span></h4>
+          <p class="ocean-text-en">The world's largest ocean basin, accounting for about 46% of the total area of the world's oceans. It is extremely wide at the equator, with numerous trenches and island arcs (the "Ring of Fire") along its western and northern margins, many islands and marginal seas, and the North Pacific is unable to form dense deep water.</p>
+          <p class="ocean-text-zh">世界最大洋盆，约占世界大洋总面积 46%；赤道处极宽，西、北侧多海沟岛弧（"火环"），岛屿和边缘海多，北太平洋不能形成致密深层水。</p>
+        </div>
+        <div class="ocean-card">
+          <h4 class="ocean-name">Atlantic Ocean<span class="ocean-zh">大西洋</span></h4>
+          <p class="ocean-text-en">S-shaped, with the mid-ocean ridge running through its center. The northern North Atlantic is one of the main source regions of the world's deep water, has the highest surface salinity, and the Mediterranean Sea exports high-salinity warm water.</p>
+          <p class="ocean-text-zh">呈"S"形，洋中脊纵贯中部；北大西洋北部是世界深层水主要源地之一，表层盐度最高，地中海输出高盐暖水。</p>
+        </div>
+        <div class="ocean-card">
+          <h4 class="ocean-name">Indian Ocean<span class="ocean-zh">印度洋</span></h4>
+          <p class="ocean-text-en">Its northern part is enclosed by land, with no high-latitude cold source, so cold dense water cannot form. The topography is rough and the region is strongly influenced by the monsoon; the Bay of Bengal has fresh surface water, while the Arabian Sea and the Red Sea are very saline.</p>
+          <p class="ocean-text-zh">北部被陆地封闭，无高纬冷源，不能形成冷致密水；地形粗糙，受季风影响显著，孟加拉湾表层淡、阿拉伯海和红海很咸。</p>
+        </div>
+        <div class="ocean-card">
+          <h4 class="ocean-name">Arctic Ocean<span class="ocean-zh">北极海</span></h4>
+          <p class="ocean-text-en">Often regarded as a Mediterranean-style sea connected to the Atlantic Ocean. It is surrounded by wide continental shelves, its central basin is divided by the Lomonosov Ridge, it is covered by sea ice year-round, and it exchanges water with the Pacific and Atlantic Oceans through the Bering Strait and Fram Strait.</p>
+          <p class="ocean-text-zh">常被视为与大西洋相连的地中海式海；周围大陆架宽广，中央被罗蒙诺索夫海岭分隔，常年海冰覆盖，通过白令海峡和弗拉姆海峡等与太平洋、大西洋交换。</p>
+        </div>
+        <div class="ocean-card ocean-card-full">
+          <h4 class="ocean-name">Southern Ocean<span class="ocean-zh">南大洋</span></h4>
+          <p class="ocean-text-en">The only region outside the Arctic where eastward flow can circle the globe. The Drake Passage connects the three major oceans and constrains the Antarctic Circumpolar Current (ACC), and it is the formation region of the densest bottom water in the world, mainly in the Weddell Sea and Ross Sea.</p>
+          <p class="ocean-text-zh">北极以外唯一可绕全球向东流动的区域；德雷克海峡连接三大洋并约束 ACC，是世界最致密底层水（主要在威德尔海和罗斯海）的形成区。</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="dyn-card" id="plate-tectonics">
+      <h3 class="dyn-title">Plate Tectonics<span class="dyn-zh-sub">板块构造学说</span></h3>
+      <p class="dyn-text">Plate tectonics creates new seafloor at mid-ocean ridges through seafloor spreading, forms trenches and island arcs through subduction, and shapes ocean basin topography while controlling deep-water exchange and ocean mixing through fracture zones, sills, and seafloor roughness. This process is accompanied by records of geomagnetic reversals that can be used to determine seafloor age, while differences in spreading rates (about 2–16 cm/year) produce varying topographic roughness along mid-ocean ridges.</p>
+      <p class="dyn-text">板块构造通过海底扩张在洋中脊形成新海底，通过俯冲形成海沟和岛弧，并通过断裂带、海槛和海底粗糙度塑造洋盆地形、控制深层水交换与海洋混合；其过程伴随地磁倒转记录，可用于测定海底年龄，而扩张速率差异（约2—16 cm/年）又造成洋中脊地形粗糙度不同。</p>
+      <div class="dyn-figure">
+        <img src="images/plate-tectonics.png" alt="全球板块构造图">
+        <p class="dyn-fig-cap">图 2-2 全球板块构造图（Global plate tectonics map），标注了七大主要板块及板块边界类型（离散、汇聚、转换断层）。</p>
+      </div>
+      <h4 class="sub-label">Major Tectonic Plates<span class="sub-label-zh">主要板块</span></h4>
+      <div class="plate-grid">
+        <div class="plate-card"><span class="plate-en">Pacific Plate</span><span class="plate-zh">太平洋板块</span></div>
+        <div class="plate-card"><span class="plate-en">North American Plate</span><span class="plate-zh">北美洲板块</span></div>
+        <div class="plate-card"><span class="plate-en">South American Plate</span><span class="plate-zh">南美洲板块</span></div>
+        <div class="plate-card"><span class="plate-en">Eurasian Plate</span><span class="plate-zh">欧亚板块</span></div>
+        <div class="plate-card"><span class="plate-en">African Plate</span><span class="plate-zh">非洲板块</span></div>
+        <div class="plate-card"><span class="plate-en">Antarctic Plate</span><span class="plate-zh">南极洲板块</span></div>
+        <div class="plate-card"><span class="plate-en">Indo-Australian Plate</span><span class="plate-zh">印澳板块</span></div>
+      </div>
+    </div>
+
+    <div class="dyn-card" id="seafloor-topography">
+      <h3 class="dyn-title">Seafloor Topography and Geomorphology<span class="dyn-zh-sub">海底地形地貌</span></h3>
+      <div class="dyn-figure">
+        <img src="images/seafloor-topography.png" alt="海底地形剖面图">
+        <p class="dyn-fig-cap">图 2-3 海底地形剖面图（Seafloor topography cross-section），示意从大陆到深海的主要地貌单元：大陆架、大陆坡、大陆隆、深海平原、海山、洋中脊、海沟与岛弧。</p>
+      </div>
+      <div class="ocean-grid">
+        <div class="ocean-card">
+          <h4 class="ocean-name">Continental Shelf<span class="ocean-zh">大陆架</span></h4>
+          <p class="ocean-text-en">Extending seaward from the coast, with an average slope of about 1:500 and an average width of about 65 km (locally up to ten times). At its outer edge (shelf break) the slope increases to about 1:20, with an average water depth of about 130 m; the bottom sediment is mainly sand, and it hosts the world's major fishing grounds.</p>
+          <p class="ocean-text-zh">从海岸向海延伸，平均坡度约1:500，平均宽度约65 km（局部可达其十倍），外缘（架缘）坡度增至约1:20，平均水深约130 m；底质以砂为主，是世界主要渔场所在。</p>
+        </div>
+        <div class="ocean-card">
+          <h4 class="ocean-name">Continental Slope<span class="ocean-zh">大陆坡</span></h4>
+          <p class="ocean-text-en">Descending from the shelf break to the deep-sea floor, with an average vertical drop of about 4000 m and locally up to 9000 m. The slope is markedly steeper than the landward slope, the sediment is mainly mud, and submarine canyons and turbidity currents are commonly developed.</p>
+          <p class="ocean-text-zh">从架缘下降到深海海底，平均垂直落差约4000 m，局部可达9000 m；坡度明显陡于陆地坡，物质以泥为主，常发育海底峡谷和浊流。</p>
+        </div>
+        <div class="ocean-card">
+          <h4 class="ocean-name">Continental Rise<span class="ocean-zh">大陆隆</span></h4>
+          <p class="ocean-text-en">The region at the lower part of the continental slope where the slope gentles and transitions to the deep-sea floor, located between the continental slope and the abyssal plain.</p>
+          <p class="ocean-text-zh">大陆坡下部向深海海底过渡、坡度变缓的区域，位于大陆坡与深海平原之间。</p>
+        </div>
+        <div class="ocean-card">
+          <h4 class="ocean-name">Abyssal Plain<span class="ocean-zh">深海平原</span></h4>
+          <p class="ocean-text-en">Very flat regions of the deep-sea floor, formed by sedimentation covering rough topography; locally they can be so smooth that the relief is only 2 m over a distance of 100 km.</p>
+          <p class="ocean-text-zh">深海海底中非常平坦的区域，沉积作用覆盖粗糙地形形成；局部可平滑到100 km内起伏仅2 m。</p>
+        </div>
+        <div class="ocean-card">
+          <h4 class="ocean-name">Seamount<span class="ocean-zh">海山</span></h4>
+          <p class="ocean-text-en">Isolated mountains rising significantly above the surrounding seafloor, with an average height of about 2 km. Those that emerge above the sea surface become islands; those that were planed off and then subsided are called guyots (flat-topped seamounts), often forming seamount chains from hotspots.</p>
+          <p class="ocean-text-zh">明显高出周围海底的孤立山体，平均高约2 km；露出海面即成岛屿，被削平后再下沉的称平顶海山（guyot），常由热点形成海山链。</p>
+        </div>
+        <div class="ocean-card">
+          <h4 class="ocean-name">Mid-Ocean Ridge<span class="ocean-zh">洋中脊</span></h4>
+          <p class="ocean-text-en">The center of seafloor spreading. The global mid-ocean ridge system is about 40,000 km long and is the most prominent topographic feature on Earth. Slow-spreading ridges (e.g., the Mid-Atlantic Ridge) have rift valleys and rough topography, while fast-spreading ridges (e.g., the East Pacific Rise) have a central rise and are relatively smooth.</p>
+          <p class="ocean-text-zh">海底扩张中心，全球洋中脊系统长约4万km，是地球最显著的地形特征；慢扩张脊（如大西洋中脊）有裂谷、地形粗糙，快扩张脊（如东太平洋海隆）中心隆起、相对平滑。</p>
+        </div>
+        <div class="ocean-card">
+          <h4 class="ocean-name">Fracture Zone<span class="ocean-zh">断裂带</span></h4>
+          <p class="ocean-text-en">Transverse offsets of mid-ocean ridges, approximately vertical planes, with the crust on both sides moving in opposite directions; they can serve as channels for deep water to cross ridges (e.g., the Romanche, Eltanin, and Udintsev fracture zones).</p>
+          <p class="ocean-text-zh">洋中脊的横向错断，近似垂直平面，两侧地壳反向运动；可成为深层水跨脊通道（如Romanche、Eltanin、Udintsev断裂带）。</p>
+        </div>
+        <div class="ocean-card">
+          <h4 class="ocean-name">Trench<span class="ocean-zh">海沟</span></h4>
+          <p class="ocean-text-en">Formed by plate subduction, narrow and long, with a maximum depth of up to 11,000 m (Mariana Trench). They are mostly distributed in the Pacific, often arc-shaped, with an island arc on one side, and can guide or influence deep boundary currents.</p>
+          <p class="ocean-text-zh">板块俯冲形成，窄而长，最深可达11,000 m（马里亚纳海沟）；多分布在太平洋，常呈弧形，一侧伴岛弧，可引导或影响深层边界流。</p>
+        </div>
+        <div class="ocean-card ocean-card-full">
+          <h4 class="ocean-name">Island Arc Chain<span class="ocean-zh">岛弧链</span></h4>
+          <p class="ocean-text-en">Arc-shaped island chains formed by volcanic and seismic activity on the landward side of trenches, such as the Aleutian Islands, the Lesser Antilles, and the Sunda Arc.</p>
+          <p class="ocean-text-zh">海沟陆侧由火山和地震活动形成的弧形岛屿链，如阿留申群岛、小安的列斯群岛、巽他弧。</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="dyn-card" id="seafloor-survey">
+      <h3 class="dyn-title">Seafloor Topography Surveying Methods<span class="dyn-zh-sub">海底地形测绘方法</span></h3>
+      <div class="ocean-grid">
+        <div class="ocean-card">
+          <h4 class="ocean-name">Early Sounding Line<span class="ocean-zh">早期测深绳</span></h4>
+          <p class="ocean-text-en">A weight is lowered on a rope of known length until it touches the bottom. It is slow, and in deep water it is difficult to determine whether the weight has reached the bottom or whether the rope is vertical.</p>
+          <p class="ocean-text-zh">用已知长度的绳子下放重物直到触底；速度慢，深水中难以判断重物是否触底、绳子是否垂直。</p>
+        </div>
+        <div class="ocean-card">
+          <h4 class="ocean-name">Echo Sounding<span class="ocean-zh">回声测深</span></h4>
+          <p class="ocean-text-en">The main method since the 1920s. It measures the travel time of an acoustic pulse from the ship to the seafloor and back; half of that time multiplied by the average sound speed in seawater gives the depth. The main uncertainty comes from the sound speed, which varies with temperature and salinity.</p>
+          <p class="ocean-text-zh">1920年以来主要方法；测量声脉冲从船到海底再返回的时间，取一半乘以海水平均声速得深度；主要不确定来自声速值（随温度、盐度变化）。</p>
+        </div>
+        <div class="ocean-card">
+          <h4 class="ocean-name">Multibeam Sounding<span class="ocean-zh">多波束测深</span></h4>
+          <p class="ocean-text-en">Multiple echo sounders are installed along the ship's bottom, providing two-dimensional "swath" mapping of the seafloor beneath the ship.</p>
+          <p class="ocean-text-zh">沿船底安装多个测深仪，提供船下海底二维"条带"测绘。</p>
+        </div>
+        <div class="ocean-card">
+          <h4 class="ocean-name">Satellite Gravity Measurement<span class="ocean-zh">卫星重力测量</span></h4>
+          <p class="ocean-text-en">Satellites measure the Earth's gravity field and invert it for seafloor topography, which can reveal previously unknown fracture zones and seamounts in remote regions. However, uneven seafloor materials (such as thick sediment cover) may not be detected by the gravity field, so echo sounding is still needed for verification.</p>
+          <p class="ocean-text-zh">卫星测量地球重力场，反演海底地形，可发现偏远地区未知的断裂带、海山等；但海底物质不均匀（如厚沉积覆盖）可能不被重力场探测到，仍需回声测深验证。</p>
+        </div>
+        <div class="ocean-card ocean-card-full">
+          <h4 class="ocean-name">Integrated Products<span class="ocean-zh">综合产品</span></h4>
+          <p class="ocean-text-en">Modern nautical charts are integrated products that combine ship-measured water depths with satellite gravity measurements.</p>
+          <p class="ocean-text-zh">现代海图是船测水深与卫星重力测量融合的产品。</p>
+        </div>
+      </div>
+    </div>
     <a class="back-top" href="#top">↑ 返回教材</a>
   </div>
 </section>
@@ -876,6 +1484,33 @@
     });
   });
 
+  // 知识检测：选项点击与答案切换
+  document.querySelectorAll('.quiz-options li').forEach(function (option) {
+    option.addEventListener('click', function () {
+      var options = this.parentElement.querySelectorAll('li');
+      var isCorrect = this.getAttribute('data-correct') === 'true';
+
+      // 清除其他选项状态
+      options.forEach(function (opt) {
+        opt.classList.remove('selected', 'correct', 'incorrect');
+      });
+
+      // 标记当前选项
+      this.classList.add('selected');
+      if (isCorrect) {
+        this.classList.add('correct');
+      } else {
+        this.classList.add('incorrect');
+      }
+    });
+  });
+
+  function toggleAnswer(btn) {
+    var answer = btn.nextElementSibling;
+    answer.classList.toggle('show');
+    btn.textContent = answer.classList.contains('show') ? '收起解析' : '查看解析';
+  }
+
   // 深度-密度剖面计算工具
   (function () {
     function parseNums(str) {
@@ -957,7 +1592,7 @@
     var lb = document.getElementById('lightbox');
     var lbImg = document.getElementById('lightbox-img');
     var lbClose = document.getElementById('lightbox-close');
-    document.querySelectorAll('.card img').forEach(function (img) {
+    document.querySelectorAll('.card img, .dyn-figure img').forEach(function (img) {
       img.addEventListener('click', function () {
         lbImg.src = img.src;
         lbImg.alt = img.alt;
