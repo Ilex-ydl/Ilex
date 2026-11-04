@@ -90,9 +90,14 @@
       border-radius: var(--radius); padding: 24px 28px; box-shadow: var(--shadow);
       margin-bottom: 16px; line-height: 1.8;
     }
-    .dyn-title { font-size: 18px; font-weight: 700; margin-bottom: 10px; }
+    .dyn-title { font-size: 18px; font-weight: 700; margin-bottom: 10px; cursor: pointer; user-select: none; }
+    .dyn-title::before { content: "▼"; display: inline-block; margin-right: 8px; font-size: 12px; color: var(--ocean-theme, #1565c0); transition: transform 0.25s ease; }
+    .dyn-card.dyn-collapsed > .dyn-title::before { transform: rotate(-90deg); }
+    .dyn-card.dyn-collapsed > .dyn-title { margin-bottom: 0; }
     .dyn-title .dyn-zh-sub { font-size: 14px; font-weight: 500; color: var(--muted); margin-left: 12px; }
-    .dyn-text { font-size: 15px; line-height: 1.8; margin-bottom: 10px; }
+    .dyn-body { overflow: hidden; transition: max-height 0.35s ease, opacity 0.25s ease; }
+    .dyn-card.dyn-collapsed > .dyn-body { max-height: 0 !important; opacity: 0; }
+    .dyn-text { font-size: 15px; line-height: 1.7; margin-bottom: 8px; }
     .dyn-text:last-child { margin-bottom: 0; }
     /* 公式区 */
     .dyn-formula {
@@ -121,11 +126,11 @@
     /* 五大洋卡片网格 */
     .ocean-grid {
       display: grid; grid-template-columns: repeat(2, 1fr);
-      gap: 16px; margin-top: 16px;
+      gap: 12px; margin-top: 12px;
     }
     .ocean-card {
       background: var(--surface); border: 1px solid var(--border);
-      border-radius: 10px; padding: 18px 20px;
+      border-radius: 10px; padding: 14px 16px;
       transition: box-shadow .2s, transform .2s;
     }
     .ocean-card:hover {
@@ -326,6 +331,125 @@
       color: #854d0e; font-weight: 700;
     }
 
+    /* 科研工具对照表样式 */
+    .tools-table-wrap {
+      margin-top: 16px; overflow-x: auto;
+      border-radius: 10px; border: 1px solid #e2e8f0;
+      box-shadow: 0 1px 3px rgba(15,23,42,.06);
+    }
+    .tools-table {
+      width: 100%; border-collapse: collapse;
+      font-size: 13.5px; line-height: 1.7;
+      min-width: 640px;
+    }
+    .tools-table thead th {
+      background: linear-gradient(135deg,#0c4a6e,#075985);
+      color: #fff; font-weight: 700;
+      padding: 12px 14px; text-align: left;
+      font-size: 14px; letter-spacing: .3px;
+    }
+    .tools-table thead th small {
+      display: block; font-weight: 500;
+      font-size: 11.5px; opacity: .8;
+      margin-top: 2px; letter-spacing: 0;
+    }
+    .tools-table tbody tr {
+      border-bottom: 1px solid #f1f5f9;
+      transition: background .15s ease;
+    }
+    .tools-table tbody tr:hover { background: #f0f9ff; }
+    .tools-table tbody tr:last-child { border-bottom: none; }
+    .tools-table td { padding: 12px 14px; vertical-align: top; color: #334155; }
+    .tools-table td:first-child {
+      font-weight: 600; color: #0f766e;
+      min-width: 140px;
+    }
+    .tools-table td:first-child small {
+      display: block; font-weight: 400;
+      color: #64748b; font-size: 11.5px;
+      margin-top: 1px; font-style: italic;
+    }
+    .tool-chip {
+      display: inline-block; margin: 2px 4px 2px 0;
+      padding: 3px 10px; border-radius: 999px;
+      background: #ecfeff; color: #0e7490;
+      border: 1px solid #a5f3fc; font-size: 12px;
+      font-weight: 500; text-decoration: none;
+      transition: all .15s ease;
+    }
+    .tool-chip:hover {
+      background: #06b6d4; color: #fff;
+      border-color: #06b6d4; transform: translateY(-1px);
+    }
+    .tip-text { color: #64748b; font-size: 12.5px; }
+    .tip-text code {
+      background: #f1f5f9; color: #334155;
+      padding: 1px 5px; border-radius: 3px;
+      font-size: 12px;
+    }
+
+    /* 工具详解样式 */
+    .tool-deep-dive {
+      margin-top: 24px; padding: 24px 28px;
+      background: linear-gradient(135deg,#f0fdfa 0%,#f0f9ff 100%);
+      border: 1px solid #99f6e4; border-radius: 12px;
+    }
+    .tool-deep-dive h3.dyn-title { margin-top: 0; }
+    .dd-grid {
+      display: grid; gap: 16px;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      margin-top: 16px;
+    }
+    .dd-card {
+      background: #fff; border: 1px solid #e2e8f0;
+      border-radius: 10px; padding: 16px 18px;
+      box-shadow: 0 1px 2px rgba(15,23,42,.04);
+    }
+    .dd-card.dd-wide { grid-column: 1 / -1; }
+    .dd-card h4 {
+      margin: 0 0 10px 0; font-size: 14px; font-weight: 700;
+      color: #0f766e; display: flex; align-items: baseline; gap: 6px;
+    }
+    .dd-card h4 small {
+      font-size: 11.5px; font-weight: 500; color: #94a3b8; font-style: italic;
+    }
+    .dd-card p { margin: 5px 0; font-size: 13px; line-height: 1.7; color: #334155; }
+    .dd-card p strong { color: #0f172a; font-weight: 600; margin-right: 4px; }
+    .dd-list { margin: 0; padding-left: 18px; font-size: 13px; line-height: 1.75; color: #334155; }
+    .dd-list li { margin-bottom: 5px; }
+    .dd-list li strong { color: #0f766e; }
+    .dd-list li em { font-style: italic; color: #0369a1; }
+    .vs-table {
+      width: 100%; border-collapse: collapse; font-size: 12.5px;
+    }
+    .vs-table th, .vs-table td {
+      padding: 8px 10px; text-align: left; vertical-align: top;
+      border-bottom: 1px solid #f1f5f9;
+    }
+    .vs-table thead th {
+      background: #0f766e; color: #fff; font-weight: 600; font-size: 12px;
+    }
+    .vs-table tbody tr:hover { background: #f8fafc; }
+    .vs-table tbody td:first-child { font-weight: 600; color: #0f172a; white-space: nowrap; }
+    @media (max-width: 720px) {
+      .dd-grid { grid-template-columns: 1fr; }
+    }
+
+    /* Markdown 源码展示样式 */
+    .md-source {
+      background: #0f172a; color: #e2e8f0;
+      border-radius: 8px; padding: 18px 20px;
+      overflow-x: auto; white-space: pre-wrap;
+      word-wrap: break-word; font-size: 12.5px;
+      line-height: 1.7; font-family: 'JetBrains Mono', Menlo, Consolas, monospace;
+      margin-top: 12px; max-height: 720px; overflow-y: auto;
+    }
+    .md-source code { background: none; padding: 0; color: inherit; }
+    .md-source::-webkit-scrollbar { height: 10px; width: 10px; }
+    .md-source::-webkit-scrollbar-thumb {
+      background: #334155; border-radius: 5px;
+    }
+
     /* 知识检测样式 */
     .knowledge-check {
       margin-top: 20px; padding: 20px 24px;
@@ -398,6 +522,7 @@
             <a href="#links">链接</a>
             <a href="#data">数据</a>
             <a href="#tools">互动工具</a>
+            <a href="#ai-tools">科研工具</a>
           </div>
         </details>
         <a href="#classroom" style="padding:8px 16px;border:1px solid var(--border);border-radius:8px;font-size:14px;font-weight:600;color:var(--text);text-decoration:none;">课堂</a>
@@ -971,6 +1096,16 @@
     <h2 class="section-title">Lecture 2: Ocean Dimensions, Shapes, and Bottom Materials</h2>
     <p class="section-desc">第二讲 海洋的尺度、形态与海底物质</p>
 
+    <div class="mini-toc">
+      <div class="mini-toc-title">本讲内容</div>
+      <ul>
+        <li><a href="#five-oceans">The Five Oceans<span class="zh">五大洋</span></a></li>
+        <li><a href="#plate-tectonics">Plate Tectonics<span class="zh">板块构造学说</span></a></li>
+        <li><a href="#seafloor-topography">Seafloor Topography<span class="zh">海底地形地貌</span></a></li>
+        <li><a href="#seafloor-survey">Surveying Methods<span class="zh">海底地形测绘方法</span></a></li>
+      </ul>
+    </div>
+
     <div class="dyn-card" id="five-oceans">
       <h3 class="dyn-title">The Five Oceans<span class="dyn-zh-sub">五大洋</span></h3>
       <div class="dyn-figure">
@@ -1120,6 +1255,207 @@
   <div class="container">
     <h2 class="section-title">Lecture 3: Physical Properties of Seawater</h2>
     <p class="section-desc">第三讲 海水的物理性质</p>
+
+    <div class="mini-toc">
+      <div class="mini-toc-title">本讲内容</div>
+      <ul>
+        <li><a href="#molecular-properties">Molecular Properties of Water<span class="zh">水的分子特性</span></a></li>
+        <li><a href="#potential-temperature">Potential Temperature<span class="zh">位温</span></a></li>
+        <li><a href="#equation-of-state">Equation of State<span class="zh">温度、盐度与深度</span></a></li>
+        <li><a href="#fun-phenomena">Two Curious Ocean Phenomena<span class="zh">两则有趣的海洋物理现象</span></a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="dyn-card" id="molecular-properties">
+      <h3 class="dyn-title">Molecular Properties of Water<span class="dyn-zh-sub">水的分子特性</span></h3>
+      <p class="dyn-text">Many unique characteristics of the ocean originate from the molecular nature of water itself. The polar dipole structure, hydrogen bonding, and the energy required to form molecular chains together determine water's extraordinary heat capacity, density behavior, latent heats, surface tension, and viscosity — all of which play central roles in shaping the ocean and global climate.</p>
+      <p class="dyn-text">海洋的许多独特性质源于水本身的分子特性。极性偶极结构、氢键以及形成分子链所需的能量，共同决定了水异常高的比热、特殊的密度行为、高潜热、高表面张力和粘度——这些性质在塑造海洋和全球气候方面发挥着核心作用。</p>
+
+      <div class="ocean-grid">
+
+        <div class="ocean-card">
+          <h4 class="ocean-name">Molecular Polarity<span class="ocean-zh">分子极性</span></h4>
+          <p class="ocean-text-en">Water is a polar molecule with a positive side (two H⁺) and a negative side (one O²⁻). This polarity endows water with a high dielectric constant, enabling it to dissolve most ionic substances — the very reason the ocean is salty with abundant dissolved ions.</p>
+          <p class="ocean-text-zh">水是极性分子，带正电的 H 和带负电的 O 构成两端。极性赋予水高介电常数，使其能溶解绝大多数离子型物质——这正是海洋之所以咸、含有丰富溶解离子的根本原因。</p>
+        </div>
+
+        <div class="ocean-card">
+          <h4 class="ocean-name">Hydrogen Bonding<span class="ocean-zh">氢键链式结构</span></h4>
+          <p class="ocean-text-en">The polar nature of water causes molecules to form polymer-like chains of up to eight molecules; approximately 90% of water molecules exist in these chains. Energy is required to create and maintain the chains, which is directly related to water's exceptionally high heat capacity.</p>
+          <p class="ocean-text-zh">水分子的极性使其形成最多 8 个分子的链式结构，约 90% 的水分子处于链中。形成和维持这些链需要能量，这与水异常高的比热直接相关。</p>
+        </div>
+
+        <div class="ocean-card">
+          <h4 class="ocean-name">Heat Capacity<span class="ocean-zh">高比热</span></h4>
+          <p class="ocean-text-en">Water has the highest heat capacity of all liquids except ammonia. This makes the ocean Earth's primary heat reservoir: it stores approximately <strong>90%</strong> of anthropogenic global warming heat, and ocean currents redistribute this stored heat across the globe.</p>
+          <p class="ocean-text-zh">水是除氨以外比热最高的液体。这使海洋成为地球主要的热量储存库：它储存了约 <strong>90%</strong> 的人为全球变暖热量，洋流再将这些热量输送到全球各地。</p>
+        </div>
+
+        <div class="ocean-card">
+          <h4 class="ocean-name">Density Maximum<span class="ocean-zh">密度最大值</span></h4>
+          <p class="ocean-text-en">Fresh water reaches its maximum density at about 4°C (chains align as they form). In seawater, dissolved salt inhibits chain formation, so density increases monotonically down to the freezing point — which itself is depressed well below 0°C with increasing salinity.</p>
+          <p class="ocean-text-zh">淡水在约 4°C 时密度最大（链状结构随温度降低而有序排列）。海水中的盐抑制链状结构形成，因此海水密度在冰点（随盐度升高而降低到 0°C 以下）之前一直单调增加。</p>
+        </div>
+
+        <div class="ocean-card">
+          <h4 class="ocean-name">Latent Heats<span class="ocean-zh">潜热</span></h4>
+          <p class="ocean-text-en">Water has very high heats of vaporization (liquid → gas) and fusion (solid → liquid). These latent heats are key energy carriers in the climate system: evaporation removes heat from the ocean surface, while condensation over land releases that heat, driving atmospheric circulation.</p>
+          <p class="ocean-text-zh">水的蒸发潜热（液态 → 气态）和融化潜热（固态 → 液态）都很高。这些潜热是气候系统的关键能量载体：蒸发从海洋表面带走热量，水汽在陆地上凝结时又释放热量，驱动大气环流。</p>
+        </div>
+
+        <div class="ocean-card">
+          <h4 class="ocean-name">Surface Tension &amp; Viscosity<span class="ocean-zh">表面张力与粘度</span></h4>
+          <p class="ocean-text-en">Water's chain-like molecular structure produces unusually high surface tension and viscosity for its atomic weight. The high surface tension permits centimeter-scale <em>capillary waves</em>, whose restoring forces include both surface tension and gravity.</p>
+          <p class="ocean-text-zh">水的链状分子结构使其在相对原子质量下具有异常高的表面张力和粘度。高表面张力允许厘米尺度的 <em>毛细波</em> 存在，其恢复力包括表面张力和重力。</p>
+        </div>
+
+        <div class="ocean-card ocean-card-full">
+          <h4 class="ocean-name">Why It Matters · 对物理海洋学的意义<span class="ocean-zh"></span></h4>
+          <p class="ocean-text-en">Despite their small size, capillary waves are critical in determining the frictional stress between wind and water. This stress generates larger wind waves and propels the frictionally-driven circulation of the ocean's surface layer — from the Ekman spiral to the large-scale subtropical and subpolar gyres. The high heat capacity of the ocean further means that the ocean dominates Earth's heat budget and climate variability on timescales from seasons to centuries.</p>
+          <p class="ocean-text-zh">尽管毛细波很小，它们在决定海风与海水之间的摩擦应力方面至关重要。这种应力生成更大的风浪，并驱动摩擦驱动的表层环流——从艾克曼螺旋到大尺度的副热带和副极地环流。海洋的高比热进一步意味着海洋主导着地球的热量收支以及从季节到世纪尺度的气候变率。</p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="container" style="margin-top:24px;">
+    <div class="dyn-card" id="potential-temperature">
+      <h3 class="dyn-title">Potential Temperature<span class="dyn-zh-sub">位温</span></h3>
+      <p class="dyn-text">Seawater is slightly compressible: compression warms a parcel adiabatically, and expansion cools it. When comparing water parcels sampled at different pressures, these pressure-induced temperature changes are unrelated to actual heat sources. Potential temperature <strong>θ</strong> removes this pressure effect by adiabatically moving each parcel to a common reference pressure before comparison.</p>
+      <p class="dyn-text">海水具有微弱可压缩性：压缩会使水团绝热升温，膨胀则使其降温。当比较不同压力下采样的水团时，这些压力引起的温度变化与实际热源无关。位温 <strong>θ</strong> 通过将每个水团绝热移动到共同参考压力后再进行比较，从而消除了这种压力效应。</p>
+
+      <div class="ocean-grid">
+
+        <div class="ocean-card">
+          <h4 class="ocean-name">Definition<span class="ocean-zh">定义</span></h4>
+          <p class="ocean-text-en"><strong>θ ≡ T + Γ · (p<sub>ref</sub> − p)</strong> (approx.)<br>θ is the temperature a water parcel would have if moved adiabatically from its in situ pressure <em>p</em> to a reference pressure <em>p</em><sub>ref</sub> (usually 0 dbar / surface). For accurate computation, use the Bryden (1973) algorithm or the TEOS-10 Gibbs SeaWater (GSW) toolbox.</p>
+          <p class="ocean-text-zh">若将水团从现场压力 <em>p</em> 绝热移动到参考压力 <em>p</em><sub>ref</sub>（通常取 0 dbar，即海面）后所具有的温度，即为位温 θ。近似公式为 <strong>θ ≈ T + Γ · (p<sub>ref</sub> − p)</strong>；精确计算需用 Bryden (1973) 算法或 TEOS-10 GSW 工具箱。</p>
+        </div>
+
+        <div class="ocean-card">
+          <h4 class="ocean-name">Adiabatic Lapse Rate Γ<span class="ocean-zh">绝热递减率 Γ</span></h4>
+          <p class="ocean-text-en">Γ ≡ −(∂T/∂p)<sub>θ</sub> is the rate of temperature change per unit pressure along an adiabatic displacement. Γ is positive (parcel warms when compressed) and depends on S, T, and p. Typical values in the ocean are <strong>0.1–0.2 °C per 1000 dbar</strong>.</p>
+          <p class="ocean-text-zh">Γ 是沿绝热位移方向单位压力变化下的温度变化率，正值（压缩时水团升温），是盐度、温度和压力的函数。海洋中典型值为 <strong>每 1000 dbar 约 0.1–0.2 °C</strong>。</p>
+        </div>
+
+        <div class="ocean-card">
+          <h4 class="ocean-name">θ Is Always Lower Than T<span class="ocean-zh">位温恒低于现场温度</span></h4>
+          <p class="ocean-text-en">For any water parcel below the surface (p > 0), lifting it adiabatically to the surface causes it to expand and cool. Therefore θ is always less than the in situ T. In the deep ocean, the difference can reach <strong>~0.5 °C</strong> at abyssal depths.</p>
+          <p class="ocean-text-zh">对于海面以下的任何水团（p > 0），将其绝热抬升到海面会因膨胀而降温。因此 θ 总是低于现场温度 T。在深海中，差异在 <strong>深海深度可达约 0.5 °C</strong>。</p>
+        </div>
+
+        <div class="ocean-card">
+          <h4 class="ocean-name">Why Use θ?<span class="ocean-zh">为什么用位温？</span></h4>
+          <p class="ocean-text-en">Adiabatic compression/expansion does <strong>not</strong> involve heat exchange — it is just a side effect of pressure. Using in situ T to diagnose water-mass origin would misinterpret this pressure warming as a heat source. Potential temperature removes this artifact, so θ is the standard variable for identifying and comparing deep water masses.</p>
+          <p class="ocean-text-zh">绝热压缩/膨胀 <strong>不</strong> 涉及热量交换——它只是压力作用的副产品。用现场温度 T 诊断水团来源会把这种压力升温误判为热源。位温消除了这种假象，因此是识别和比较深层水团的标准变量。</p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="container" style="margin-top:24px;">
+    <div class="dyn-card" id="equation-of-state">
+      <h3 class="dyn-title">Temperature, Salinity &amp; Depth<span class="dyn-zh-sub">温度、盐度与深度（状态方程）</span></h3>
+      <p class="dyn-text">Seawater density ρ is a function of three state variables: temperature, salinity, and pressure (depth). Each variable competes to change density — and their relative importance varies across the ocean. Understanding this competition is fundamental to describing stratification, mixing, advection, and the ocean's overturning circulation.</p>
+      <p class="dyn-text">海水密度 ρ 是温度、盐度和压力（深度）这三个状态变量的函数。每个变量都在影响密度变化——它们的相对重要性在整个海洋中各不相同。理解这种竞争关系是描述层结、混合、平流以及海洋翻转环流的基础。</p>
+
+      <div class="ocean-grid">
+
+        <div class="ocean-card">
+          <h4 class="ocean-name">Three Variables<span class="ocean-zh">三个控制变量</span></h4>
+          <p class="ocean-text-en">
+            <strong>Temperature ↑ → ρ ↓</strong> (thermal expansion)<br>
+            <strong>Salinity ↑ → ρ ↑</strong> (salt adds mass)<br>
+            <strong>Pressure (depth) ↑ → ρ ↑</strong> (compression)<br>
+            Units: T in °C, S dimensionless (PSS-78), p in dbar (≈ depth in m × 1.02)</p>
+          <p class="ocean-text-zh">
+            <strong>温度↑ → 密度↓</strong>（热膨胀）<br>
+            <strong>盐度↑ → 密度↑</strong>（盐增加质量）<br>
+            <strong>压力（深度）↑ → 密度↑</strong>（压缩）<br>
+            单位：T 用 °C，S 无单位（PSS-78），p 用 dbar（≈ 深度 m × 1.02）</p>
+        </div>
+
+        <div class="ocean-card">
+          <h4 class="ocean-name">Equation of State<span class="ocean-zh">状态方程</span></h4>
+          <p class="ocean-text-en">ρ = ρ(S, T, p) is given by empirical polynomial fits to laboratory data. Standard implementations:<br>
+            <strong>EOS-80</strong> (UNESCO 1980) — most climate models through ~2010<br>
+            <strong>TEOS-10 / GSW</strong> (IOC 2010) — current standard; provides not only density but also θ, σ<sub>θ</sub>, sound speed, and all thermodynamic derivatives.</p>
+          <p class="ocean-text-zh">ρ = ρ(S, T, p) 由实验室数据的经验多项式拟合给出。标准实现：<br>
+            <strong>EOS-80</strong>（UNESCO 1980）—— 2010 年前大多数气候模式使用<br>
+            <strong>TEOS-10 / GSW</strong>（IOC 2010）—— 当前标准；不仅给出密度，还给位温、σ<sub>θ</sub>、声速及所有热力学导数。</p>
+        </div>
+
+        <div class="ocean-card">
+          <h4 class="ocean-name">σ<sub>t</sub> and σ<sub>θ</sub><span class="ocean-zh">σ<sub>t</sub> 与 σ<sub>θ</sub></span></h4>
+          <p class="ocean-text-en"><strong>σ<sub>t</sub></strong> (sigma-t) = ρ(S, T, p = 0) − 1000: density computed at surface pressure, ignores pressure effect — useful for upper-ocean and surface mapping.<br>
+            <strong>σ<sub>θ</sub></strong> (sigma-theta) = ρ(S, θ, p = 0) − 1000: uses potential temperature instead of in situ T — removes compression effect, the preferred variable for comparing deep water masses.</p>
+          <p class="ocean-text-zh"><strong>σ<sub>t</sub></strong>（sigma-t）= ρ(S, T, p = 0) − 1000：在表面压力下计算的密度，忽略压力效应，适合上层海洋和海表图绘制。<br>
+            <strong>σ<sub>θ</sub></strong>（sigma-theta）= ρ(S, θ, p = 0) − 1000：用位温代替现场温度——消除了压缩效应，是比较深层水团时首选的变量。</p>
+        </div>
+
+        <div class="ocean-card">
+          <h4 class="ocean-name">Dominant Controls by Region<span class="ocean-zh">不同海区的主导控制</span></h4>
+          <p class="ocean-text-en">
+            <strong>Low/mid-latitudes</strong>: T dominates density (thermocline → pycnocline)<br>
+            <strong>High latitudes / polar</strong>: S dominates (fresh surface from precipitation or sea-ice melt, brine rejection during formation)<br>
+            <strong>Abyssal (depth > 3000 m)</strong>: pressure's compression effect matters — even water with same S, θ will have higher ρ at greater depth</p>
+          <p class="ocean-text-zh">
+            <strong>低/中纬度</strong>：温度主导密度（温跃层 → 密度跃层）<br>
+            <strong>高纬 / 极地</strong>：盐度主导（降水或海冰融化使表层变淡，海冰形成时排盐增密）<br>
+            <strong>深海（深度 > 3000 m）</strong>：压力压缩效应显著——即使 S、θ 相同的水，深度更深则 ρ 更大</p>
+        </div>
+
+        <div class="ocean-card">
+          <h4 class="ocean-name">Mixing Density Effect (Cabbeling)<span class="ocean-zh">混合密度效应（合并）</span></h4>
+          <p class="ocean-text-en">For two water masses with density ρ₁ and ρ₂: a homogeneous mixture can end up with density <strong>greater</strong> than the linear interpolation between ρ₁ and ρ₂. This "cabbeling" effect is common where warm-salty and cold-fresh water masses converge, making the mixture denser than both end-members and prone to sinking.</p>
+          <p class="ocean-text-zh">对于密度为 ρ₁ 和 ρ₂ 的两个水团：其均匀混合体的密度可能 <strong>大于</strong> ρ₁ 和 ρ₂ 之间的线性插值。这种"合并"效应在暖盐和淡冷水团交汇处很常见，使得混合体比两端水团都更致密，有下沉倾向。</p>
+        </div>
+
+        <div class="ocean-card">
+          <h4 class="ocean-name">Salinity Scale<span class="ocean-zh">盐度标准</span></h4>
+          <p class="ocean-text-en">Historical salinity ≈ parts per thousand (‰) based on chlorinity. The modern <strong>Practical Salinity Scale of 1978 (PSS-78)</strong> replaces chlorinity with electrical conductivity relative to a standard KCl solution. Practical salinity has <strong>no formal units</strong>; typical open-ocean values are 34–35.5 with a range of ~2–42.</p>
+          <p class="ocean-text-zh">历史盐度约以千分比（‰）表示，基于氯度。现代 <strong>1978 实用盐度标（PSS-78）</strong> 用相对于标准 KCl 溶液的电导率代替氯度。实用盐度 <strong>无正式单位</strong>；开阔大洋典型值 34–35.5，范围约 2–42。</p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="container" style="margin-top:24px;">
+    <div class="dyn-card" id="fun-phenomena">
+      <h3 class="dyn-title">Two Curious Ocean Phenomena<span class="dyn-zh-sub">两则有趣的海洋物理现象</span></h3>
+      <p class="dyn-text">The physical properties of seawater — density stratification, freezing behavior, latent heat — give rise to some of the ocean's most fascinating and counterintuitive phenomena. Two of these are "dead water" (first documented by Fridtjof Nansen) and the "brinicle" or "ice finger" (captured on film only in 2011).</p>
+      <p class="dyn-text">海水的物理性质——密度层结、结冰行为、潜热——产生了海洋中一些最迷人、最反直觉的现象。其中两个是"死水"（由南森首次记录）和"死亡冰柱"（2011 年才首次被拍摄到）。</p>
+
+      <div class="ocean-grid">
+
+        <div class="ocean-card">
+          <h4 class="ocean-name">Dead Water<span class="ocean-zh">死水</span></h4>
+          <p class="ocean-text-en">When a fresh- or brackish-water layer overlies denser salt water, a strong pycnocline forms at their interface. A ship moving through such a basin generates <strong>internal waves</strong> on the pycnocline instead of transferring energy to forward motion. The vessel slows dramatically or even stalls — a phenomenon called "dead water" (dødvann in Norwegian). Nansen's ship <em>Fram</em> experienced this during its 1893–1896 Arctic drift expedition, and he documented its intermittent nature.</p>
+          <p class="ocean-text-zh">当淡水或半咸水层覆盖在更咸更密的海水之上时，在两者界面处形成强烈的密度跃层（pycnocline）。船在这样的水域中航行时，其产生的能量激发了跃层上的 <strong>内波</strong>，而不是推动船身前进。船速剧烈减慢甚至停滞——这一现象被称为"死水"（挪威语 dødvann）。南森的"Fram"号在 1893–1896 年北冰洋漂流探险中遇到过这种情况，他记录了其间歇性的特点。</p>
+        </div>
+
+        <div class="ocean-card">
+          <h4 class="ocean-name">Brinicle (Ice Finger)<span class="ocean-zh">死亡冰柱（冰手指）</span></h4>
+          <p class="ocean-text-en">When seawater freezes, ice crystals reject salt into a dense, cold brine. This brine has a freezing point <strong>well below 0°C</strong> and sinks because of its high density. As it descends through slightly warmer surrounding water, it freezes that water too, forming a hollow, downward-growing ice column called a <strong>brinicle</strong> or "ice finger". When it reaches the seafloor it freezes any organism it touches, hence the name "death ice pillar". First captured on film in <em>Under the Sea - Ice</em> (BBC, 2011).</p>
+          <p class="ocean-text-zh">海水结冰时，冰晶体将盐排出，形成高密度、低温的浓盐水（brine rejection）。这股浓盐水的冰点 <strong>远低于 0°C</strong>，因密度很大而下沉。在穿过稍微温暖的周围海水时，它又把周围海水冻结，形成一根向下生长的中空冰柱，称为 <strong>死亡冰柱</strong> 或"冰手指"。当它触及海底时，会冻结任何被它碰到的生物，因此得名。首次在 BBC 纪录片《Under the Sea - Ice》（2011）中被拍摄到。</p>
+        </div>
+
+        <div class="ocean-card ocean-card-full">
+          <h4 class="ocean-name">Why They Happen — 背后的物理<span class="ocean-zh"></span></h4>
+          <p class="ocean-text-en">Both phenomena are direct consequences of the equation of state ρ(S, T, p). Dead water relies on the fact that S can dominate ρ even at modest density contrasts, and that a pycnocline is a waveguide for internal waves. Brinicles rely on two simultaneous effects: (1) the freezing point of seawater <em>decreases</em> with increasing salinity (approximately −0.055 °C per psu), and (2) pressure further <em>depresses</em> the freezing point — so a brine formed at the surface can remain liquid at depths where the surrounding seawater is already cold enough to freeze it.</p>
+          <p class="ocean-text-zh">这两种现象都是状态方程 ρ(S, T, p) 的直接结果。死水依赖于：盐度可以在很小的密度对比下主导密度，而且密度跃层是内波的波导。死亡冰柱依赖于两个同时发生的效应：(1) 海水冰点随盐度升高而 <em>降低</em>（约每 psu −0.055 °C），(2) 压力进一步 <em>压低</em> 冰点——因此海表形成的浓盐水在深海仍可保持液态，而周围海水却已足够冷、足以被它冻结。</p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="container" style="text-align:center;margin-top:16px;">
     <a class="back-top" href="#top">↑ 返回教材</a>
   </div>
 </section>
@@ -1129,6 +1465,272 @@
   <div class="container">
     <h2 class="section-title">Lecture 4: Typical Distributions of Water Characteristics</h2>
     <p class="section-desc">第四讲 水特征的典型分布</p>
+
+    <div class="mini-toc">
+      <div class="mini-toc-title">本讲内容</div>
+      <ul>
+        <li><a href="#water-masses">Water Masses<span class="zh">水团</span></a></li>
+        <li><a href="#mixed-layer">Mixed Layer<span class="zh">混合层</span></a></li>
+        <li><a href="#thermocline">Thermocline<span class="zh">温度跃层</span></a></li>
+        <li><a href="#surface-salinity">Surface Salinity Distribution<span class="zh">表层盐度分布</span></a></li>
+        <li><a href="#thermohaline">Thermohaline Circulation<span class="zh">温盐环流</span></a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="container" style="margin-top:24px;">
+    <div class="dyn-card" id="water-masses">
+      <h3 class="dyn-title">Water Masses<span class="dyn-zh-sub">水团</span></h3>
+      <p class="dyn-text">A <strong>water mass</strong> is a body of water whose characteristic properties are set by a single identifiable formation process. Most water masses form at the sea surface, where their identifying θ and S signatures are directly related to surface forcing. As they are advected and mixed through the ocean interior, these properties — being conservative in the absence of heat/salt sources — serve as powerful tracers of ocean circulation and mixing pathways.</p>
+      <p class="dyn-text"><strong>水团</strong>是一组特征属性由单一可识别形成过程所决定的水体。绝大多数水团形成于海表，其位温和盐度特征直接由海表强迫决定。由于 θ 和 S 在海洋内部（无热源/盐源条件下）是保守属性，它们随平流和混合保留下来，成为追踪大洋环流与混合路径的有力指示物。</p>
+
+      <div class="ocean-grid">
+
+        <div class="ocean-card">
+          <h4 class="ocean-name">Definition &amp; Conservative Properties<span class="ocean-zh">定义与保守属性</span></h4>
+          <p class="ocean-text-en"><strong>Water mass</strong> = body of water formed by one identifiable process; its properties (θ, S) are set at the surface and preserved during advection.<br>
+            <strong>Conservative properties</strong> are those with no interior sources or sinks — potential temperature θ and practical salinity S are the two key conservative tracers. Density is <em>not</em> conservative because it also depends on pressure.<br>
+            <strong>Water type</strong> = a single point in θ-S property space (mathematical ideal); <strong>water mass</strong> = a line or swath of points (Tomczak &amp; Godfrey, 2003).</p>
+          <p class="ocean-text-zh"><strong>水团</strong> = 由单一可识别过程形成的水体；其位温 θ 和盐度 S 在海表被设定后，在平流过程中保留下来。<br>
+            <strong>保守属性</strong>是海洋内部无源无汇的量——位温 θ 和实用盐度 S 是两个核心保守示踪物。密度则 <em>不</em> 保守，因为它还依赖压力。<br>
+            <strong>水型</strong> = θ-S 空间中的一个点（数学理想）；<strong>水团</strong> = 一条线或一片区域（Tomczak &amp; Godfrey, 2003）。</p>
+        </div>
+
+        <div class="ocean-card">
+          <h4 class="ocean-name">T-S Diagram<span class="ocean-zh">T-S 图</span></h4>
+          <p class="ocean-text-en">The <strong>potential temperature-salinity (θ-S) diagram</strong> is the primary tool for identifying water masses. Since θ and S are conservative, mixtures of two water masses fall along a <strong>straight line</strong> in θ-S space. Oceanographers plot θ on the y-axis and S on the x-axis, with density contours overlaid.<br>
+            Isopycnal (neutral density) surfaces are the primary flow conduits in the ocean interior — properties spread <em>along</em> these surfaces, not across them.</p>
+          <p class="ocean-text-zh"><strong>位温-盐度（θ-S）图</strong>是识别水团的核心工具。由于 θ 和 S 保守，两个水团的混合物在 θ-S 空间中落在一条 <strong>直线</strong> 上。海洋学家把 θ 放在 y 轴、S 放在 x 轴，并叠加密度等值线。<br>
+            等密度面（中性密度面）是海洋内部物质输运的主要通道——属性沿这些面 <em>扩散</em>，而不是穿越它们。</p>
+        </div>
+
+        <div class="ocean-card">
+          <h4 class="ocean-name">Mode Waters<span class="ocean-zh">模态水</span></h4>
+          <p class="ocean-text-en"><strong>Mode water</strong> gets its name from "mode" in statistics — the most frequent value in a dataset. It is a thick layer of nearly uniform θ and S that forms each winter when deep mixed layers homogenize the upper ocean, then is subducted along neutral density surfaces into the interior.<br>
+            Examples: <strong>18° Water</strong> (North Atlantic STMW), <strong>Subtropical Mode Water (STMW)</strong> in each ocean's subtropical gyre, <strong>Subantarctic Mode Water (SAMW)</strong> south of the ACC.</p>
+          <p class="ocean-text-zh"><strong>模态水</strong>得名于统计学中的"众数"（mode）——数据集中出现频率最高的值。它是一层 θ 和 S 几乎均匀的厚层，由冬季深混合层均一化上层海洋而形成，然后沿中性密度面潜入海洋内部。<br>
+            例子：<strong>18° Water</strong>（北大西洋 STMW）、每个大洋副热带环流中的 <strong>副热带模态水（STMW）</strong>、ACC 以南的 <strong>亚南极模态水（SAMW）</strong>。</p>
+        </div>
+
+        <div class="ocean-card">
+          <h4 class="ocean-name">Intermediate Waters<span class="ocean-zh">中层水</span></h4>
+          <p class="ocean-text-en">Mid-depth waters (~500–2000 m) marked by characteristic T/S extremes:<br>
+            • <strong>Antarctic Intermediate Water (AAIW)</strong>: cold, fresh, sinks from Antarctic surface; found in all three Southern Hemisphere basins, spreads to ~15°N in Atlantic.<br>
+            • <strong>North Pacific Intermediate Water (NPIW)</strong>: salinity minimum at ~400 m; originates in subpolar North Pacific, subducts under subtropical gyre.<br>
+            • <strong>Mediterranean Intermediate Water (MIW)</strong>: salinity maximum (~38.4) at 1000–2000 m in North Atlantic; from Strait of Gibraltar outflow, forms coherent "meddies".</p>
+          <p class="ocean-text-zh">中层水（约 500–2000 m）以典型的温/盐极值为特征：<br>
+            • <strong>南极中层水（AAIW）</strong>：冷、淡，从南极海表下沉；三大洋南半球均有分布，在大西洋可扩散至约 15°N。<br>
+            • <strong>北太平洋中层水（NPIW）</strong>：约 400 m 处的盐度最小值；源自北太平洋副极地海区，潜入副热带环流之下。<br>
+            • <strong>地中海中层水（MIW）</strong>：北大西洋 1000–2000 m 处的盐度最大值（≈38.4）；来自直布罗陀海峡输出，形成相干的"地中海涡（meddy）"。</p>
+        </div>
+
+        <div class="ocean-card">
+          <h4 class="ocean-name">Deep &amp; Abyssal Waters<span class="ocean-zh">深层与底层水</span></h4>
+          <p class="ocean-text-en">Two major deep-water formation regions and two source waters dominate the abyssal ocean:<br>
+            • <strong>North Atlantic Deep Water (NADW)</strong>: forms in Norwegian/Greenland Seas; warm-salty (θ ≈ 2–4 °C, S ≈ 34.9–35.1); spreads south along western boundary, crosses equator.<br>
+            • <strong>Antarctic Bottom Water (AABW)</strong>: forms in Weddell &amp; Ross Seas; the densest, coldest (θ ≈ −0.5 to 0.5 °C), freshest (S ≈ 34.6–34.8) abyssal water; underlies NADW globally.<br>
+            Formation conditions: weak stratification + strong buoyancy loss + sufficient formation rate to avoid dilution.</p>
+          <p class="ocean-text-zh">两大深水形成区和两个源水团主导深海：<br>
+            • <strong>北大西洋深层水（NADW）</strong>：形成于挪威/格陵兰海；温暖偏咸（θ ≈ 2–4 °C, S ≈ 34.9–35.1）；沿西边界向南扩散，跨越赤道。<br>
+            • <strong>南极底层水（AABW）</strong>：形成于威德尔海和罗斯海；最致密、最冷（θ ≈ −0.5 至 0.5 °C）、最淡（S ≈ 34.6–34.8）的底层水；全球覆盖于 NADW 之下。<br>
+            形成条件：弱层结 + 强浮力损失 + 足够快的形成速率以避免被稀释。</p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="container" style="margin-top:24px;">
+    <div class="dyn-card" id="mixed-layer">
+      <h3 class="dyn-title">Mixed Layer<span class="dyn-zh-sub">混合层</span></h3>
+      <p class="dyn-text">The <strong>surface mixed layer</strong> is the uppermost ~0–200 m of the ocean where wind stirring, wave breaking, and convective overturning homogenize temperature, salinity, and density. Its thickness varies dramatically with latitude and season — from ~20 m in summer tropics to >1000 m in winter subpolar regions. The base of the mixed layer is the seasonal pycnocline, below which the permanent thermocline carries water-mass signatures set deep in the ocean interior.</p>
+      <p class="dyn-text"><strong>表层混合层</strong>是海洋最上方约 0–200 m 的水层，在风搅拌、波浪破碎和对流翻转的作用下，温度、盐度和密度均一化。其厚度随纬度和季节变化极大——从夏季热带的约 20 m 到冬季副极地海区的 1000 m 以上。混合层底部即季节性密度跃层，其下方的永久性温跃层携带了在海洋内部深处形成的水团信号。</p>
+
+      <div class="ocean-grid">
+
+        <div class="ocean-card">
+          <h4 class="ocean-name">Drivers of Mixing<span class="ocean-zh">混合驱动机制</span></h4>
+          <p class="ocean-text-en">Two competing processes determine mixed-layer depth:<br>
+            • <strong>Wind &amp; wave stirring</strong>: mechanical turbulence; dominates in tropical/subtropical open ocean.<br>
+            • <strong>Convective overturning</strong>: surface cooling (winter) or brine rejection (sea-ice formation) increases surface density → gravitational instability → penetrative convection; can reach 1000+ m in subpolar regions (e.g., Labrador Sea, Weddell Sea).<br>
+            • <strong>Freshwater stratification</strong>: precipitation, river runoff, or ice melt <em>inhibits</em> mixing (stable layer of fresh surface water).</p>
+          <p class="ocean-text-zh">两个竞争过程决定混合层深度：<br>
+            • <strong>风与波浪搅拌</strong>：机械湍流；在热带/副热带开阔海洋中占主导。<br>
+            • <strong>对流翻转</strong>：海表冷却（冬季）或排盐（海冰形成）使表层密度增大 → 重力不稳定 → 穿透性对流；副极地海区可超过 1000 m（如拉布拉多海、威德尔海）。<br>
+            • <strong>淡水层结</strong>：降水、河流输入或融冰 <em>抑制</em> 混合（表层稳定淡水层）。</p>
+        </div>
+
+        <div class="ocean-card">
+          <h4 class="ocean-name">Seasonal Cycle<span class="ocean-zh">季节性变化</span></h4>
+          <p class="ocean-text-en">In mid- and high-latitudes the mixed layer has a pronounced seasonal cycle:<br>
+            <strong>Winter</strong>: cooling + wind → deep mixed layer (200–1000+ m); water properties homogenized to great depth.<br>
+            <strong>Spring</strong>: solar heating begins to form a fresh, warm surface layer above the winter remnant; <strong>seasonal thermocline</strong> appears at the base of the new warm layer.<br>
+            <strong>Summer</strong>: surface layer warms further; seasonal thermocline becomes sharp and shallow (~20–50 m); below it lies cold, uniform winter-residual water.<br>
+            <strong>Autumn</strong>: cooling destroys the seasonal thermocline; mixed layer deepens again.</p>
+          <p class="ocean-text-zh">中高纬度混合层有明显季节性循环：<br>
+            <strong>冬季</strong>：冷却 + 风 → 深混合层（200–1000+ m）；水团属性被均一化到很大深度。<br>
+            <strong>春季</strong>：太阳辐射开始在冬季残余水之上形成一层温暖淡水层；<strong>季节性温跃层</strong>出现在新暖层底部。<br>
+            <strong>夏季</strong>：表层继续增温；季节性温跃层变得尖锐且浅（约 20–50 m）；其下为冷而均一的冬季残留水。<br>
+            <strong>秋季</strong>：冷却破坏季节性温跃层；混合层再度加深。</p>
+        </div>
+
+        <div class="ocean-card">
+          <h4 class="ocean-name">Ventilation &amp; Subduction<span class="ocean-zh">通风与潜沉</span></h4>
+          <p class="ocean-text-en">Late-winter mixed-layer properties are "ventilated" into the ocean interior via two mechanisms:<br>
+            • <strong>Subduction</strong>: Ekman pumping in subtropical gyres causes the pycnocline to dome downward; late-winter mixed layer slides down the sloping isopycnals and is carried away from the surface into the thermocline interior — the basis of ventilated thermocline theory.<br>
+            • <strong>Mode-water formation</strong>: the thick, uniform late-winter mixed layer subducts as a distinct water mass (STMW, SAMW, etc.), identifiable as a pycnostad/thermostad in the interior thermocline.</p>
+          <p class="ocean-text-zh">冬末混合层属性通过两个过程被"通风"入海洋内部：<br>
+            • <strong>潜沉（Subduction）</strong>：副热带环流中的艾克曼抽吸使密度跃层下凹；冬末混合层沿倾斜的等密度面下滑，被带走远离表面进入温跃层内部——这是通风温跃层理论的基础。<br>
+            • <strong>模态水形成</strong>：厚而均一的冬末混合层作为一个独立水团（STMW、SAMW 等）潜入，在内部温跃层中以密度均一的跃层（pycnostad/thermostad）可被识别。</p>
+        </div>
+
+        <div class="ocean-card">
+          <h4 class="ocean-name">Deep Convection &amp; Deep-Water Formation<span class="ocean-zh">深对流与深水形成</span></h4>
+          <p class="ocean-text-en">The densest waters of the global ocean form where preconditioned weak stratification allows surface buoyancy loss to drive convection <em>throughout the water column</em> (1000–2000 m or more).<br>
+            Conditions required: (1) weak pre-existing stratification (e.g., a preceding winter of deep mixing); (2) strong surface buoyancy loss (cooling in Norwegian/Greenland Seas, brine rejection in Weddell/Ross Seas); (3) formation rate fast enough that descending plumes are not diluted. The resulting dense water spreads equatorward and fills the abyssal ocean for millennia.</p>
+          <p class="ocean-text-zh">全球最致密的水形成于已被预处理的弱层结海区，表层浮力损失驱动对流 <em>贯穿整个水柱</em>（1000–2000 m 或更深）。<br>
+            条件：(1) 预先存在的弱层结（如前一冬季的深混合）；(2) 强烈的表层浮力损失（挪威/格陵兰海冷却、威德尔/罗斯海排盐）；(3) 形成速率足够快，下降的羽状流不被稀释。形成的致密水向赤道扩散，填满深海盆地可达数千年。</p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="container" style="margin-top:24px;">
+    <div class="dyn-card" id="thermocline">
+      <h3 class="dyn-title">Thermocline<span class="dyn-zh-sub">温度跃层（温跃层）</span></h3>
+      <p class="dyn-text">The <strong>thermocline</strong> is a layer in the ocean characterized by a rapid vertical gradient of temperature (ΔT/Δz). The equivalent layers for salinity and density are the <strong>halocline</strong> and <strong>pycnocline</strong>, respectively. Thermoclines are classified by their persistence and formation mechanism — seasonal vs permanent — and their properties vary dramatically with latitude, reflecting the interplay between surface forcing, gyre circulation, and ventilation from the mixed layer above.</p>
+      <p class="dyn-text"><strong>温度跃层（温跃层）</strong>是海洋中温度垂直梯度（ΔT/Δz）迅速增大的一层。盐度和密度的对应层分别称为<strong>盐跃层</strong>和<strong>密度跃层</strong>。温跃层按其持续性和形成机制分类——季节性 vs 永久性——其性质随纬度变化极大，反映了海表强迫、环流系统与上层混合层通风之间的相互作用。</p>
+
+      <div class="ocean-grid">
+
+        <div class="ocean-card">
+          <h4 class="ocean-name">Seasonal vs Permanent<span class="ocean-zh">季节性 vs 永久性</span></h4>
+          <p class="ocean-text-en"><strong>Seasonal thermocline</strong>: forms each spring/summer as surface warming creates a density-stable layer above winter-residual water; typically 20–50 m deep, strong gradient; destroyed by autumn/winter cooling and mixing.<br>
+            <strong>Permanent thermocline (oceanic thermocline)</strong>: exists year-round below the seasonal layer, ~200–1000 m deep; the transition zone between warm surface waters and cold abyssal waters; maintained by the balance between ventilation (late-winter mixed layer subduction) and interior mixing (diapycnal diffusion).<br>
+            A <strong>thermostad</strong> (or pycnostad) is a layer of <em>low</em> gradient embedded within the thermocline — a "fossil" layer of homogenized winter mixed layer, i.e., mode water.</p>
+          <p class="ocean-text-zh"><strong>季节性温跃层</strong>：每年春/夏由增温形成的稳定密度层覆盖在冬季残余水之上；通常 20–50 m 深、梯度强；在秋/冬冷却混合时被破坏。<br>
+            <strong>永久性温跃层（大洋温跃层）</strong>：位于季节性温跃层之下、全年存在，约 200–1000 m 深；是暖表层水和冷深层水之间的过渡带；由通风（冬末混合层潜沉）和内部混合（跨密度面扩散）的平衡维持。<br>
+            <strong>温度均一层（thermostad / pycnostad）</strong>是嵌入温跃层中的 <em>低梯度</em> 层——冬季混合层均一化后的"化石"层，即模态水。</p>
+        </div>
+
+        <div class="ocean-card">
+          <h4 class="ocean-name">Latitudinal Variations<span class="ocean-zh">纬度分布差异</span></h4>
+          <p class="ocean-text-en">Thermocline structure changes systematically from equator to pole:<br>
+            • <strong>Equatorial/Tropical</strong>: shallow (<100 m), <em>strong, permanent</em> thermocline; temperature drops from ~28 °C at surface to ~5 °C at 500 m; the undercurrent and trade winds drive upwelling that keeps it sharp and shallow.<br>
+            • <strong>Subtropical</strong>: deep (400–800 m), weak permanent thermocline; seasonal thermocline superimposed in summer; ventilated thermocline theory predicts its depth via Sverdrup balance and subduction rate; STMW forms within it.<br>
+            • <strong>Subpolar</strong>: winter mixed layer can reach 1000+ m, erasing the seasonal thermocline; permanent thermocline weakens and may develop a <em>secondary thermocline</em> below (from cold, fresh surface water over warm, salty subsurface).<br>
+            • <strong>Polar</strong>: virtually no thermocline; surface waters are already near freezing year-round; density structure controlled by salinity (halocline dominates).</p>
+          <p class="ocean-text-zh">温跃层结构从赤道到极地系统性变化：<br>
+            • <strong>赤道/热带</strong>：浅（<100 m）、<em>强而永久</em>的温跃层；温度从表层约 28 °C 降至 500 m 处约 5 °C；赤道潜流和信风驱动的上升流使其保持尖锐。<br>
+            • <strong>副热带</strong>：深（400–800 m）、弱的永久温跃层；夏季叠加季节性温跃层；通风温跃层理论通过 Sverdrup 平衡和潜沉率预测其深度；STMW 在其中形成。<br>
+            • <strong>副极地</strong>：冬季混合层可达 1000+ m，抹掉季节性温跃层；永久温跃层减弱，下方可能出现 <em>二次温跃层</em>（冷淡水表层覆盖暖咸次表层）。<br>
+            • <strong>极地</strong>：几乎无温跃层；表层全年近冻结；密度结构由盐度主导（盐跃层占优）。</p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="container" style="margin-top:24px;">
+    <div class="dyn-card" id="surface-salinity">
+      <h3 class="dyn-title">Surface Salinity Distribution<span class="dyn-zh-sub">表层盐度分布</span></h3>
+      <p class="dyn-text">Surface salinity is set by the <strong>evaporation–precipitation (E−P) balance</strong>, modified by river runoff, sea-ice formation/melting, and ocean currents. Unlike surface temperature, which is primarily latitude-controlled and zonally symmetric, surface salinity shows strong meridional structure with three characteristic bands — a pattern that reflects the global atmospheric circulation (Hadley cell) and its associated arid vs humid zones.</p>
+      <p class="dyn-text">表层盐度由 <strong>蒸发-降水（E−P）平衡</strong> 决定，并受河流径流、海冰形成/融化和海流的影响。与主要由纬度控制、纬向对称的表层温度不同，表层盐度呈现明显的经向三带结构——这一格局反映了全球大气环流（Hadley 环流）及其伴生的干旱/湿润带。</p>
+
+      <div class="ocean-grid">
+
+        <div class="ocean-card">
+          <h4 class="ocean-name">Meridional Pattern<span class="ocean-zh">经向三带格局</span></h4>
+          <p class="ocean-text-en">The globally averaged surface salinity follows a clear three-belt structure:<br>
+            • <strong>Tropical/Equatorial (0–10°)</strong>: moderate (~34.5–35 psu); warm but heavy convective rainfall (ITCZ) dilutes salinity — the "equatorial minimum".<br>
+            • <strong>Subtropical (15–35°)</strong>: <em>highest salinity</em> (>36 psu open ocean; >38 psu in semi-enclosed basins like Mediterranean, Red Sea, Persian Gulf); dominated by descending dry air (subtropical high) and strong trade-wind evaporation, with little precipitation.<br>
+            • <strong>Subpolar/Polar (>50°)</strong>: <em>lowest salinity</em> (~33–34 psu); weak evaporation, abundant precipitation, river runoff, and sea-ice melt all contribute fresh water; the Arctic and North Pacific are particularly fresh due to large river input (Siberia, Canada, Alaska).<br>
+            Note: Salinity maxima (~37 psu) occur <strong>poleward of the subtropics</strong> (around 30°), not at the equator — the equator has more rain than evaporation.</p>
+          <p class="ocean-text-zh">全球平均表层盐度呈现清晰的三带结构：<br>
+            • <strong>热带/赤道（0–10°）</strong>：中等（~34.5–35 psu）；虽暖但对流降雨（ITCZ）旺盛，稀释盐度——形成"赤道最小值"。<br>
+            • <strong>副热带（15–35°）</strong>：<em>盐度最高</em>（开阔大洋 >36 psu；地中海、红海、波斯湾等半封闭海盆 >38 psu）；受副热带高压下沉干空气和强信风蒸发主导，降水稀少。<br>
+            • <strong>副极地/极地（>50°）</strong>：<em>盐度最低</em>（~33–34 psu）；蒸发弱，降水、河流径流和融冰都输入淡水；北极和北太平洋因西伯利亚、加拿大、阿拉斯加的大量河流输入尤其淡。<br>
+            注意：盐度最大值（~37 psu）出现在 <strong>副热带向极一侧</strong>（约 30°），而非赤道——赤道降水多于蒸发。</p>
+        </div>
+
+        <div class="ocean-card">
+          <h4 class="ocean-name">Zonal Asymmetry &amp; Outliers<span class="ocean-zh">纬向差异与异常值</span></h4>
+          <p class="ocean-text-en">Ocean basins differ in their surface salinity characteristics:<br>
+            • <strong>North Atlantic</strong>: saltier than North Pacific at the same latitude — because it receives less river runoff and because NADW formation removes salt from the surface (via convective sinking of dense, salty surface water).<br>
+            • <strong>North Pacific</strong>: freshest surface waters of all three basins — high river input (Siberia, North America) and no deep convection to export salt downward.<br>
+            • <strong>Equatorial Pacific west vs east</strong>: western Pacific "warm pool" has lower salinity (~34.5) than eastern Pacific (~35) because of Indonesian throughflow freshwater input and heavy rainfall.<br>
+            • <strong>Enclosed basins</strong>: Mediterranean (38.0) and Red Sea (40+) are the saltiest open-ocean basins in the world; Black Sea (~18–22) and Baltic (~8–15) are among the freshest, due to massive river runoff and limited exchange with the open ocean.<br>
+            • <strong>Freshwater caps</strong>: Amazon River outflow creates a low-salinity plume (~32 psu) that can extend 2000 km offshore; similar caps from Congo, Orinoco, and Ganges-Brahmaputra.</p>
+          <p class="ocean-text-zh">各大洋表层盐度存在系统差异：<br>
+            • <strong>北大西洋</strong>：同纬度比北太平洋更咸——因为河流输入较少，且 NADW 形成通过对流下沉把盐从表层移走。<br>
+            • <strong>北太平洋</strong>：三大洋中表层最淡——河流输入大（西伯利亚、北美），且无深对流向下输送盐分。<br>
+            • <strong>赤道太平洋东西差异</strong>：西太平洋"暖池"盐度（~34.5）低于东太平洋（~35），因印尼贯穿流输入淡水、降水充沛。<br>
+            • <strong>封闭海盆</strong>：地中海（38.0）和红海（40+）是全球最咸的开阔海盆；黑海（~18–22）和波罗的海（~8–15）因巨大河流输入和与大洋交换受限，是最淡的。<br>
+            • <strong>淡水盖</strong>：亚马逊河径流形成的低盐羽流（~32 psu）可延伸至离岸 2000 km；类似的还有刚果河、奥里诺科河、恒河-布拉马普特拉河。</p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="container" style="margin-top:24px;">
+    <div class="dyn-card" id="thermohaline">
+      <h3 class="dyn-title">Thermohaline Circulation<span class="dyn-zh-sub">温盐环流</span></h3>
+      <p class="dyn-text">The <strong>thermohaline circulation (THC)</strong> is the global-scale, density-driven overturning circulation of the ocean interior, powered by surface buoyancy loss at high latitudes. Unlike the wind-driven surface circulation (which moves ~10–100 Sv), the THC carries ~15–20 Sv and spans the entire ocean, connecting the formation of deep water in the North Atlantic and Antarctic with slow, abyssal return flows across all three ocean basins. Variably called the <strong>"Great Ocean Conveyor Belt"</strong>, this circulation redistributes heat, salt, carbon, and nutrients globally and is a cornerstone of Earth's climate system.</p>
+      <p class="dyn-text"><strong>温盐环流（THC）</strong>是由高纬度海表浮力损失驱动的全球尺度密度驱动深层翻转环流。不同于风驱动的表层环流（输送量约 10–100 Sv），温盐环流输送量约 15–20 Sv，跨越整个大洋，把北大西洋和南极的深水形成区与三大洋内部缓慢的深层回流连接起来。这套环流常被称为 <strong>"大洋输送带"</strong>，它在全球范围重新分配热量、盐分、碳和营养盐，是地球气候系统的关键组成部分。</p>
+
+      <div class="ocean-grid">
+
+        <div class="ocean-card">
+          <h4 class="ocean-name">Formation Regions<span class="ocean-zh">深水形成源地</span></h4>
+          <p class="ocean-text-en">The THC is driven by deep convection in two high-latitude regions:<br>
+            • <strong>North Atlantic Deep Water (NADW)</strong>: forms in the Labrador, Greenland, and Norwegian Seas; winter surface cooling + brine rejection increase density until the water column becomes gravitationally unstable; convection reaches 1000–2500 m, homogenizing the upper ocean. NADW is warm-salty (θ ≈ 2–4 °C, S ≈ 34.9–35.1).<br>
+            • <strong>Antarctic Bottom Water (AABW)</strong>: the densest abyssal water, forms in the Weddell and Ross Seas and along the Antarctic continental slope; formed by brine rejection during sea-ice formation and shelf-water cooling; θ ≈ −0.5 to 0.5 °C, S ≈ 34.6–34.8. AABW underlies NADW globally, filling all abyssal basins below ~2500 m.<br>
+            Together these two source waters constitute virtually the entire deep ocean.</p>
+          <p class="ocean-text-zh">温盐环流由两个高纬度区域的深对流驱动：<br>
+            • <strong>北大西洋深层水（NADW）</strong>：形成于拉布拉多海、格陵兰海和挪威海；冬季冷却 + 排盐增大密度直到水柱重力不稳定；对流可达 1000–2500 m，均一化上层海洋。NADW 暖而偏咸（θ ≈ 2–4 °C, S ≈ 34.9–35.1）。<br>
+            • <strong>南极底层水（AABW）</strong>：最致密的底层水，形成于威德尔海、罗斯海和南极大陆坡；海冰形成时排盐和陆架水冷却驱动；θ ≈ −0.5 至 0.5 °C, S ≈ 34.6–34.8。AABW 全球覆盖于 NADW 之下，填满所有深海盆地下方约 2500 m 的部分。<br>
+            这两个源水团加起来几乎构成了整个深海。</p>
+        </div>
+
+        <div class="ocean-card">
+          <h4 class="ocean-name">The Global Loop<span class="ocean-zh">全球循环路径</span></h4>
+          <p class="ocean-text-en">A simplified view of the conveyor-belt path:<br>
+            ① Warm, salty surface water moves north in the Atlantic (Gulf Stream, North Atlantic Current) — the "upper branch".<br>
+            ② At ~60°N, cooling + evaporation increase density; the water column becomes unstable, and deep convection produces NADW.<br>
+            ③ NADW spreads south along the western Atlantic boundary, beneath AAIW but above AABW, crosses the equator, and enters the Southern Ocean.<br>
+            ④ NADW mixes with AABW and moves east along the ACC, partially upwelling along the way.<br>
+            ⑤ In the Indian and Pacific Oceans, deep water upwells slowly along sloping isopycnals or through diapycnal mixing, eventually re-entering the surface mixed layer.<br>
+            ⑥ Warm surface water returns westward to the Atlantic, completing the loop. The full cycle takes ~1000 years for deep water to complete one revolution.</p>
+          <p class="ocean-text-zh">输送带的简化路径：<br>
+            ① 暖咸表层水沿大西洋向北流动（湾流、北大西洋暖流）——"上层分支"。<br>
+            ② 在约 60°N，冷却 + 蒸发增大密度；水柱不稳定，深对流产生 NADW。<br>
+            ③ NADW 沿大西洋西边界向南扩散，位于 AAIW 之下、AABW 之上，跨越赤道进入南大洋。<br>
+            ④ NADW 与 AABW 混合，沿 ACC 向东运动，部分在途中上升。<br>
+            ⑤ 在印度洋和太平洋，深层水沿倾斜等密度面缓慢上升或通过跨密度面混合，最终重新进入表层混合层。<br>
+            ⑥ 温暖表层水向西返回大西洋，完成循环。深层水走完一圈约需 1000 年。</p>
+        </div>
+
+        <div class="ocean-card ocean-card-full">
+          <h4 class="ocean-name">AMOC &amp; Climate Change<span class="ocean-zh">AMOC 与气候变化</span></h4>
+          <p class="ocean-text-en">The Atlantic Meridional Overturning Circulation (AMOC) is one of the most intensively monitored components of Earth's climate system — and one of the most vulnerable to anthropogenic forcing:<br>
+            • <strong>Paleoevidence</strong>: AMOC weakened or collapsed during past glacial periods (Dansgaard–Oeschger events) and cold intervals in the North Atlantic region, demonstrating its sensitivity to freshwater perturbations.<br>
+            • <strong>Model projections</strong>: most CMIP5/CMIP6 models show a 20–50% weakening of AMOC by 2100 under medium-to-high emission scenarios; a collapse before 2300 is considered plausible in some models.<br>
+            • <strong>Consequences</strong>: AMOC slowdown would reduce northward heat transport, causing European cooling despite global warming, disrupt the Gulf Stream, affect monsoon systems worldwide, and alter carbon sequestration.<br>
+            • <strong>Observation</strong>: the RAPID array (since 2004) measures AMOC at 26°N; early results suggested a decline, but recent reanalysis shows large natural variability that complicates trend detection.</p>
+          <p class="ocean-text-zh">大西洋经向翻转环流（AMOC）是地球气候系统中受观测最密集、也最易受人为强迫影响的组成部分之一：<br>
+            • <strong>古气候证据</strong>：在过去冰期（Dansgaard–Oeschger 事件）和北大西洋冷期，AMOC 曾减弱或崩塌，表明其对淡水扰动高度敏感。<br>
+            • <strong>模型预测</strong>：多数 CMIP5/CMIP6 模型显示，在中高排放情景下 AMOC 到 2100 年将减弱 20–50%；部分模型认为 2300 年前崩塌是可能的。<br>
+            • <strong>后果</strong>：AMOC 减弱将减少北向热量输送，导致欧洲虽在全球变暖背景下反而降温，打乱湾流，影响全球季风系统，改变碳汇能力。<br>
+            • <strong>观测现状</strong>：RAPID 阵列（自 2004 年）在 26°N 监测 AMOC；早期结果显示下降，但最新再分析表明年际自然变率很大，趋势判定仍有争议。</p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="container" style="text-align:center;margin-top:16px;">
     <a class="back-top" href="#top">↑ 返回教材</a>
   </div>
 </section>
@@ -1138,6 +1740,207 @@
   <div class="container">
     <h2 class="section-title">Lecture 5: Mass, Salt, and Heat Budgets with Wind Forcing</h2>
     <p class="section-desc">第五讲 质量、盐量与热收支及风强迫</p>
+
+    <div class="mini-toc">
+      <div class="mini-toc-title">本讲内容</div>
+      <ul>
+        <li><a href="#mass-conservation">Mass Conservation<span class="zh">质量守恒</span></a></li>
+        <li><a href="#heat-budget">Ocean Heat Budget<span class="zh">大洋热收支</span></a></li>
+        <li><a href="#salt">Salinity<span class="zh">盐度</span></a></li>
+      </ul>
+    </div>
+
+    <div class="dyn-card" id="mass-conservation">
+      <h3 class="dyn-title">Mass Conservation<span class="dyn-zh-sub">质量守恒</span></h3>
+      <p class="dyn-text">The <strong>conservation of mass</strong> is the most fundamental law in fluid dynamics — what goes into an enclosed volume must either come out or accumulate inside. In the ocean, where compressibility is negligible, mass conservation simplifies dramatically: it becomes the statement that the ocean flow is <strong>non-divergent</strong>, which links horizontal convergence/divergence to vertical motion and underpins nearly all ocean circulation theory from Sverdrup balance to Ekman pumping.</p>
+      <p class="dyn-text"><strong>质量守恒</strong>是流体力学最基本的定律——流入一个闭合体积的东西要么流出要么在内部累积。在不可压缩近似下（海洋可忽略压缩性），质量守恒大幅简化：表述为大洋流动 <strong>无辐散</strong>，把水平辐散/辐聚与垂直运动联系起来，是从 Sverdrup 平衡到艾克曼抽吸几乎所有环流理论的基础。</p>
+
+      <div class="ocean-grid">
+
+        <div class="ocean-card">
+          <h4 class="ocean-name">The Continuity Equation<span class="ocean-zh">连续方程</span></h4>
+          <p class="ocean-text-en">For any fluid volume <em>V</em> bounded by surface <em>A</em> with outward normal <strong>n̂</strong>:<br>
+            <strong>General form</strong>: ∂<em>ρ</em>/∂<em>t</em> + ∇ · (<em>ρ</em><strong>u</strong>) = 0<br>
+            Using the <strong>divergence theorem</strong>: ∫<sub>V</sub> ∇ · (<em>ρ</em><strong>u</strong>) d<em>V</em> = ∫<sub>A</sub> <em>ρ</em><strong>u</strong> · d<strong>A</strong><br>
+            For an <strong>incompressible fluid</strong> (<em>ρ</em> ≈ constant), this simplifies to the oceanographer's workhorse:<br>
+            <em>∇ · u</em> = ∂<em>u</em>/∂<em>x</em> + ∂<em>v</em>/∂<em>y</em> + ∂<em>w</em>/∂<em>z</em> = 0<br>
+            Meaning: horizontal convergence is balanced by vertical divergence (rising or sinking), and vice versa.</p>
+          <p class="ocean-text-zh">对任意由表面 <em>A</em>（外法向 <strong>n̂</strong>）包围的流体体积 <em>V</em>：<br>
+            <strong>一般形式</strong>：∂<em>ρ</em>/∂<em>t</em> + ∇ · (<em>ρ</em><strong>u</strong>) = 0<br>
+            由 <strong>散度定理</strong>：∫<sub>V</sub> ∇ · (<em>ρ</em><strong>u</strong>) d<em>V</em> = ∫<sub>A</sub> <em>ρ</em><strong>u</strong> · d<strong>A</strong><br>
+            对 <strong>不可压缩流体</strong>（<em>ρ</em> ≈ 常数），简化为海洋学家最常用的形式：<br>
+            <em>∇ · u</em> = ∂<em>u</em>/∂<em>x</em> + ∂<em>v</em>/∂<em>y</em> + ∂<em>w</em>/∂<em>z</em> = 0<br>
+            含义：水平辐聚由垂直辐散（上升或下沉）平衡，反之亦然。</p>
+        </div>
+
+        <div class="ocean-card">
+          <h4 class="ocean-name">Implications: 2D Flow &amp; Barotropic Streamfunction<span class="ocean-zh">推论：二维流动与正压流函数</span></h4>
+          <p class="ocean-text-en">Mass conservation lets us express horizontal flow as the <strong>gradient of a scalar</strong> — the <strong>streamfunction ψ</strong>:<br>
+            <em>u</em> = −∂<em>ψ</em>/∂<em>y</em>, &nbsp; <em>v</em> = +∂<em>ψ</em>/∂<em>x</em><br>
+            Any velocity field derived this way automatically satisfies ∇ · <strong>u</strong> = 0. Contours of ψ are <strong>streamlines</strong> — flow is always parallel to them, and the volume transport between two streamlines equals the difference in ψ values.<br>
+            In the ocean, the <strong>depth-integrated mass transport</strong> (units of Sv) is often described using a barotropic streamfunction Ψ(x,y), with transports related to Ψ differences. A <strong>streamline blocking</strong> Ψ = constant is a boundary across which no transport occurs.</p>
+          <p class="ocean-text-zh">质量守恒使我们可以把水平流表示为 <strong>标量的梯度</strong>——<strong>流函数 ψ</strong>：<br>
+            <em>u</em> = −∂<em>ψ</em>/∂<em>y</em>，<em>v</em> = +∂<em>ψ</em>/∂<em>x</em><br>
+            由这种方式导出的速度场自动满足 ∇ · <strong>u</strong> = 0。ψ 的等值线是 <strong>流线</strong>——流动始终与它平行，两条流线之间的体积输送量等于 ψ 的差值。<br>
+            在海洋中，<strong>整层积分质量输送</strong>（单位 Sv）常用正压流函数 Ψ(x,y) 描述，输送量由 Ψ 的差值给出。一条 <strong>Ψ = 常数</strong> 的流线即为无输送边界。</p>
+        </div>
+
+        <div class="ocean-card">
+          <h4 class="ocean-name">Mass Budgets &amp; Box Models<span class="ocean-zh">质量收支与箱式模型</span></h4>
+          <p class="ocean-text-en">On regional scales, mass conservation becomes a simple <strong>box budget</strong>: change in volume within a region = net inflow across boundaries + surface forcing (evaporation − precipitation + runoff).<br>
+            Key examples:<br>
+            • <strong>Mediterranean Sea</strong>: net evaporation ~1 m/yr → freshwater deficit balanced by inflow from Atlantic through Gibraltar at the surface and outflow of salty deep water underneath — two-way "exchange" maintains steady state.<br>
+            • <strong>Baltic Sea</strong>: net precipitation + river runoff → surface water must outflow to Kattegat; deep water is much saltier and slowly inflows from Skagerrak.<br>
+            • <strong>Global ocean</strong>: total E = total P + total R (river runoff) to close the long-term mass budget; salinity is globally conserved (no sinks or sources of salt).</p>
+          <p class="ocean-text-zh">在区域尺度，质量守恒简化为 <strong>箱式收支模型</strong>：区域体积变化 = 边界净流入量 + 表面强迫（蒸发 − 降水 + 径流）。<br>
+            关键例子：<br>
+            • <strong>地中海</strong>：净蒸发约 1 m/yr → 淡水缺口由表层大西洋直布罗陀海峡流入和底层高盐深层水流出平衡——双向"交换"维持稳态。<br>
+            • <strong>波罗的海</strong>：净降水 + 河流径流 → 表层水必须向卡特加特海流出；深层水较咸、从斯卡格拉克缓慢流入。<br>
+            • <strong>全球海洋</strong>：长期总蒸发 = 总降水 + 总河川径流；盐度全球守恒（无盐的源和汇）。</p>
+        </div>
+
+        <div class="ocean-card">
+          <h4 class="ocean-name">Continuity + Wind Forcing = Sverdrup Balance<span class="ocean-zh">连续方程 + 风强迫 = Sverdrup 平衡</span></h4>
+          <p class="ocean-text-en">Mass conservation is the mathematical backbone of Sverdrup balance, which relates the depth-integrated meridional transport to the wind stress curl:<br>
+            <em>M<sub>y</sub></em> = (∂τ<sub>y</sub>/∂<em>x</em> − ∂τ<sub>x</sub>/∂<em>y</em>) × <em>ρ<sub>o</sub>f</em> = τ<sup>curl</sup> / <em>ρ<sub>o</sub>f</em><br>
+            Where <em>M<sub>y</sub></em> is the total northward volume transport, τ is wind stress, <em>f</em> is Coriolis parameter, and ρ<sub>o</sub> is reference density. This formula says <strong>the ocean's interior circulation is entirely determined by the wind stress curl integrated across the basin</strong> — a result that follows directly from combining ∇ · <strong>u</strong> = 0 with geostrophic balance. Sverdrup balance works remarkably well in most of the ocean interior but breaks down near western boundaries, where frictional effects allow the required northward transport to be concentrated in narrow, intense western boundary currents (Gulf Stream, Kuroshio).</p>
+          <p class="ocean-text-zh">质量守恒是 Sverdrup 平衡的数学骨架，该平衡把整层经向输送与风应力旋度联系起来：<br>
+            <em>M<sub>y</sub></em> = (∂τ<sub>y</sub>/∂<em>x</em> − ∂τ<sub>x</sub>/∂<em>y</em>) / <em>ρ<sub>o</sub>f</em> = τ<sup>curl</sup> / <em>ρ<sub>o</sub>f</em><br>
+            其中 <em>M<sub>y</sub></em> 为北向总体积输送，τ 为风应力，<em>f</em> 为科氏参数，ρ<sub>o</sub> 为参考密度。该公式表明 <strong>海洋内部环流完全由积分到海盆上的风应力旋度决定</strong>——这一结果直接来自 ∇ · <strong>u</strong> = 0 与地转平衡的结合。Sverdrup 平衡在多数海洋内部表现极佳，但在西边界处失效，那里摩擦效应使所需北向输送集中在狭窄强西边界流（湾流、黑潮）中。</p>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="dyn-card" id="heat-budget">
+      <h3 class="dyn-title">Ocean Heat Budget<span class="dyn-zh-sub">大洋热收支</span></h3>
+      <p class="dyn-text">The <strong>ocean heat budget</strong> describes the balance of energy flowing into and out of the ocean at the surface. On time scales longer than a few years, the global ocean is <strong>near steady-state</strong>: the total heat gain from sunlight is balanced by the total heat loss to space and the atmosphere. Regionally, however, the heat budget is strongly non-uniform — the tropics gain heat, the poles lose it, and the wind-driven and thermohaline circulations act to transport the surplus poleward. This redistribution of heat by the ocean is one of the primary determinants of Earth's climate and its variability.</p>
+      <p class="dyn-text"><strong>大洋热收支</strong>描述了海表流入和流出海洋的能量平衡。在数年以上的时间尺度上，全球大洋 <strong>接近稳态</strong>：来自阳光的总热量收入等于向太空和大气的总热量支出。但区域上收支极不均匀——热带海洋净得热量，极地净失热量，风驱动环流和温盐环流把盈余热量向极输送。大洋对热量的重新分配是地球气候及其变率的主要决定因素之一。</p>
+
+      <div class="ocean-grid">
+
+        <div class="ocean-card">
+          <h4 class="ocean-name">Four Components at the Sea Surface<span class="ocean-zh">海表四项热量通量</span></h4>
+          <p class="ocean-text-en">The net heat flux into the ocean is the sum of four terms:<br>
+            <strong>Q<sub>s</sub></strong> = net <em>shortwave radiation</em> (solar), always <strong>positive</strong> (ocean gains).<br>
+            <strong>Q<sub>b</sub></strong> = net <em>longwave radiation</em> (infrared), always <strong>negative</strong> (ocean loses to atmosphere/space).<br>
+            <strong>Q<sub>e</sub></strong> = <em>latent heat flux</em> (evaporation), <strong>negative</strong> (ocean loses; water-vaporizes heat).<br>
+            <strong>Q<sub>h</sub></strong> = <em>sensible heat flux</em> (conduction), usually <strong>negative</strong> (warm ocean heats cooler overlying air).<br>
+            Net flux: <strong>Q<sub>net</sub> = Q<sub>s</sub> + Q<sub>b</sub> + Q<sub>e</sub> + Q<sub>h</sub></strong>.<br>
+            <strong>Global annual mean (ordered by |Q|, largest to smallest)</strong>: |Q<sub>s</sub>| ≈ 161 W/m² &gt; |Q<sub>e</sub>| ≈ 101 W/m² &gt; |Q<sub>b</sub>| ≈ 63 W/m² &gt; |Q<sub>h</sub>| ≈ 10 W/m². With signs: Q<sub>s</sub> ≈ +161, Q<sub>e</sub> ≈ −101, Q<sub>b</sub> ≈ −63, Q<sub>h</sub> ≈ −10. Net ≈ −13 W/m² (a small imbalance accounted for by advection and anthropogenic warming).</p>
+          <p class="ocean-text-zh">进入海洋的净热通量是四项之和：<br>
+            <strong>Q<sub>s</sub></strong> = 净 <em>短波辐射</em>（太阳），始终 <strong>正</strong>（海洋得热）。<br>
+            <strong>Q<sub>b</sub></strong> = 净 <em>长波辐射</em>（红外），始终 <strong>负</strong>（海洋向大气/太空失热）。<br>
+            <strong>Q<sub>e</sub></strong> = <em>潜热通量</em>（蒸发），<strong>负</strong>（海洋失热；水汽化带走热量）。<br>
+            <strong>Q<sub>h</sub></strong> = <em>感热通量</em>（传导），通常 <strong>负</strong>（暖海洋加热上方较冷空气）。<br>
+            净通量：<strong>Q<sub>net</sub> = Q<sub>s</sub> + Q<sub>b</sub> + Q<sub>e</sub> + Q<sub>h</sub></strong>。<br>
+            <strong>全球年平均（按绝对值从大到小排列）</strong>：|Q<sub>s</sub>| ≈ 161 W/m² &gt; |Q<sub>e</sub>| ≈ 101 W/m² &gt; |Q<sub>b</sub>| ≈ 63 W/m² &gt; |Q<sub>h</sub>| ≈ 10 W/m²。带符号：Q<sub>s</sub> ≈ +161, Q<sub>e</sub> ≈ −101, Q<sub>b</sub> ≈ −63, Q<sub>h</sub> ≈ −10。净通量 ≈ −13 W/m²（小的不平衡由热量平流和人为变暖补足）。</p>
+        </div>
+
+        <div class="ocean-card">
+          <h4 class="ocean-name">What Controls Each Term?<span class="ocean-zh">各项的控制因子</span></h4>
+          <p class="ocean-text-en"><strong>Q<sub>s</sub></strong>: solar zenith angle, day length, cloud cover, sea-surface albedo (~0.08–0.12 for open ocean, much higher for sea ice). Peaks in tropics, zero at poles in winter.<br>
+            <strong>Q<sub>b</sub></strong>: primarily sea-surface temperature (Stefan–Boltzmann law, ∝ T⁴), modified by cloudiness and atmospheric water vapor. Higher SST → more longwave loss.<br>
+            <strong>Q<sub>e</sub></strong>: wind speed, air humidity deficit (SST − dew-point temperature), and atmospheric stability. Largest where warm air moves over cold water (e.g., winter North Atlantic).<br>
+            <strong>Q<sub>h</sub></strong>: wind speed and air–sea temperature difference. Usually ocean → atmosphere negative; reverses over cold upwelling zones or when very cold air passes over warm water.</p>
+          <p class="ocean-text-zh"><strong>Q<sub>s</sub></strong>：太阳高度角、日照长度、云量、海表反照率（开阔海洋 ≈ 0.08–0.12，海冰上大得多）。热带最高，冬季极区为零。<br>
+            <strong>Q<sub>b</sub></strong>：主要由海表温度（Stefan–Boltzmann 定律，∝ T⁴）决定，受云量和大气水汽修正。海表越暖 → 长波失热越多。<br>
+            <strong>Q<sub>e</sub></strong>：风速、空气湿度亏损（海表温度 − 露点温度）、大气稳定度。暖空气吹过冷水面时最大（如冬季北大西洋）。<br>
+            <strong>Q<sub>h</sub></strong>：风速与海-气温差。通常海洋 → 大气，为负；在上行冷水区或极冷空气吹过暖水面时可反号。</p>
+        </div>
+
+        <div class="ocean-card">
+          <h4 class="ocean-name">Latitudinal Distribution<span class="ocean-zh">经向分布</span></h4>
+          <p class="ocean-text-en">The net heat flux has a clear three-belt structure, mirroring surface salinity:<br>
+            • <strong>Tropical (0–15°)</strong>: <em>net heat gain</em> (+20 to +50 W/m²); strong solar radiation exceeds evaporative loss. The Pacific "warm pool" (western equatorial Pacific) is the largest single heat-storage region on Earth.<br>
+            • <strong>Subtropical (15–40°)</strong>: near-zero or slight loss; evaporation peaks here (trade winds, dry subtropical highs), nearly matching solar input.<br>
+            • <strong>Subpolar/Polar (&gt;40°)</strong>: <em>net heat loss</em> (−10 to −50 W/m² in subpolar North Atlantic); poleward of ~60° winter insolation vanishes, and cold air masses moving over warm ocean drive large sensible + latent heat fluxes. Deep convection and NADW/AABW formation are direct consequences of this heat loss.<br>
+            Note: heat loss is largest in the <strong>North Atlantic</strong> subpolar — the "Nordic Seas heat sink" — which drives the Atlantic branch of the thermohaline circulation.</p>
+          <p class="ocean-text-zh">净热通量呈清晰的三带结构，与表层盐度格局平行：<br>
+            • <strong>热带（0–15°）</strong>：<em>净得热</em>（+20 至 +50 W/m²）；强太阳辐射超过蒸发损失。太平洋"暖池"（西赤道太平洋）是地球上最大的单体储热区。<br>
+            • <strong>副热带（15–40°）</strong>：近零或轻微失热；这里蒸发峰值（信风、副热带高压下沉干空气），几乎匹配太阳输入。<br>
+            • <strong>副极地/极地（>40°）</strong>：<em>净失热</em>（北大西洋副极地 −10 至 −50 W/m²）；极向 ~60° 冬季日照消失，冷空气团吹过暖海洋产生巨大的感热 + 潜热损失。深对流和 NADW/AABW 形成正是这种失热的直接后果。<br>
+            注意：最大的热失热在 <strong>北大西洋副极地</strong>——"挪威海热汇"——驱动着温盐环流的大西洋分支。</p>
+        </div>
+
+        <div class="ocean-card ocean-card-full">
+          <h4 class="ocean-name">Meridional Heat Transport<span class="ocean-zh">经向热量输送</span></h4>
+          <p class="ocean-text-en">Because the tropics gain heat and the poles lose it, the ocean must transport heat poleward — a task shared roughly equally by wind-driven gyres and the thermohaline circulation:<br>
+            • <strong>Wind-driven</strong>: subtropical anticyclonic gyres carry warm surface water poleward on their western boundaries (Gulf Stream, Kuroshio, East Australian Current), releasing heat to the atmosphere at high latitudes before the now-cool water returns equatorward at depth.<br>
+            • <strong>Thermohaline</strong>: the Atlantic branch (AMOC) is the strongest single contributor — warm, salty surface water moves north to 60°N, cools, sinks to form NADW, and returns south at ~2000–3000 m depth.<br>
+            • <strong>Southward return</strong>: cold AABW upwells in both the Atlantic and Pacific, completing the loop.<br>
+            Peaking at ~30° latitude with a total of ~5 PW (1 PW = 10¹⁵ W), oceanic meridional heat transport is comparable in magnitude to the atmospheric transport — the two media together keep Earth's climate habitable by moderating the otherwise extreme tropics–poles temperature contrast.</p>
+          <p class="ocean-text-zh">由于热带得热、极地失热，海洋必须把热量向极输送——这一任务由风驱动环流和温盐环流大致平分：<br>
+            • <strong>风驱动</strong>：副热带反气旋环流在其西边界（湾流、黑潮、东澳暖流）把暖表层水向极输送，在高纬度向大气释放热量后，冷了的水在深海向赤道返回。<br>
+            • <strong>温盐环流</strong>：大西洋分支（AMOC）是最强的单一贡献——暖咸表层水向北流至 60°N，冷却下沉形成 NADW，在约 2000–3000 m 深处向南返回。<br>
+            • <strong>南向回流</strong>：冷的 AABW 在大西洋和太平洋中上升，完成循环。<br>
+            峰值出现在约 30° 纬度，总输送约 5 PW（1 PW = 10¹⁵ W），与大气经向热量输送量级相当——两者共同维持了地球气候的宜居性，把原本极端的热带-极地暖度差降到适中水平。</p>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="dyn-card" id="salt">
+      <h3 class="dyn-title">Salinity<span class="dyn-zh-sub">盐度</span></h3>
+      <p class="dyn-text"><strong>Salinity</strong> is a fundamental variable in physical oceanography alongside temperature and pressure — together they determine the density of seawater, which in turn drives the ocean's circulation. Unlike temperature, which has clear source terms at the surface, salinity is a <strong>conservative property</strong> away from the surface boundary: it changes only through mixing, not through internal sources or sinks of salt. This makes it an invaluable tracer for water masses and their pathways through the ocean interior.</p>
+      <p class="dyn-text"><strong>盐度</strong>与温度、压强并列，是物理海洋学的基本变量——三者共同决定海水密度，而密度驱动大洋环流。不同于温度有明确的表面源项，盐度在远离表层的区域是 <strong>保守属性</strong>：只能通过混合改变，没有内部的盐源或盐汇。这使它成为追踪水团在深海中运动路径的无价示踪物。</p>
+
+      <div class="ocean-grid">
+
+        <div class="ocean-card">
+          <h4 class="ocean-name">Definition &amp; Practical Salinity Scale<span class="ocean-zh">定义与实用盐度标</span></h4>
+          <p class="ocean-text-en">The original definition (Knudsen, 1901): "Salinity is the weight in grams of dissolved salts in one kilogram of seawater". For practical reasons, this was replaced in 1978 by the <strong>Practical Salinity Scale (PSS-78)</strong>, which defines salinity from the <em>electrical conductivity</em> of seawater relative to a potassium chloride reference solution of exactly 35 psu at 15 °C and 1 atm. Practical salinity is a <em>dimensionless</em> quantity reported in <em>psu</em> (practical salinity units, g/g × 1000). A revised reference, <strong>TEOS-10 / GSW</strong>, was adopted by IOC in 2010, introducing Absolute Salinity S<sub>A</sub> and Reference Salinity S<sub>R</sub> that account for compositional variability across ocean basins. The two differ by up to 0.02 psu, which matters for precision work but is negligible for most descriptive applications.</p>
+          <p class="ocean-text-zh">最初由 Knudsen（1901）定义："盐度是 1 kg 海水中溶解盐类的克数"。出于实用考虑，1978 年被 <strong>实用盐度标（PSS-78）</strong> 取代，后者根据海水电导率相对于 15 °C、1 atm 下精确为 35 psu 的氯化钾参考溶液来定义盐度。实用盐度是 <em>无量纲</em> 量，以 <em>psu</em>（实用盐度单位，g/g × 1000）报告。IOC 2010 年通过修订参考 <strong>TEOS-10 / GSW</strong>，引入绝对盐度 S<sub>A</sub> 和参考盐度 S<sub>R</sub>，考虑了不同海盆盐类组成的差异。两者差异最大可达 0.02 psu，对精度要求高的工作有意义，但对大多数描述性应用可忽略。</p>
+        </div>
+
+        <div class="ocean-card">
+          <h4 class="ocean-name">Global Surface Salinity: Three-Belt Pattern<span class="ocean-zh">全球表层盐度：三带格局</span></h4>
+          <p class="ocean-text-en">Surface salinity follows a meridional three-belt structure closely linked to the surface heat budget and evaporation–precipitation (E−P) balance:<br>
+            • <strong>Equatorial minimum (~34.5–35.0 psu)</strong>: the ITCZ (Intertropical Convergence Zone) produces abundant rainfall (P &gt; E), diluting surface water. The Pacific "warm pool" has the lowest open-ocean salinities (~34.8) because of sustained deep convection and heavy rain.<br>
+            • <strong>Subtropical maximum (~36.5–37.0 psu)</strong>: at ~30°N/S, descending air from the Hadley cell suppresses clouds, intensifying trade-wind evaporation (E &gt;&gt; P). The North Atlantic subtropics reach 37+ psu, while closed basins (Mediterranean ~38, Red Sea ~41) go even higher.<br>
+            • <strong>Subpolar/polar minimum (~33.0–34.0 psu)</strong>: poleward of ~50°N/S, net precipitation + river runoff + sea-ice melt freshen surface water. The Arctic Ocean averages only ~32 psu at the surface due to massive river input.<br>
+            <strong>Global mean surface salinity ≈ 34.7 psu</strong>; open-ocean abyssal waters cluster tightly around 34.6–35.0 psu.</p>
+          <p class="ocean-text-zh">表层盐度沿经向呈三带结构，与表层热收支和蒸发-降水（E−P）平衡紧密相关：<br>
+            • <strong>赤道极小值（~34.5–35.0 psu）</strong>：ITCZ（热带辐合带）产生充沛降雨（P &gt; E），稀释表层水。太平洋"暖池"拥有开阔大洋最低盐度（~34.8），因为那里深对流持续、降水极多。<br>
+            • <strong>副热带极大值（~36.5–37.0 psu）</strong>：在 ~30°N/S，Hadley 环流下沉支抑制云量，强化信风蒸发（E &gt;&gt; P）。北大西洋副热带可达 37+ psu，封闭海盆地中海 ~38 psu、红海 ~41 psu 更高。<br>
+            • <strong>副极地/极地极小值（~33.0–34.0 psu）</strong>：极向 ~50°N/S，净降水 + 河流径流 + 海冰融化冲淡表层水。北冰洋表层平均仅 ~32 psu，因为河川径流巨大。<br>
+            <strong>全球平均表层盐度 ≈ 34.7 psu</strong>；开阔大洋深层水集中在 34.6–35.0 psu。</p>
+        </div>
+
+        <div class="ocean-card">
+          <h4 class="ocean-name">Salinity as a Conservative Tracer<span class="ocean-zh">盐度作为保守示踪物</span></h4>
+          <p class="ocean-text-en">Away from the surface boundary, salinity has no sources or sinks — salt is not created or destroyed. This property, together with its strong T-S relationship, makes salinity one of the primary tracers in physical oceanography:<br>
+            • <strong>Water-mass identification</strong>: each water mass has a characteristic θ–S signature that is "imprinted" at its formation site (surface air–sea interaction) and preserved as the mass spreads through the interior (modified only by mixing).<br>
+            • <strong>Mixing analysis</strong>: two mixing water masses produce a T-S point on the straight line connecting their end members; three masses produce a triangle.<br>
+            • <strong>Basin circulation</strong>: salinity maxima/minima at depth (e.g., the Mediterranean Water S ≈ 35.0–35.2 at ~1000 m in the North Atlantic, or the AAIW S ≈ 34.2–34.4 at ~800–1500 m) provide direct evidence of which water masses reach which depths and regions.<br>
+            • <strong>Climate change fingerprint</strong>: decadal salinity shifts reflect the intensifying hydrological cycle under global warming (E↑ in subtropics, P↑ in tropics and poles).</p>
+          <p class="ocean-text-zh">在远离表层的区域，盐度没有源和汇——盐不会凭空产生或消失。这个性质加上强烈的 T-S 关系，使盐度成为物理海洋学最重要的示踪物之一：<br>
+            • <strong>水团识别</strong>：每个水团在其形成区（海气相互作用）被"刻上"特征 θ–S 签名，在内部扩张过程中被保存下来（只通过混合改变）。<br>
+            • <strong>混合分析</strong>：两个水团混合，产物 T-S 点落在两端点的连线上；三个水团混合形成三角区。<br>
+            • <strong>海盆环流</strong>：深层的盐度极值带（如北大西洋 ~1000 m 处地中海水 S ≈ 35.0–35.2，或 ~800–1500 m 处 AAIW S ≈ 34.2–34.4）直接表明哪些水团抵达了哪些深度和区域。<br>
+            • <strong>气候变化指纹</strong>：年代际盐度偏移反映全球变暖下水文循环加剧（副热带 E↑，热带和极地 P↑）。</p>
+        </div>
+
+        <div class="ocean-card">
+          <h4 class="ocean-name">Surface Salinity Controls: E − P − R<span class="ocean-zh">表层盐度控制：E − P − R</span></h4>
+          <p class="ocean-text-en">The simplest steady-state salt budget for the surface layer is:<br>
+            <em>∂S/∂t</em> = 0 ⟹ &nbsp; (E − P − R) × S ≈ 0 (globally),<br>
+            but <strong>regionally</strong> the E − P − R balance drives the surface salinity gradient that powers the thermohaline circulation:<br>
+            • Where <em>E &gt; P + R</em>: salinity increases → dense water (e.g., Mediterranean outflow, Red Sea brines, subtropical Atlantic).<br>
+            • Where <em>E &lt; P + R</em>: salinity decreases → fresh surface layer inhibits deep convection (e.g., Arctic, eastern tropical Pacific "fresh pool").<br>
+            • These <em>salinity extremes</em> drive density-driven overturning, from NADW formation (requiring both high latitude and salty Atlantic) to dense shelf-water production around Antarctica.<br>
+            <strong>Observation</strong>: since 1950, surface salinities have increased in the subtropical Atlantic and decreased in the tropical Pacific, consistent with a strengthening hydrological cycle under anthropogenic forcing (Durack et al., 2012).</p>
+          <p class="ocean-text-zh">表层最简单的稳态盐量收支：<br>
+            <em>∂S/∂t</em> = 0 ⟹ &nbsp; (E − P − R) × S ≈ 0（全球），<br>
+            但 <strong>区域上</strong> E − P − R 平衡驱动着表层盐度梯度，而这一梯度正是温盐环流的动力来源：<br>
+            • <em>E &gt; P + R</em> 处：盐度升高 → 水变密（如地中海溢流、红海卤水、副热带大西洋）。<br>
+            • <em>E &lt; P + R</em> 处：盐度降低 → 淡水表层抑制深对流（如北极、东热带太平洋"淡池"）。<br>
+            这些 <em>盐度极值</em> 驱动着密度驱动的翻转环流，从 NADW 形成（既要有高纬度又要有咸的大西洋）到南极周围稠密陆架水生产。<br>
+            <strong>观测事实</strong>：1950 年以来，副热带大西洋表层盐度上升、热带太平洋表层盐度下降，与人为强迫下水文循环加强一致（Durack et al., 2012）。</p>
+        </div>
+
+      </div>
+    </div>
 
     <div class="mini-toc">
       <div class="mini-toc-title">本讲内容</div>
@@ -1402,6 +2205,384 @@
   <div class="container">
     <h2 class="section-title">Lecture 6: Data Analysis Concepts and Observational Methods</h2>
     <p class="section-desc">第六讲 数据分析概念与观测方法</p>
+
+    <div class="mini-toc">
+      <div class="mini-toc-title">本讲内容</div>
+      <ul>
+        <li><a href="#sampling">Oceanographic Sampling<span class="zh">海洋观测与采样</span></a></li>
+        <li><a href="#errors-stats">Error &amp; Basic Statistics<span class="zh">误差与统计基础</span></a></li>
+        <li><a href="#spatial-analysis">Spatial Variability Analysis<span class="zh">空间变化分析</span></a></li>
+        <li><a href="#temporal-analysis">Temporal Variability Analysis<span class="zh">时间变化分析</span></a></li>
+        <li><a href="#eof">EOF (Empirical Orthogonal Functions)<span class="zh">经验正交分解</span></a></li>
+      </ul>
+    </div>
+
+    <div class="dyn-card" id="sampling">
+      <h3 class="dyn-title">Oceanographic Sampling<span class="dyn-zh-sub">海洋观测与采样</span></h3>
+      <p class="dyn-text">Physical oceanography relies fundamentally on observations — without measurements of temperature, salinity, pressure, velocity, and tracers, descriptive oceanography would be little more than qualitative speculation. The ocean, however, is vast (~3.6 × 10⁸ km²) and largely hostile to direct measurement, so oceanographers have developed a suite of sampling platforms that together provide global coverage: research ships, autonomous floats, moorings, and satellites. Each platform has its own strengths, scales, and biases, and any robust description of the ocean must integrate data from multiple sources.</p>
+      <p class="dyn-text">物理海洋学从根本上依赖观测——没有温度、盐度、压强、速度和示踪物的测量，描述性物理海洋学就不过是定性推测。然而海洋极其辽阔（~3.6 × 10⁸ km²），且绝大部分区域难以直接测量，海洋学家因此发展了一套采样平台体系，共同提供全球覆盖：调查船、自主浮标、系泊浮标和卫星。每种平台都有自身的优势、适用尺度和偏差，任何可靠的大洋描述都必须整合多种来源的数据。</p>
+
+      <div class="ocean-grid">
+
+        <div class="ocean-card">
+          <h4 class="ocean-name">Research Ships &amp; CTD/Rosette<span class="ocean-zh">调查船与 CTD / Rosette 系统</span></h4>
+          <p class="ocean-text-en"><strong>Research vessels</strong> remain the gold standard for oceanographic sampling — they carry the full range of instruments to arbitrary locations and depths. The primary ship-borne sampling system is the <strong>CTD/Rosette</strong>: a frame carrying a CTD (conductivity, temperature, depth) sensor package and a circular rosette of 12–36 Niskin (or newer GO-FLO) water bottles that open and close remotely at prescribed depths. A single CTD cast yields a continuous vertical profile of T, S, oxygen, and chlorophyll, plus discrete water samples for chemistry (nutrients, carbon, tracers like CFCs). Typical cast duration: 1–2 hours; maximum depth: ~6000 m. The historic predecessor was the <strong>Nansen bottle</strong> (1894), a reversible bottle lowered on a wire — still used today for lower-cost, single-depth sampling.</p>
+          <p class="ocean-text-zh"><strong>调查船</strong>仍是海洋观测的黄金标准——它们能携带全套仪器前往任意海域和深度。船上最主要的采样系统是 <strong>CTD / Rosette</strong>：一个框架，搭载 CTD（电导率、温度、深度）传感器包，以及环形排列的 12–36 只 Niskin（或更新的 GO-FLO）采水瓶，可在预定深度远程开闭。一次 CTD 剖面可获得 T、S、氧、叶绿素的连续垂直剖面，并采集离散水样用于化学分析（营养盐、碳、示踪物如 CFC）。一次典型 CTD 剖面耗时 1–2 小时；最大深度约 6000 m。历史前身是 <strong>Nansen 采水瓶</strong>（1894 年），一种可逆式采水瓶用钢丝绳下放——至今仍在低成本单点采样中使用。</p>
+        </div>
+
+        <div class="ocean-card">
+          <h4 class="ocean-name">Argo Profiling Float Array<span class="ocean-zh">Argo 剖面浮标阵列</span></h4>
+          <p class="ocean-text-en">The <strong>Argo Program</strong> (launched 2000) is a revolutionary global array of ~3800 autonomous profiling floats that have transformed physical oceanography. Each float drifts at a prescribed pressure level (typically 1000 m) for 9–10 days, then dives to 2000 m (or deeper in some models), profiles T and S as it ascends, and transmits the data via satellite before returning to depth. Argo provides <strong>near-real-time, year-round, global</strong> T–S profiles — a dataset of ~300,000 profiles/year that exceeds the total ever collected by research ships. The array is open-access, with data available within hours of acquisition at <a href="https://argo.ucsd.edu" target="_blank" style="color:var(--ocean-theme);">argo.ucsd.edu</a>. Extended sensors now include oxygen, pH, chlorophyll, and optical backscatter.</p>
+          <p class="ocean-text-zh"><strong>Argo 计划</strong>（2000 年启动）是一个革命性的全球阵列，由约 3800 个自主剖面浮标组成，彻底改变了物理海洋学。每个浮标在指定压力层（通常 1000 m）漂移 9–10 天，然后下潜至 2000 m（部分型号更深），在上浮过程中测量 T 和 S 剖面，通过卫星传回数据后再返回深度漂移。Argo 提供了 <strong>近实时、全年、全球覆盖</strong> 的 T–S 剖面——每年约 30 万条剖面，超过所有调查船历史总和。阵列完全开放，数据采集后数小时即可在 <a href="https://argo.ucsd.edu" target="_blank" style="color:var(--ocean-theme);">argo.ucsd.edu</a> 获取。扩展传感器现已覆盖氧、pH、叶绿素、光学后向散射。</p>
+        </div>
+
+        <div class="ocean-card">
+          <h4 class="ocean-name">Satellite Observations<span class="ocean-zh">卫星观测</span></h4>
+          <p class="ocean-text-en">Satellites provide <strong>global, synoptic</strong> measurements of ocean variables inaccessible to in-situ platforms:<br>
+            • <strong>Sea-surface temperature (SST)</strong>: infrared radiometers (e.g., AVHRR, MODIS, VIIRS) and microwave sensors (AMSR2, SMOS) map SST at 1–10 km resolution, daily or more frequently.<br>
+            • <strong>Sea-surface height (SSH)</strong>: radar altimeters (Jason-3, Sentinel-3A) measure relative sea level to ±1 cm precision, revealing geostrophic surface currents from the slope of the sea surface.<br>
+            • <strong>Ocean color</strong>: measuring spectral radiance in visible bands (MODIS, Sentinel-2) yields surface chlorophyll and other biological proxies.<br>
+            • <strong>Wind stress</strong>: scatterometers (ASCAT, RapidScat) retrieve surface wind vectors at 10–25 km resolution.<br>
+            Satellite data are essential for understanding ocean dynamics on scales too small for ships to map — mesoscale eddies, coastal processes, frontal movements.</p>
+          <p class="ocean-text-zh">卫星提供了 <strong>全球、同步</strong> 的测量，弥补了原位平台无法覆盖的变量：<br>
+            • <strong>海表温度（SST）</strong>：红外辐射计（AVHRR、MODIS、VIIRS）和微波传感器（AMSR2、SMOS）以 1–10 km 分辨率、每日多次观测绘制 SST。<br>
+            • <strong>海表高度（SSH）</strong>：雷达测高仪（Jason-3、Sentinel-3A）以 ±1 cm 精度测量相对海平面高度，从海面斜率得到地转表层流。<br>
+            • <strong>海洋水色</strong>：可见波段光谱辐射（MODIS、Sentinel-2）得到表层叶绿素等生物指标。<br>
+            • <strong>风应力</strong>：散射计（ASCAT、RapidScat）以 10–25 km 分辨率反演表层风矢量。<br>
+            卫星数据是理解船舶无法覆盖的海洋动力学尺度（中尺度涡、近岸过程、锋面运动）不可或缺的。</p>
+        </div>
+
+        <div class="ocean-card">
+          <h4 class="ocean-name">Moorings, Drifters &amp; Other Platforms<span class="ocean-zh">系泊、漂流浮标与其他平台</span></h4>
+          <p class="ocean-text-en"><strong>Moorings</strong> are fixed stations that record time series at one location — critical for resolving variability that surveys miss. Typical mooring arrays at 0–5000 m depth carry temperature, conductivity, current meters, and pressure sensors sampling every few minutes to hours, deployed for 1–2 years. The TAO (Tropical Atmosphere Ocean) array, for example, monitors the tropical Pacific for El Niño forecasting.<br>
+            <strong>Surface drifters</strong> (e.g., NOAA's GDP) measure upper-ocean currents using Argos satellite tracking, providing the largest dataset of surface velocity observations.<br>
+            <strong>Gliders</strong> are buoyancy-driven AUVs that dive and surface repeatedly, providing high-resolution sections across ocean fronts or eddies while navigating autonomously for months.<br>
+            <strong>Ice-tethered platforms</strong> collect winter polar measurements that are logistically impossible from ships.</p>
+          <p class="ocean-text-zh"><strong>系泊浮标</strong>是固定站点，在一个地点记录时间序列——对于调查船无法捕捉的时间变率至关重要。典型系泊阵列部署在 0–5000 m 深度，搭载温度、电导率、流速计和压强传感器，采样频率几分钟到几小时，持续 1–2 年。例如 TAO（热带大气海洋）阵列监测热带太平洋，用于厄尔尼诺预报。<br>
+            <strong>表层漂流浮标</strong>（如 NOAA 的 GDP 计划）用 Argos 卫星追踪表层流，提供了最大规模的表层流速观测数据集。<br>
+            <strong>水下滑翔机</strong>是浮力驱动的 AUV，反复下潜和上浮，可在海洋锋面或涡旋区域进行高分辨率剖面测量，自主导航可持续数月。<br>
+            <strong>海冰系泊平台</strong>采集冬季极地观测，这是调查船在后勤上无法覆盖的。</p>
+        </div>
+
+        <div class="ocean-card ocean-card-full">
+          <h4 class="ocean-name">Data Integration &amp; Quality Control<span class="ocean-zh">数据整合与质量控制</span></h4>
+          <p class="ocean-text-en">Oceanographic data are archived and quality-controlled at international data centers that serve the entire community:<br>
+            • <strong>Argo</strong>: real-time T–S profiles at <em>argo.ucsd.edu</em> or via <em>copernicus-marine.eu</em>.<br>
+            • <strong>CLIMAT</strong>: global historical in-situ T–S database maintained at NOAA NCEI, with quality-controlled profile data from ships, Argo, and other platforms dating back to 1850.<br>
+            • <strong>WOD</strong> (World Ocean Database): comprehensive ocean station data, freely available at <em>nodc.noaa.gov/OC5/woa/</em>.<br>
+            • <strong>EN4</strong>, <strong>ISAS</strong>, <strong>ARMOR</strong>: international objective-analysis products that merge Argo, satellite, and ship data into regular gridded fields (1°–1/4° resolution) available as netCDF files. These are the starting point for nearly all descriptive oceanography studies today.<br>
+            All major data products include <strong>quality flags</strong> indicating instrument calibration status, duplicate checks, and outlier rejection — essential information before analysis.</p>
+          <p class="ocean-text-zh">海洋观测数据由国际数据中心存档和质控，服务于整个学界：<br>
+            • <strong>Argo</strong>：实时 T–S 剖面在 <em>argo.ucsd.edu</em> 或 <em>copernicus-marine.eu</em> 获取。<br>
+            • <strong>CLIMAT</strong>：NOAA NCEI 维护的全球历史原位 T–S 数据库，质控后的剖面数据涵盖调查船、Argo 等多种平台，可追溯至 1850 年。<br>
+            • <strong>WOD</strong>（世界海洋数据库）：综合海洋站数据，免费获取于 <em>nodc.noaa.gov/OC5/woa/</em>。<br>
+            • <strong>EN4</strong>、<strong>ISAS</strong>、<strong>ARMOR</strong>：国际客观分析产品，整合 Argo、卫星和调查船数据，生成规则网格场（1°–1/4° 分辨率），以 netCDF 格式提供。这是当今几乎所有描述性海洋学研究的起点。<br>
+            所有主要数据产品都包含 <strong>质量标志</strong>，说明仪器校准状态、重复检查和离群值剔除情况——分析前必须查看的关键信息。</p>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="dyn-card" id="errors-stats">
+      <h3 class="dyn-title">Observational Error &amp; Basic Statistics<span class="dyn-zh-sub">误差与统计基础</span></h3>
+      <p class="dyn-text">Every oceanographic measurement contains error — and without understanding that error, no interpretation of the data is trustworthy. Talley Chapter 6 frames error analysis together with the basic statistics needed to separate signal from noise. The key distinction is between <strong>systematic error</strong> (bias, can be calibrated out) and <strong>random error</strong> (precision, reduced by averaging). On top of that, correlation, regression, and hypothesis testing provide the tools for deciding whether an observed pattern is real or could be a chance fluctuation.</p>
+      <p class="dyn-text">任何海洋观测都包含误差——不理解误差，数据解读就不可信。Talley 第六章把误差分析与区分信号和噪声所需的基础统计放在一起讨论。关键区分是 <strong>系统误差</strong>（偏差，可通过校准扣除）和 <strong>随机误差</strong>（精度，通过平均减小）。在此之上，相关、回归和假设检验提供了判定观测格局是真实还是偶然波动的工具。</p>
+
+      <div class="ocean-grid">
+
+        <div class="ocean-card">
+          <h4 class="ocean-name">Systematic vs. Random Error<span class="ocean-zh">系统误差与随机误差</span></h4>
+          <p class="ocean-text-en">
+            <strong>Systematic error (bias)</strong> shifts all measurements by a constant or predictable amount; it arises from instrument calibration offsets, environmental drift, or sensor fouling. Example: a CTD temperature sensor reading 0.1 °C high across all depths — correctable by applying a linear calibration.<br>
+            <strong>Random error</strong> varies from one measurement to the next following a probability distribution (usually Gaussian). It arises from electronic noise, turbulence, and microscale variability. Example: multiple CTD profiles at the same station differ by a few thousandths of a degree due to natural patchiness of the water column.<br>
+            <strong>Precision</strong> refers to the spread of repeated measurements (low random error); <strong>accuracy</strong> refers to closeness to the true value (low systematic + random error). A good oceanographic instrument is both accurate <em>and</em> precise.
+          </p>
+          <p class="ocean-text-zh">
+            <strong>系统误差（偏差）</strong>把所有测量朝同一方向偏移一个恒定或可预测的量；来源于仪器校准偏移、环境漂移或传感器污染。例子：CTD 温度传感器全程偏高 0.1 °C——可通过线性校准修正。<br>
+            <strong>随机误差</strong>在测量间以概率分布（通常高斯分布）变化。来源于电子噪声、湍流和微尺度变率。例子：同一站位多次 CTD 剖面因水柱自然斑块性差异几千分之一度。<br>
+            <strong>精度（Precision）</strong>指重复测量的离散程度（随机误差低）；<strong>准确度（Accuracy）</strong>指测量值与真值的接近程度（系统+随机误差都低）。好的海洋仪器必须既准确 <em>又</em> 精密。
+          </p>
+        </div>
+
+        <div class="ocean-card">
+          <h4 class="ocean-name">Basic Statistics<span class="ocean-zh">基础统计量</span></h4>
+          <p class="ocean-text-en">Given a sample of <em>N</em> observations <em>x₁, x₂, …, xₙ</em>:<br>
+            • <strong>Mean (average)</strong>: x̄ = (1/N) Σxᵢ — the first moment, measures central tendency.<br>
+            • <strong>Variance</strong>: s² = [1/(N−1)] Σ(xᵢ − x̄)² — the second moment, measures spread (divide by N−1 for an unbiased estimate of population variance).<br>
+            • <strong>Standard deviation</strong>: s = √s² — in the same units as the data.<br>
+            • <strong>Median</strong>: the middle value when sorted; robust to outliers (unlike the mean).<br>
+            • <strong>Standard error of the mean</strong>: SE = s/√N — how much the sample mean is expected to vary from the true mean. <em>This decreases with √N</em>, so averaging more data always improves precision.<br>
+            Oceanographic data almost always have <strong>non-Gaussian tails</strong> due to eddies, fronts, and instrument spikes — always plot a histogram first.</p>
+          <p class="ocean-text-zh">给定 <em>N</em> 个观测样本 <em>x₁, x₂, …, xₙ</em>：<br>
+            • <strong>均值（Mean）</strong>：x̄ = (1/N) Σxᵢ — 一阶矩，衡量中心位置。<br>
+            • <strong>方差（Variance）</strong>：s² = [1/(N−1)] Σ(xᵢ − x̄)² — 二阶矩，衡量离散程度（除以 N−1 是总体方差的无偏估计）。<br>
+            • <strong>标准差（Standard deviation）</strong>：s = √s² — 单位与原数据相同。<br>
+            • <strong>中位数（Median）</strong>：排序后的中间值；比均值抗离群值干扰。<br>
+            • <strong>均值的标准误（SE）</strong>：SE = s/√N — 样本均值偏离真值的期望大小。<em>随 √N 减小</em>，所以平均更多数据总能提高精度。<br>
+            海洋数据几乎总因涡旋、锋面和仪器尖峰而有 <strong>非高斯尾部</strong>——务必先画直方图再分析。</p>
+        </div>
+
+        <div class="ocean-card">
+          <h4 class="ocean-name">Correlation &amp; Regression<span class="ocean-zh">相关与回归</span></h4>
+          <p class="ocean-text-en">
+            The <strong>Pearson correlation coefficient</strong> r quantifies linear co-variation between two variables x and y:<br>
+            &nbsp;&nbsp;r = [Σ(xᵢ − x̄)(yᵢ − ȳ)] / √[Σ(xᵢ − x̄)² Σ(yᵢ − ȳ)²]<br>
+            r ∈ [−1, 1]: +1 perfect positive, −1 perfect negative, 0 no linear relation. In oceanography, r is used to test whether variables co-vary (e.g., SST vs chlorophyll).<br>
+            <strong>Linear regression</strong> fits a line y = ax + b that minimizes the squared vertical deviations of points from the line. The slope a = r·(s<sub>y</sub>/s<sub>x</sub>), the intercept b = ȳ − ax̄. Standard output includes the <strong>coefficient of determination</strong> R² = r², the fraction of variance explained by the fit.<br>
+            <strong>Caveat</strong>: correlation ≠ causation — both variables may be driven by a third (e.g., wind drives both SST mixed-layer depth and chlorophyll).</p>
+          <p class="ocean-text-zh">
+            <strong>Pearson 相关系数</strong> r 量化两个变量 x 和 y 的线性共变：<br>
+            &nbsp;&nbsp;r = [Σ(xᵢ − x̄)(yᵢ − ȳ)] / √[Σ(xᵢ − x̄)² Σ(yᵢ − ȳ)²]<br>
+            r ∈ [−1, 1]：+1 完全正相关，−1 完全负相关，0 无线性关系。海洋学中用来检验变量是否共变（如 SST vs 叶绿素）。<br>
+            <strong>线性回归</strong>拟合 y = ax + b，最小化点到直线的垂直偏差平方和。斜率 a = r·(s<sub>y</sub>/s<sub>x</sub>)，截距 b = ȳ − ax̄。标准输出含 <strong>决定系数</strong> R² = r²，解释拟合的方差占比。<br>
+            <strong>注意</strong>：相关 ≠ 因果——两个变量可能同时由第三方驱动（如风同时驱动混合层深度和叶绿素）。</p>
+        </div>
+
+        <div class="ocean-card">
+          <h4 class="ocean-name">Hypothesis Testing &amp; p-values<span class="ocean-zh">假设检验与 p 值</span></h4>
+          <p class="ocean-text-en">
+            Statistical tests ask: <em>"If there were no real pattern, how surprising is what we observed?"</em><br>
+            • <strong>Null hypothesis H₀</strong>: the pattern is absent (e.g., mean SST anomaly = 0, r = 0).<br>
+            • <strong>Test statistic</strong>: computed from the data (e.g., t-statistic, F-statistic).<br>
+            • <strong>p-value</strong>: probability of observing a test statistic this extreme <em>assuming H₀ is true</em>. Small p → reject H₀.<br>
+            • <strong>Significance level α</strong>: the threshold for rejection, conventionally 0.05 (5%) or 0.01 (1%). If p &lt; α, the result is "statistically significant".<br>
+            <strong>Common test in oceanography</strong>: the <strong>t-test</strong> for comparing two means (e.g., is equatorial SST significantly higher than tropical SST?), or for testing whether a correlation r is significantly different from zero.<br>
+            <strong>Correlation caveat</strong>: with ~30° of freedom, a correlation of r ≈ 0.35 is significant at p = 0.05; with 300° of freedom, r ≈ 0.11 is significant. <strong>Sample size matters enormously</strong> — a huge dataset can find "statistically significant" correlations that are physically meaningless.
+          </p>
+          <p class="ocean-text-zh">
+            统计检验的核心问题：<em>"如果根本没有真实格局，我们观测到的东西有多意外？"</em><br>
+            • <strong>零假设 H₀</strong>：格局不存在（如 SST 异常均值 = 0，r = 0）。<br>
+            • <strong>检验统计量</strong>：从数据计算（如 t 统计量、F 统计量）。<br>
+            • <strong>p 值</strong>：在 H₀ 为真的前提下，观测到这么极端的统计量的概率。p 小 → 拒绝 H₀。<br>
+            • <strong>显著性水平 α</strong>：拒绝阈值，通常取 0.05（5%）或 0.01（1%）。p &lt; α 即"统计显著"。<br>
+            <strong>海洋学常用检验</strong>：比较两个均值的 <strong>t 检验</strong>（如赤道 SST 是否显著高于热带 SST？），或检验相关 r 是否显著异于零。<br>
+            <strong>相关系数的警示</strong>：自由度 ~30 时 r ≈ 0.35 在 p = 0.05 显著；自由度 300 时 r ≈ 0.11 就显著。<strong>样本量影响巨大</strong>——大数据集能找到"统计显著"但物理上毫无意义的相关。</p>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="dyn-card" id="spatial-analysis">
+      <h3 class="dyn-title">Spatial Variability Analysis<span class="dyn-zh-sub">空间变化分析</span></h3>
+      <p class="dyn-text">Describing the ocean's spatial structure — from the global overturning circulation to submesoscale filaments — is the heart of descriptive physical oceanography. Talley Chapter 6.4 introduces the practical tools for turning scattered observations into spatial maps and sections. The central challenges are: uneven sampling (most data comes from shipping lanes), the need to distinguish spatial signal from noise, and the fundamental question of <em>what scale we are interested in</em>, since the ocean has variability at every scale from millimeters to 10,000 km.</p>
+      <p class="dyn-text">描述海洋的空间结构——从全球翻转环流到亚中尺度丝状体——是描述性物理海洋学的核心。Talley 第六章第四节介绍了把零散观测转化为空间地图和剖面的实用工具。核心挑战是：不均匀采样（大部分数据来自航线附近）、区分空间信号与噪声的需要，以及一个根本问题：我们 <em>关心什么尺度</em>，因为海洋从毫米到 10,000 km 每个尺度都有变率。</p>
+
+      <div class="ocean-grid">
+
+        <div class="ocean-card">
+          <h4 class="ocean-name">Maps &amp; Sections<span class="ocean-zh">地图与剖面</span></h4>
+          <p class="ocean-text-en">
+            The two most fundamental descriptive visualizations are the <strong>horizontal map</strong> (spatial field at a fixed depth or averaged over a layer) and the <strong>vertical section</strong> (depth vs. distance along a ship track or transect). A map of sea-surface temperature immediately reveals major currents (Gulf Stream, Kuroshio, ACC) through their sharp horizontal gradients. A vertical section of salinity reveals water-mass origins — e.g., the Mediterranean Water tongue spreading westward at ~1000 m depth in the eastern North Atlantic, or the fresh AAIW tongue centered at 800–1500 m depth across the entire South Pacific.<br>
+            <strong>Key point</strong>: maps and sections are <em>objective products</em> but their interpretability depends entirely on good spatial coverage and quality control. Gappy data maps can mislead.
+          </p>
+          <p class="ocean-text-zh">
+            描述性可视化最基本的两种形式是 <strong>水平地图</strong>（固定深度或某层平均的空间场）和 <strong>垂直剖面</strong>（沿航线或断面的深度 vs 距离）。海表温度地图能立刻从强水平梯度看出主要海流（湾流、黑潮、南极绕极流）。盐度垂直剖面揭示水团来源——例如北大西洋东部 ~1000 m 深度向西扩展的地中海水舌，或横跨整个南太平洋 800–1500 m 的淡 AAIW 舌。<br>
+            <strong>要点</strong>：地图和剖面是 <em>客观产物</em>，但其可解释性完全依赖良好的空间覆盖和质量控制。有缺口的数据地图可能误导。
+          </p>
+        </div>
+
+        <div class="ocean-card">
+          <h4 class="ocean-name">Objective Analysis<span class="ocean-zh">客观分析</span></h4>
+          <p class="ocean-text-en">
+            <strong>Objective analysis (OA)</strong>, also called <em>optimal interpolation</em>, is the standard method for producing gridded fields from irregularly sampled observations. It works by fitting a field to the data using <em>a priori</em> statistical assumptions about the field's correlation structure and noise level — similar to Kriging in geostatistics. OA is used operationally at meteorological and oceanographic centers to produce daily analysis fields that merge Argo floats, satellites, and ship data onto regular 1° or 1/4° grids. The most widely used products (EN4, ISAS, ARMOR, WOA) are all OA outputs. A crucial advantage of OA is that it also provides an <strong>error field</strong> showing where the analysis is less reliable due to data gaps.
+          </p>
+          <p class="ocean-text-zh">
+            <strong>客观分析（OA）</strong>，又称 <em>最优插值</em>，是从不规则观测生成规则网格场的标准方法。它利用 <em>先验</em> 统计假设（场的相关结构和噪声水平）拟合场到数据——类似地统计学中的克里金插值。气象和海洋中心日常用 OA 生成分析场，整合 Argo、卫星和船舶数据到 1° 或 1/4° 规则网格上。最广泛使用的产品（EN4、ISAS、ARMOR、WOA）都是 OA 的输出。OA 的一个关键优势是同时提供 <strong>误差场</strong>，显示哪些区域因数据缺口而可信度较低。
+          </p>
+        </div>
+
+        <div class="ocean-card">
+          <h4 class="ocean-name">Spatial Scales &amp; Variance<span class="ocean-zh">空间尺度与方差</span></h4>
+          <p class="ocean-text-en">
+            How does variance change with spatial scale? The answer is <em>spectrum of variability</em>, obtained by Fourier-transforming a spatial section or map. In the ocean, variance is concentrated in:<br>
+            • <strong>Large scales</strong> (&gt;1000 km): basin-wide gyres, thermocline structure, AABW/NADW pathways — driven by wind and buoyancy forcing.<br>
+            • <strong>Mesoscales</strong> (~10–1000 km): eddies, meandering boundary currents, ocean fronts — generated by baroclinic instability, carrying 80–90% of total kinetic energy in the ocean.<br>
+            • <strong>Submesoscales</strong> (~1–10 km): filaments, density fronts, submesoscale eddies — just beginning to be mapped systematically; important for tracer injection into the thermocline.<br>
+            • <strong>Microscales</strong> (&lt;1 km): turbulence, internal waves, mixing — measured by high-resolution microstructure profilers.<br>
+            <strong>Rule of thumb</strong>: oceanic variance roughly follows a k<sup>−2</sup> power law in wavenumber space.
+          </p>
+          <p class="ocean-text-zh">
+            方差如何随空间尺度变化？答案是 <em>变率谱</em>，通过对空间剖面或地图做傅里叶变换得到。海洋中方量集中在：<br>
+            • <strong>大尺度</strong>（&gt;1000 km）：海盆尺度环流、温跃层结构、AABW/NADW 路径——由风和浮力强迫驱动。<br>
+            • <strong>中尺度</strong>（~10–1000 km）：涡旋、蜿蜒的边界流、海洋锋面——由斜压不稳定产生，占海洋总动能 80–90%。<br>
+            • <strong>亚中尺度</strong>（~1–10 km）：丝状体、密度锋、亚中尺度涡——刚开始被系统测绘；对温跃层的示踪物注入重要。<br>
+            • <strong>微尺度</strong>（&lt;1 km）：湍流、内波、混合——由高分辨率微结构剖面仪测量。<br>
+            <strong>经验法则</strong>：海洋方差在波数空间近似遵循 k<sup>−2</sup> 幂律。
+          </p>
+        </div>
+
+        <div class="ocean-card">
+          <h4 class="ocean-name">T-S Diagrams &amp; Water-Mass Mapping<span class="ocean-zh">T-S 图与水团识别</span></h4>
+          <p class="ocean-text-en">
+            The <strong>temperature–salinity (T-S) diagram</strong> is the primary tool for water-mass identification in physical oceanography. Each water mass occupies a distinct region in θ–S space (using potential temperature to remove pressure compression). When two water masses mix, their T–S values fall on the straight line connecting their end members; three masses produce a triangular region. By overlaying data from a section or map onto a T-S diagram, one can: (1) identify which water masses are present, (2) estimate their mixing ratios, and (3) map their spatial extent. For example, a T-S diagram of the eastern Atlantic reveals Mediterranean Water (S ≈ 35.0–35.2, θ ≈ 7–12 °C) as a characteristic salinity maximum at intermediate depths, clearly separate from the overlying AAIW and underlying NADW.<br>
+            <strong>Neutral surfaces</strong> (surfaces of constant neutral buoyancy, more accurate than isopycnals for ocean interiors) provide the modern extension of T-S analysis.
+          </p>
+          <p class="ocean-text-zh">
+            <strong>温度–盐度（T-S）图</strong>是物理海洋学中水团识别的主要工具。每个水团在 θ–S 空间占据一个独特区域（用位温以消除压强压缩效应）。两个水团混合，产物 T–S 点落在两端点的连线上；三个水团混合形成三角区。通过把剖面或地图的数据叠加到 T-S 图上，可以：(1) 识别存在哪些水团，(2) 估计混合比例，(3) 映射它们的空间范围。例如东大西洋的 T-S 图会显示地中海水（S ≈ 35.0–35.2, θ ≈ 7–12 °C）在中层深度的典型盐度极大值，清楚地区别于上方的 AAIW 和下方的 NADW。<br>
+            <strong>中性面</strong>（中性浮力面，比等密度面在海洋内部更准确）是 T-S 分析的现代延伸。
+          </p>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="dyn-card" id="temporal-analysis">
+      <h3 class="dyn-title">Temporal Variability Analysis<span class="dyn-zh-sub">时间变化分析</span></h3>
+      <p class="dyn-text">Time changes in the ocean range from seconds (waves, turbulence) to centuries (climate drift) and even millennia (glacial cycles). A core task in descriptive oceanography is quantifying this variability and its drivers. The tools range from simple time-mean plus anomaly decomposition to sophisticated spectral and wavelet analysis that reveals how variability changes with time scale. The same principle as spatial analysis applies: <strong>what scale are we interested in?</strong> An ENSO event at interannual scale, a Gulf Stream meander at monthly scale, and an internal wave at hourly scale are completely different phenomena requiring different observational strategies and analytical methods.</p>
+      <p class="dyn-text">海洋的时间变化从秒级（波、湍流）到世纪级（气候漂移）甚至千年（冰期旋回）。描述性物理海洋学的核心任务之一是量化这些变率及其驱动因子。工具从简单的"时间平均 + 异常值"分解，到揭示变率如何随时间尺度变化的谱与小波分析。与空间分析同理：<strong>我们关心什么尺度？</strong>年际尺度的 ENSO 事件、月尺度的湾流蜿蜒、小时尺度的内波是完全不同的现象，需要不同的观测策略和分析方法。</p>
+
+      <div class="ocean-grid">
+
+        <div class="ocean-card">
+          <h4 class="ocean-name">Time-Mean &amp; Anomaly<span class="ocean-zh">时间平均与异常值</span></h4>
+          <p class="ocean-text-en">
+            The simplest and most common decomposition of an oceanographic time series x(t) is:<br>
+            &nbsp;&nbsp;<em>x(t) = x̄ + x'(t)</em><br>
+            where x̄ is the <strong>time mean</strong> and x'(t) is the <strong>anomaly</strong> (deviation from the mean). The time mean removes the "background" circulation and reveals the transient phenomena — eddies, meanders, ENSO events, seasonal cycles — that are the object of most research. For spatial fields, the equivalent decomposition is <strong>climatology</strong> (time mean, typically over many years) + <strong>anomaly field</strong>. WOA (World Ocean Atlas) and EN4 both provide monthly climatologies and real-time anomalies.<br>
+            <strong>Caveat</strong>: the choice of averaging period matters. An ENSO event lasts ~2–7 years; if your climatology is only 10 years long, the anomaly during a strong El Niño will be underestimated.
+          </p>
+          <p class="ocean-text-zh">
+            海洋时间序列 x(t) 最简单最常用的分解：<br>
+            &nbsp;&nbsp;<em>x(t) = x̄ + x'(t)</em><br>
+            其中 x̄ 是 <strong>时间平均</strong>，x'(t) 是 <strong>异常值</strong>（偏离均值）。时间平均去除"背景"环流，揭示瞬变现象——涡旋、蜿蜒、ENSO 事件、季节循环——这是大多数研究的对象。空间场的等价分解是 <strong>气候态</strong>（时间平均，通常多年）+ <strong>异常场</strong>。WOA（世界海洋图集）和 EN4 都提供月气候态和实时异常。<br>
+            <strong>注意</strong>：平均期的选择很重要。ENSO 事件持续 ~2–7 年；如果气候态只有 10 年，强厄尔尼诺期间的异常会被低估。
+          </p>
+        </div>
+
+        <div class="ocean-card">
+          <h4 class="ocean-name">Seasonal Cycle &amp; Interannual Variability<span class="ocean-zh">季节循环与年际变率</span></h4>
+          <p class="ocean-text-en">
+            Two dominant time scales of ocean variability are <strong>seasonal</strong> (~1 year) and <strong>interannual</strong> (~2–10 years):<br>
+            • <strong>Seasonal</strong> heating and cooling drive the formation and erosion of the seasonal thermocline and pycnocline. In midlatitudes the mixed layer varies from ~50 m in summer to ~500 m in winter, and surface temperature varies by 5–15 °C. These changes are <strong>repeating every year</strong> and are well captured by monthly climatologies.<br>
+            • <strong>Interannual</strong> variability is not phase-locked to the calendar; it arises from internal ocean-atmosphere coupling. The dominant mode is <strong>ENSO</strong> (El Niño–Southern Oscillation), with warm El Niño events and cold La Niña events affecting global weather and ocean temperature/salinity for 9–18 months. ENSO is quantified by the Niño 3.4 index (SST anomaly in 120°W–170°W, 5°N–5°S). <strong>PDO</strong> (Pacific Decadal Oscillation, ~20–30 year cycle) and <strong>NAO</strong> (North Atlantic Oscillation, ~10 year cycle) are other major low-frequency modes.
+          </p>
+          <p class="ocean-text-zh">
+            海洋变率的两个主导时间尺度是 <strong>季节</strong>（~1 年）和 <strong>年际</strong>（~2–10 年）：<br>
+            • <strong>季节</strong>冷暖驱动季节性温跃层和密跃层的形成与侵蚀。中纬度混合层夏季 ~50 m、冬季 ~500 m，海表温度年变幅 5–15 °C。这些变化 <strong>年年重复</strong>，被月气候态很好地捕捉。<br>
+            • <strong>年际</strong>变率不与日历相位锁定；来自海气内部耦合。主导模态是 <strong>ENSO</strong>（厄尔尼诺–南方涛动），暖的厄尔尼诺和冷的拉尼娜事件影响全球天气和海洋温盐达 9–18 个月。ENSO 用 Niño 3.4 指数（120°W–170°W, 5°N–5°S 的 SST 异常）量化。<strong>PDO</strong>（太平洋年代际振荡，~20–30 年周期）和 <strong>NAO</strong>（北大西洋振荡，~10 年周期）是其他主要低频模态。
+          </p>
+        </div>
+
+        <div class="ocean-card">
+          <h4 class="ocean-name">Spectral &amp; Wavelet Analysis<span class="ocean-zh">谱与小波分析</span></h4>
+          <p class="ocean-text-en">
+            Just as Fourier transforms reveal spatial scales, they reveal <strong>temporal scales</strong> in a time series. The <strong>power spectrum</strong> shows how variance is distributed across frequencies f (period T = 1/f). Oceanic spectra typically follow a <em>red</em> (low-frequency dominated) structure: most variance is at low frequencies (long periods). Specific peaks indicate dominant phenomena — e.g., a peak at f = 1 cycle/year marks the seasonal cycle, a broad peak near 0.2–0.5 cycle/year marks ENSO, and a peak near 1/12 cycle/year marks decadal variability.<br>
+            <strong>Wavelet analysis</strong> extends Fourier analysis by allowing the spectrum to vary with <em>time</em> — essential for non-stationary signals where the dominant periods change over time. Wavelet plots (time on x-axis, period on y-axis, power as color) are now standard for analyzing oceanographic time series.
+          </p>
+          <p class="ocean-text-zh">
+            正如傅里叶变换揭示空间尺度，它也揭示时间序列的 <strong>时间尺度</strong>。<strong>功率谱</strong>显示方差如何在频率 f（周期 T = 1/f）上分布。海洋谱通常是 <em>红谱</em>（低频主导）：大部分方差在低频（长周期）。特定峰值指示主导现象——如 f = 1 次/年的峰标志季节循环，0.2–0.5 次/年附近的宽峰标志 ENSO，1/12 次/年的峰标志年代际变率。<br>
+            <strong>小波分析</strong>扩展了傅里叶分析，允许谱随 <em>时间</em> 变化——对主导周期随时间变化的非平稳信号至关重要。小波图（横轴时间、纵轴周期、颜色表示功率）现在是分析海洋时间序列的标准工具。
+          </p>
+        </div>
+
+        <div class="ocean-card">
+          <h4 class="ocean-name">Trends &amp; Climate Change<span class="ocean-zh">趋势与气候变化</span></h4>
+          <p class="ocean-text-en">
+            Separating <strong>long-term trends</strong> from internal variability is one of the greatest challenges in physical oceanography today. Anthropogenic global warming has raised global mean ocean surface temperature by ~0.9 °C since 1880, with ~93% of the excess heat absorbed by the ocean (IPCC AR6). The deep ocean has warmed more slowly but is now measurably warming down to 2000 m and below.<br>
+            <strong>Methodology</strong>: trends are estimated by linear regression x(t) = a + b·t, with uncertainty quantified using autocorrelation-aware significance tests (standard p-values underestimate significance because ocean data are serially correlated). Robust detection of trends requires datasets long enough to span several decades of internal variability (ENSO, PDO, NAO) — at least 40–50 years of continuous data.<br>
+            <strong>Key findings</strong>: AMOC has weakened by ~15–20% since the 1950s; global mean salinity has increased in subtropics and decreased in tropics/poles (hydrological cycle intensification); sea level has risen at ~3.3 mm/year since 1993, accelerating.
+          </p>
+          <p class="ocean-text-zh">
+            把 <strong>长期趋势</strong> 与内部变率区分开，是当今物理海洋学最大的挑战之一。人为全球变暖已使全球平均海表温度自 1880 年以来升高约 0.9 °C，约 93% 的多余热量被海洋吸收（IPCC AR6）。深海升温较慢，但现在已能测量到 2000 m 及以下的升温。<br>
+            <strong>方法</strong>：趋势通过线性回归 x(t) = a + b·t 估计，不确定性用考虑自相关的显著性检验量化（标准 p 值会低估显著性，因为海洋数据序列自相关）。可靠检测趋势需要足够长的数据集跨越几十年的内部变率（ENSO、PDO、NAO）——至少 40–50 年连续数据。<br>
+            <strong>关键发现</strong>：AMOC 自 1950 年代以来减弱约 15–20%；全球平均盐度副热带升高、热带/极地降低（水文循环加剧）；1993 年以来海平面以 ~3.3 mm/年上升，且在加速。
+          </p>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="dyn-card" id="eof">
+      <h3 class="dyn-title">Empirical Orthogonal Functions (EOF)<span class="dyn-zh-sub">经验正交分解</span></h3>
+      <p class="dyn-text">Oceanic fields such as SST, SSH, and temperature have high dimensionality — thousands of grid points in space, hundreds of time steps. Most of this variability, however, can be described by a handful of coherent spatial patterns that evolve in time. <strong>Empirical Orthogonal Function (EOF) analysis</strong> — also known as <strong>Principal Component Analysis (PCA)</strong> — is the workhorse technique that extracts these dominant modes of variability from data. Invented by Pearson (1901) and introduced to oceanography by Lorenz (1956) to study atmospheric flow, EOF is now used in virtually every subfield of physical oceanography to compress, visualize, and quantify spatial-temporal data.</p>
+      <p class="dyn-text">SST、SSH、温度等海洋场具有高维性——空间上千个格点、时间上数百个时次。然而这些变率大部分可以由少数几个随时间演化的连贯空间型来描述。<strong>经验正交分解（EOF）</strong>，又称 <strong>主成分分析（PCA）</strong>，就是从数据中提取主导变率模态的主力技术。由 Pearson（1901）发明，Lorenz（1956）引入大气科学，现在物理海洋学几乎每个子领域都用 EOF 来压缩、可视化和量化时空数据。</p>
+
+      <div class="ocean-grid" style="grid-template-columns:1fr;">
+
+        <div class="ocean-card">
+          <h4 class="ocean-name">Mathematical Definition<span class="ocean-zh">数学定义</span></h4>
+          <p class="ocean-text-en">
+            Given an anomaly field <strong>X</strong> of size <em>M × N</em> (M grid points, N time steps), EOF seeks to decompose it into a sum of spatial patterns (EOFs) and their corresponding time coefficients (PCs):<br>
+            <strong>X(s, t) = Σₖ EOFₖ(s) · PCₖ(t)</strong><br>
+            where EOFₖ(s) is the <em>k</em>-th spatial pattern (normalized to unit variance) and PCₖ(t) is its time amplitude. The decomposition is obtained by solving the <strong>eigenvalue problem</strong> of the covariance matrix <strong>C</strong> = <strong>X</strong><sup>T</sup><strong>X</sup>:<br>
+            <strong>C</strong> <strong>v</strong>ₖ = λₖ <strong>v</strong>ₖ<br>
+            The eigenvalues λₖ give the <strong>variance explained</strong> by each mode: the first mode explains λ₁ / Σλᵢ of the total variance, the second mode explains λ₂ / Σλᵢ, and so on. The EOF patterns are the eigenvectors <strong>v</strong>ₖ, and the PCs are <strong>Xv</strong>ₖ. Modes are ordered by decreasing λₖ, so EOF₁ is always the most important.
+          </p>
+          <p class="ocean-text-zh">
+            给定一个 <em>M × N</em> 的异常场 <strong>X</strong>（M 个格点，N 个时次），EOF 把它分解为空间型（EOF）和对应时间系数（PC）的叠加：<br>
+            <strong>X(s, t) = Σₖ EOFₖ(s) · PCₖ(t)</strong><br>
+            其中 EOFₖ(s) 是第 <em>k</em> 个空间型（归一化到单位方差），PCₖ(t) 是它的时间振幅。分解通过求解协方差矩阵 <strong>C</strong> = <strong>X</strong><sup>T</sup><strong>X</sup> 的 <strong>特征值问题</strong> 得到：<br>
+            <strong>C</strong> <strong>v</strong>ₖ = λₖ <strong>v</strong>ₖ<br>
+            特征值 λₖ 给出每个模态解释的 <strong>方差占比</strong>：第一模态解释 λ₁ / Σλᵢ 的总方差，第二模态解释 λ₂ / Σλᵢ，以此类推。EOF 型就是特征向量 <strong>v</strong>ₖ，PC 则是 <strong>Xv</strong>ₖ。模态按 λₖ 从大到小排列，所以 EOF₁ 总是最重要的。
+          </p>
+        </div>
+
+        <div class="ocean-card">
+          <h4 class="ocean-name">Geometric Interpretation &amp; How to Choose Modes<span class="ocean-zh">几何意义与模态选取</span></h4>
+          <p class="ocean-text-en">
+            EOF is geometrically equivalent to <strong>projecting the data onto the axes of maximum variance</strong>. EOF₁ points in the direction of greatest data spread; EOF₂ is orthogonal to EOF₁ and in the next greatest direction; and so on. In this sense EOF rotates the coordinate system to align with the dominant structures in the data.<br>
+            <strong>How many modes to keep?</strong> Several heuristics are used:<br>
+            • <strong>Scree plot</strong>: plot λₖ vs. k and look for an "elbow" where eigenvalues drop sharply then flatten — modes beyond this point are likely noise.<br>
+            • <strong>Explained variance threshold</strong>: keep enough modes to explain 70–90% of total variance (in oceanography often 3–5 modes suffice for major phenomena).<br>
+            • <strong>North test</strong>: the only rigorous approach — eigenvalues are distinguishable only if λₖ − λₖ₊₁ &gt; λₖ · √(2/N), where N is the number of time steps.<br>
+            A common mistake: keeping too many modes and over-interpreting noise as physical features.
+          </p>
+          <p class="ocean-text-zh">
+            EOF 在几何上等价于 <strong>把数据投影到方差最大的方向</strong>。EOF₁ 指向数据离散度最大的方向；EOF₂ 与 EOF₁ 正交，且离散度次之；依此类推。所以 EOF 实际上把坐标系旋转，使其对齐数据中的主导结构。<br>
+            <strong>保留多少模态？</strong> 有几种经验法则：<br>
+            • <strong>碎石图（Scree plot）</strong>：画 λₖ 对 k，找"肘部"——特征值急剧下降然后变平，之后的模态可能是噪声。<br>
+            • <strong>解释方差阈值</strong>：保留足够模态以解释总方差的 70–90%（海洋学中往往 3–5 个模态就够覆盖主要现象）。<br>
+            • <strong>North 准则</strong>：最严谨的方法——只有当 λₖ − λₖ₊₁ &gt; λₖ · √(2/N) 时，特征值才是可区分的，N 是时间步长数。<br>
+            常见错误：保留过多模态，把噪声过度解释为物理特征。
+          </p>
+        </div>
+
+        <div class="ocean-card">
+          <h4 class="ocean-name">Classic Oceanographic Applications<span class="ocean-zh">海洋学经典应用</span></h4>
+          <p class="ocean-text-en">
+            EOF is ubiquitous in physical oceanography. Some canonical examples:<br>
+            • <strong>Tropical Pacific SST EOF</strong>: EOF₁ ≈ El Niño pattern (warm east, cool west) with PC₁ = Niño 3.4 time series; EOF₂ ≈ La Niña / central-Pacific El Niño.<br>
+            • <strong>Southern Ocean SLP EOF</strong>: EOF₁ ≈ <strong>SAM</strong> (Southern Annular Mode, the dominant mode of Southern Hemisphere climate variability).<br>
+            • <strong>North Atlantic SST EOF</strong>: EOF₁ ≈ annual cycle; EOF₂ ≈ AMO (Atlantic Multidecadal Oscillation, ~60 year period).<br>
+            • <strong>Global SSH EOF</strong>: EOF₁ ≈ global mean sea-level rise trend; higher modes reveal basin-scale circulation anomalies.<br>
+            • <strong>Argo T/S profile EOF</strong>: compress thousands of profiles into a few modes capturing water-mass shifts and property changes with depth.
+          </p>
+          <p class="ocean-text-zh">
+            EOF 在物理海洋学中无处不在。一些经典例子：<br>
+            • <strong>热带太平洋 SST EOF</strong>：EOF₁ ≈ 厄尔尼诺型（东暖西冷），PC₁ 就是 Niño 3.4 时间序列；EOF₂ ≈ 拉尼娜 / 中太平洋厄尔尼诺。<br>
+            • <strong>南大洋海平面气压 EOF</strong>：EOF₁ ≈ <strong>SAM</strong>（南半球环状模态，南半球气候变率的主导模态）。<br>
+            • <strong>北大西洋 SST EOF</strong>：EOF₁ ≈ 年循环；EOF₂ ≈ AMO（大西洋年代际振荡，~60 年周期）。<br>
+            • <strong>全球 SSH EOF</strong>：EOF₁ ≈ 全球平均海平面上升趋势；更高模态揭示海盆尺度环流异常。<br>
+            • <strong>Argo T/S 剖面 EOF</strong>：把数千条剖面压缩成几个模态，捕捉水团移动和深度上的性质变化。
+          </p>
+        </div>
+
+        <div class="ocean-card">
+          <h4 class="ocean-name">Extensions &amp; Caveats<span class="ocean-zh">扩展与注意事项</span></h4>
+          <p class="ocean-text-en">
+            <strong>Variants</strong>:<br>
+            • <strong>Rotated EOF (REOF)</strong>: applies a spatial rotation to EOFs to produce more <em>localized</em>, physically interpretable patterns at the cost of losing orthogonality. Often preferred in climate studies.<br>
+            • <strong>Complex EOF</strong>: for data with propagating signals (e.g., Rossby waves, Kelvin waves), uses Hilbert transform to capture phase information.<br>
+            • <strong>Extended EOF / CCA</strong>: cross-covariance between two fields (e.g., SST and surface wind) to identify coupled modes like ENSO.<br>
+            • <strong>Multivariate EOF (MEOF)</strong>: combines multiple variables (T, S, SSH, chlorophyll) into a single decomposition.<br>
+            <strong>Caveats</strong>: EOFs are <em>statistical</em> modes, not necessarily <em>dynamical</em> modes. A single EOF can mix several physical processes, and the same physical process can split across multiple EOFs. Always pair EOF analysis with dynamical reasoning.
+          </p>
+          <p class="ocean-text-zh">
+            <strong>变体</strong>：<br>
+            • <strong>旋转 EOF（REOF）</strong>：对 EOF 做空间旋转，得到更 <em>局地化</em>、物理上更可解释的型态，但牺牲了正交性。气候研究中常首选。<br>
+            • <strong>复数 EOF</strong>：对有传播信号的数据（如 Rossby 波、Kelvin 波）用 Hilbert 变换捕捉相位信息。<br>
+            • <strong>扩展 EOF / CCA</strong>：两个场之间（如 SST 和表层风）的交叉协方差，识别 ENSO 等耦合模态。<br>
+            • <strong>多变量 EOF（MEOF）</strong>：把多个变量（T、S、SSH、叶绿素）合并到一次分解中。<br>
+            <strong>注意事项</strong>：EOF 是 <em>统计</em> 模态，不一定是 <em>动力</em> 模态。单个 EOF 可能混合多个物理过程，同一物理过程也可能分裂到多个 EOF 里。始终要把 EOF 分析与动力推理想结合。
+          </p>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <div class="container" style="text-align:center;margin-top:16px;">
     <a class="back-top" href="#top">↑ 返回教材</a>
   </div>
 </section>
@@ -1419,6 +2600,9 @@
         <li><a href="#geostrophic">Geostrophic Current<span class="zh">地转流</span></a></li>
         <li><a href="#ekman-spiral">Ekman Spiral<span class="zh">艾克曼螺旋</span></a></li>
         <li><a href="#ekman-pumping">Ekman Pumping<span class="zh">艾克曼抽吸</span></a></li>
+        <li><a href="#kelvin-wave">Kelvin Wave<span class="zh">开尔文波</span></a></li>
+        <li><a href="#rossby-wave">Rossby Wave<span class="zh">罗斯贝波</span></a></li>
+        <li><a href="#svdrup">Sverdrup Balance<span class="zh">斯维尔德鲁普平衡</span></a></li>
         <li><a href="#pv">Potential Vorticity Conservation<span class="zh">位涡守恒</span></a></li>
       </ul>
     </div>
@@ -1465,6 +2649,39 @@
       </div>
     </div>
 
+    <div class="dyn-card" id="kelvin-wave">
+      <h3 class="dyn-title">Kelvin Wave<span class="dyn-zh-sub">开尔文波</span></h3>
+      <p class="dyn-text">A Kelvin wave is a coastal or equatorially trapped wave in which the Coriolis force balances the pressure gradient force associated with wave-induced sea-level variations. It travels along coastlines with the coast on its right in the Northern Hemisphere and on its left in the Southern Hemisphere. Equatorial Kelvin waves propagate eastward along the equator where the Coriolis parameter vanishes, and are a key mechanism for transmitting El Niño signals across the Pacific basin.</p>
+      <p class="dyn-text">开尔文波是一种沿岸或赤道俘获的波，科里奥利力与波引起的海平面变化所对应的压强梯度力相平衡。它沿岸线传播，北半球岸在波的右侧、南半球岸在左侧。赤道开尔文波沿科里奥利力为零的赤道向东传播，是把厄尔尼诺信号跨太平洋海盆传送的关键机制。</p>
+      <div class="dyn-formula">
+        <div><span class="f-label">相速度：</span><i>c</i> = √(<i>gH</i>)　<span class="f-label">（浅水近似，约 1–3 m/s 于温跃层）</span></div>
+        <div><span class="f-label">Rossby 变形半径：</span><i>L</i><sub>R</sub> = <i>c</i>/|<i>f</i>|　<span class="f-label">（波幅在此尺度上从极大值 e 倍衰减）</span></div>
+        <div><span class="f-label">周期：</span>赤道 Kelvin 波 20–60 天，可横跨太平洋（~12,000 km）</div>
+      </div>
+    </div>
+
+    <div class="dyn-card" id="rossby-wave">
+      <h3 class="dyn-title">Rossby Wave<span class="dyn-zh-sub">罗斯贝波</span></h3>
+      <p class="dyn-text">Rossby waves (also called planetary waves) are large-scale oscillations resulting from the variation of the Coriolis parameter with latitude (the β-effect). A water column displaced northward acquires negative relative vorticity to conserve absolute vorticity, and is thereby forced to oscillate — the quintessential manifestation of potential vorticity conservation. They propagate westward relative to the mean flow, with phase speeds of a few cm/s, making them the slowest waves in the ocean. Rossby waves are responsible for the "spin-up" time of ocean basins (~decades) and for transmitting climate signals poleward and westward.</p>
+      <p class="dyn-text">罗斯贝波（又称行星波）是由科里奥利力随纬度变化（β 效应）产生的大尺度振荡。一个被北移的水柱为维持绝对涡度守恒，必须产生负的相对涡度，从而被迫振荡——这正是位涡守恒的典型表现。罗斯贝波相对于平均流向西传播，相速约数厘米每秒，是海洋中最慢的波。它决定了海盆的"自旋"时间尺度（~几十年），并把气候信号向极地方向和西向传递。</p>
+      <div class="dyn-formula">
+        <div><span class="f-label">β 参数：</span>β = d<i>f</i>/d<i>y</i> = 2Ω cos<i>φ</i>/<i>a</i></div>
+        <div><span class="f-label">相速度（长波极限）：</span><i>c</i><sub>x</sub> = −β/<i>k</i>²　<span class="f-label">（严格向西）</span></div>
+        <div><span class="f-label">群速度：</span><i>c</i><sub>g,x</sub> = +β/<i>k</i>²　<span class="f-label">（能量向东传播，相速向西）</span></div>
+      </div>
+    </div>
+
+    <div class="dyn-card" id="svdrup">
+      <h3 class="dyn-title">Sverdrup Balance<span class="dyn-zh-sub">斯维尔德鲁普平衡</span></h3>
+      <p class="dyn-text">The Sverdrup balance is the fundamental theoretical framework for understanding wind-driven ocean circulation. It relates the meridional (north-south) geostrophic transport in the ocean interior directly to the wind stress curl via the Coriolis parameter. The balance arises from three ingredients: (1) the geostrophic equilibrium between pressure gradient and Coriolis force, (2) mass conservation (continuity), and (3) the assumption that interior flow is geostrophic while Ekman transports are confined to a thin surface layer. The Sverdrup balance has two key corollaries: (a) the interior circulation is <em>determined entirely by wind stress curl</em>, and (b) a western boundary current is required to return the mass transport closed — explaining both the subtropical anticyclonic gyres and the western boundary intensification (Gulf Stream, Kuroshio).</p>
+      <p class="dyn-text">斯维尔德鲁普平衡是理解风生大洋环流的基础理论框架。它把海洋内部经向地转输送直接通过科里奥利参数与风应力旋度联系起来。平衡来自三个要素：(1) 压强梯度力与科里奥利力的地转平衡，(2) 质量守恒（连续方程），(3) 内部流动地转而艾克曼输运限于表层薄水层的假设。斯维尔德鲁普平衡有两个关键推论：(a) 内部环流 <em>完全由风应力旋度决定</em>，(b) 需要一支西边界流把质量输送闭合回来——同时解释了副热带反气旋式环流和西边界强化（湾流、黑潮）。</p>
+      <div class="dyn-formula">
+        <div><span class="f-label">经向地转输运：</span><i>M</i><sub>y</sub> = (1/ρ<sub>o</sub><i>f</i>) curl<sub>z</sub>(τ) = τ<sup>curl</sup>/(ρ<sub>o</sub><i>f</i>)</div>
+        <div><span class="f-label">艾克曼抽吸形式：</span><i>w</i><sub>E</sub> = (1/ρ<sub>o</sub>) curl<sub>z</sub>(τ/<i>f</i>) ≈ τ<sup>curl</sup>/(ρ<sub>o</sub><i>f</i>)　<span class="f-label">（<i>f</i> 变化忽略时两式等价）</span></div>
+        <div><span class="f-label">纬向积分：</span>Ψ(<i>y</i>) = ∫<sub>y</sub><sup>y</sup><sub>eq</sub> <i>M</i><sub>y</sub>(<i>y</i>') d<i>y</i>'　<span class="f-label">（从赤道积分到纬度 <i>y</i>）</span></div>
+      </div>
+    </div>
+
     <div class="dyn-card" id="pv">
       <h3 class="dyn-title">Potential Vorticity Conservation<span class="dyn-zh-sub">位涡守恒</span></h3>
       <p class="dyn-text">Potential vorticity conservation is one of the most important dynamical principles in rotating stratified fluids, combining absolute vorticity with fluid column thickness (or stratification). Under frictionless and adiabatic conditions, potential vorticity is conserved following fluid motion. The physical essence of PV conservation is the conservation of angular momentum. It explains important phenomena such as Rossby waves, western boundary intensification, Ekman pumping, and mesoscale eddies, and serves as the core foundation of wind-driven and thermohaline circulation theories.</p>
@@ -1484,6 +2701,87 @@
   <div class="container">
     <h2 class="section-title">Lecture 8: Gravity Waves, Tides, and Coastal Oceanography</h2>
     <p class="section-desc">第八讲 重力波、潮汐与近岸海洋学</p>
+
+    <div class="mini-toc">
+      <div class="mini-toc-title">本讲内容</div>
+      <ul>
+        <li><a href="#waves-concept">Concept of Waves<span class="zh">波的概念</span></a></li>
+        <li><a href="#dispersive">Dispersive vs. Non-Dispersive Waves<span class="zh">频散波与非频散波</span></a></li>
+        <li><a href="#gravity-wave">Gravity Waves<span class="zh">重力波</span></a></li>
+        <li><a href="#internal-solitary">Internal Solitary Waves<span class="zh">内孤立波</span></a></li>
+        <li><a href="#topographic-rossby">Topographic Rossby Waves<span class="zh">地形罗斯贝波</span></a></li>
+      </ul>
+    </div>
+
+    <div class="dyn-card" id="waves-concept">
+      <h3 class="dyn-title">Concept of Waves<span class="dyn-zh-sub">波的概念</span></h3>
+      <p class="dyn-text">A wave is the propagation of <em>energy</em> through a medium while the medium itself oscillates but does not undergo net displacement. In the ocean, waves arise from restoring forces that return displaced water parcels to their equilibrium position. Every wave can be described by a few fundamental quantities: <strong>amplitude</strong> <em>A</em> (half the vertical excursion), <strong>wavelength</strong> λ (distance between two consecutive crests), <strong>period</strong> <em>T</em> (time between successive crests), and <strong>frequency</strong> ω = 2π/<em>T</em> (angular frequency). The ratio of wavelength to period gives the <strong>phase speed</strong> <em>c</em> = λ/<em>T</em> = ω/<em>k</em>, where <em>k</em> = 2π/λ is the wavenumber. In a packet of waves, energy propagates not with the phase speed but with the <strong>group speed</strong> <em>c</em><sub>g</sub> = ∂ω/∂<em>k</em>.</p>
+      <p class="dyn-text">波是 <em>能量</em> 通过介质的传播，介质本身只是振荡而不做净位移。海洋中的波源于恢复力，它使被扰动的水团回到平衡位置。每个波可用几个基本量描述：<strong>振幅</strong> <em>A</em>（垂向起伏的一半）、<strong>波长</strong> λ（两相邻波峰的距离）、<strong>周期</strong> <em>T</em>（相邻波峰经过的时间）、<strong>频率</strong> ω = 2π/<em>T</em>（角频率）。波长与周期之比给出 <strong>相速度</strong> <em>c</em> = λ/<em>T</em> = ω/<em>k</em>，其中 <em>k</em> = 2π/λ 是波数。在一个波包中，能量不是随相速传播，而是随 <strong>群速度</strong> <em>c</em><sub>g</sub> = ∂ω/∂<em>k</em> 传播。</p>
+      <div class="dyn-formula">
+        <div><span class="f-label">相速度：</span><i>c</i> = ω/<i>k</i> = λ/<i>T</i></div>
+        <div><span class="f-label">群速度：</span><i>c</i><sub>g</sub> = ∂ω/∂<i>k</i></div>
+        <div><span class="f-label">波能：</span><i>E</i> = ½ρ<sub>o</sub><i>gA</i>²　<span class="f-label">（单位面积平均势能 = 动能）</span></div>
+      </div>
+    </div>
+
+    <div class="dyn-card" id="dispersive">
+      <h3 class="dyn-title">Dispersive vs. Non-Dispersive Waves<span class="dyn-zh-sub">频散波与非频散波</span></h3>
+      <p class="dyn-text">A wave is called <strong>dispersive</strong> when its phase speed depends on wavelength. Short waves travel at different speeds than long waves, so an initial wave packet "spreads out" as it propagates — the longer wavelengths move faster and the shorter ones fall behind. Energy therefore travels at the group speed, which differs from the phase speed. This is why satellite altimeter tracks of ocean eddies show irregular, spreading patterns rather than clean, round shapes.<br>
+      <strong>Non-dispersive</strong> waves have phase speeds independent of wavelength. All waves in a packet travel at the same speed, so the packet shape is preserved and group speed equals phase speed. The classic example is a shallow-water surface wave where <em>c</em> = √(<em>gH</em>) depends only on depth <em>H</em>, not on wavelength.</p>
+      <p class="dyn-text">当波的相速度依赖于波长时，这种波称为 <strong>频散波</strong>。短波和长波速度不同，因此初始波包在传播过程中会"散开"——长波更快，短波落后。能量因此以群速传播，群速与相速不同。这就是为什么卫星测高仪追踪海洋涡旋时看到的是不规则、散开的型态，而不是干净的圆形。<br>
+      <strong>非频散波</strong>的相速与波长无关，波包中所有波以相同速度传播，波包形状保持不变，群速等于相速。典型例子是浅水波，其 <em>c</em> = √(<em>gH</em>) 只依赖水深 <em>H</em>，与波长无关。</p>
+      <div class="dyn-formula">
+        <div><span class="f-label">频散关系：</span>ω = ω(<i>k</i>)　<span class="f-label">（若 ω ∝ <i>k</i> 则非频散）</span></div>
+        <div><span class="f-label">频散波群速：</span><i>c</i><sub>g</sub> ≠ <i>c</i>　<span class="f-label">（能量以 <i>c</i><sub>g</sub> 传播）</span></div>
+        <div><span class="f-label">非频散波：</span><i>c</i><sub>g</sub> = <i>c</i>　<span class="f-label">（波包形状保持）</span></div>
+      </div>
+    </div>
+
+    <div class="dyn-card" id="gravity-wave">
+      <h3 class="dyn-title">Gravity Waves<span class="dyn-zh-sub">重力波</span></h3>
+      <p class="dyn-text">Gravity waves are waves whose restoring force is <strong>gravity</strong> (for surface waves) or <strong>buoyancy</strong> (for internal waves). They are the most ubiquitous wave type in the ocean, appearing at the sea surface, at internal density interfaces, and as planetary-scale free oscillations. Three key regimes are distinguished by wavelength λ relative to the water depth <em>H</em>:<br>
+      • <strong>Deep-water waves</strong> (λ ≪ <em>H</em>): phase speed depends on wavelength, c = √(gλ/2π); strongly dispersive; most wind-driven open-ocean surface waves.<br>
+      • <strong>Shallow-water waves</strong> (λ ≫ <em>H</em>): phase speed depends only on depth, c = √(<em>gH</em>); non-dispersive; tsunamis, tides, and long-period swell.<br>
+      • <strong>Intermediate waves</strong>: both gravity and depth influence the phase speed.<br>
+      For internal gravity waves in a stratified ocean, the restoring force is the buoyancy frequency <em>N</em>, and they propagate only when frequency ω < <em>N</em> (subinertial) and ω > <em>f</em> (superinertial), with phase speed <em>c</em><sub>i</sub> = <em>N</em>/<em>k</em>.</p>
+      <p class="dyn-text">重力波是恢复力为 <strong>重力</strong>（表面波）或 <strong>浮力</strong>（内波）的波。它是海洋中最普遍的波型，出现在海表、内部密度界面和行星尺度自由振荡。按波长 λ 与水深 <em>H</em> 的相对关系分三个区：<br>
+      • <strong>深水波</strong>（λ ≪ <em>H</em>）：相速依赖波长，c = √(gλ/2π)；强频散；大部分风生大洋表面波属此。<br>
+      • <strong>浅水波</strong>（λ ≫ <em>H</em>）：相速只依赖水深，c = √(<em>gH</em>)；非频散；海啸、潮汐、长周期涌浪属此。<br>
+      • <strong>中水波</strong>：重力和水深同时影响相速。<br>
+      层结海洋中的内重力波恢复力是浮力频率 <em>N</em>，只在 ω < <em>N</em>（亚惯性）且 ω > <em>f</em>（超惯性）时能传播，相速 <em>c</em><sub>i</sub> = <em>N</em>/<em>k</em>。</p>
+      <div class="dyn-formula">
+        <div><span class="f-label">深水表面波：</span><i>c</i> = √(<i>g</i>λ/2π)　<span class="f-label">（λ ≪ <i>H</i>）</span></div>
+        <div><span class="f-label">浅水表面波：</span><i>c</i> = √(<i>gH</i>)　<span class="f-label">（λ ≫ <i>H</i>）</span></div>
+        <div><span class="f-label">内重力波相速：</span><i>c</i><sub>i</sub> = <i>N</i>/<i>k</i>，<i>N</i> = √(−(<i>g</i>/ρ) dρ/d<i>z</i>)</div>
+      </div>
+    </div>
+
+    <div class="dyn-card" id="internal-solitary">
+      <h3 class="dyn-title">Internal Solitary Waves<span class="dyn-zh-sub">内孤立波</span></h3>
+      <p class="dyn-text">An <strong>internal solitary wave</strong> (ISW, or soliton) is a nonlinear gravity wave in a stratified ocean that propagates as a single isolated pulse, preserving its shape over long distances because nonlinearity balances wave dispersion. ISWs typically form at internal density interfaces (e.g., the thermocline) and are much larger than surface waves — they can have amplitudes of 50–100 m and horizontal scales of 1–10 km. The mathematical description is given by the <strong>Korteweg–de Vries (KdV) equation</strong>, whose solutions include both solitary waves and periodic wave trains.<br>
+      ISWs are common in shelf seas where strong tidal flow interacts with bathymetry (e.g., the South China Sea northern shelf, the Andaman Sea, and the Gulf of Mexico). They play an important role in transporting sediment, nutrients, and biological particles across the continental slope, and their breaking can generate significant turbulent mixing that affects the thermocline depth.</p>
+      <p class="dyn-text"><strong>内孤立波（ISW）</strong>是层结海洋中的非线性重力波，以单一孤立脉冲形式传播，因为非线性平衡了频散效应，所以能长距离保持形状。ISW 通常形成于内部密度界面（如温跃层），比表面波大得多——振幅可达 50–100 m，水平尺度 1–10 km。数学上由 <strong>Korteweg–de Vries (KdV) 方程</strong> 描述，其解包括孤立波和周期波列。<br>
+      ISW 在陆架海域特别常见，强潮汐流与海底地形相互作用时生成（如南海北部陆架、安达曼海、墨西哥湾）。它在跨陆坡输送沉积物、营养盐和生物颗粒方面起重要作用，其破碎可产生显著湍流混合，影响温跃层深度。</p>
+      <div class="dyn-formula">
+        <div><span class="f-label">KdV 方程：</span>∂<i>u</i>/∂<i>t</i> + <i>c</i> ∂<i>u</i>/∂<i>x</i> + α <i>u</i> ∂<i>u</i>/∂<i>x</i> + β ∂³<i>u</i>/∂<i>x</i>³ = 0</div>
+        <div><span class="f-label">典型振幅：</span>50–100 m　<span class="f-label">周期：</span>5–30 分钟　<span class="f-label">传播速度：</span>0.5–2 m/s</div>
+        <div><span class="f-label">形成机制：</span>潮汐 − 地形相互作用（tidal flow over topography）</div>
+      </div>
+    </div>
+
+    <div class="dyn-card" id="topographic-rossby">
+      <h3 class="dyn-title">Topographic Rossby Waves<span class="dyn-zh-sub">地形罗斯贝波</span></h3>
+      <p class="dyn-text">Topographic Rossby waves are large-scale oscillations that arise from the variation of water depth with latitude, <em>analogous</em> to planetary Rossby waves which arise from the latitudinal variation of the Coriolis parameter. The restoring force is provided by the combined effects of stratification and the topographic gradient: a water column displaced over shallower (deeper) water expands (contracts) because of the background stratification, producing relative vorticity that forces it to oscillate. The "topographic beta" parameter, β<sub>T</sub> = (<em>f</em>/<em>N</em>) · ∂<em>H</em>/∂<em>y</em>, where ∂<em>H</em>/∂<em>y</em> is the topographic slope and <em>N</em> is the buoyancy frequency, plays the role of the planetary β = d<em>f</em>/d<em>y</em> for ordinary Rossby waves.<br>
+      Topographic Rossby waves are observed on mid-latitude continental slopes, along oceanic ridges, and in sea-mount clusters. Their period is typically weeks to months, and they propagate along the slope with the shallow side to the right in the Northern Hemisphere. They are an important component of the oceanic eddy field and contribute significantly to the poleward transport of heat and nutrients along continental boundaries.</p>
+      <p class="dyn-text">地形罗斯贝波是由水深随纬度变化产生的大尺度振荡，<em>类比</em>于行星罗斯贝波——后者由科里奥利力随纬度变化产生。恢复力来自层结与地形梯度的联合效应：一个水柱被抬到浅水区（深水区）时，因背景层结而扩展（收缩），产生相对涡度从而被迫振荡。"地形 β"参数 β<sub>T</sub> = (<em>f</em>/<em>N</em>) · ∂<em>H</em>/∂<em>y</em>（∂<em>H</em>/∂<em>y</em> 是地形坡度，<em>N</em> 是浮力频率）扮演着普通罗斯贝波中行星 β = d<em>f</em>/d<em>y</em> 的角色。<br>
+      地形罗斯贝波在中纬度大陆坡、海脊沿线和海山簇中观测到，周期通常为几周至几个月，沿坡传播，北半球浅侧在右侧。它是海洋涡旋场的重要组成部分，并对沿大陆边界向极地方向的热量和营养盐输送有显著贡献。</p>
+      <div class="dyn-formula">
+        <div><span class="f-label">地形 β 参数：</span>β<sub>T</sub> = (<i>f</i>/<i>N</i>) · ∂<i>H</i>/∂<i>y</i></div>
+        <div><span class="f-label">对比行星 β：</span>β = d<i>f</i>/d<i>y</i> = 2Ω cos φ / <i>a</i></div>
+        <div><span class="f-label">周期量级：</span>数周 − 数月　<span class="f-label">传播方向：</span>沿坡，北半球浅侧在右</div>
+      </div>
+    </div>
+
     <a class="back-top" href="#top">↑ 返回教材</a>
   </div>
 </section>
@@ -1590,6 +2888,260 @@
       </div>
       <div class="calc-result" id="calc-result"></div>
     </div>
+  </div>
+</section>
+
+<!-- 科研工具 -->
+<section id="ai-tools">
+  <div class="container">
+    <h2 class="section-title">科研工具对照表<span class="dyn-zh-sub" style="display:block;font-size:13px;font-weight:400;color:#64748b;margin-top:4px;">AI Tools for Research Tasks</span></h2>
+    <p class="section-desc">针对物理海洋学科研场景的常见需求，推荐实用的 AI 工具与使用提示。</p>
+
+    <div class="tools-table-wrap">
+      <table class="tools-table">
+        <thead>
+          <tr>
+            <th>科研需求 <small>Research Task</small></th>
+            <th>推荐 AI 工具 <small>Recommended Tools</small></th>
+            <th>使用提示 <small>Tips</small></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>文献综述<small>Literature Review</small></td>
+            <td>
+              <a class="tool-chip" href="https://consensus.app" target="_blank">Consensus</a>
+              <a class="tool-chip" href="https://semanticscholar.org/" target="_blank">Semantic Scholar AI</a>
+              <a class="tool-chip" href="https://www.elicit.com" target="_blank">Elicit</a>
+              <a class="tool-chip" href="https://www.anthropic.com/claude" target="_blank">Claude</a>
+            </td>
+            <td class="tip-text">先用 Consensus 按关键词查综述类论文，再让 Claude 归纳脉络；提示词里要求"按发表时间排序 + 标注引用"以减少幻觉。</td>
+          </tr>
+          <tr>
+            <td>组会 PPT<small>Group Meeting PPT</small></td>
+            <td>
+              <a class="tool-chip" href="https://gamma.app" target="_blank">Gamma</a>
+              <a class="tool-chip" href="https://www.beautiful.ai" target="_blank">Beautiful.ai</a>
+              <a class="tool-chip" href="https://www.trae.ai" target="_blank">Trae</a>
+            </td>
+            <td class="tip-text">给 Gamma 提供 5–8 条大纲要点即可生成初稿；在 Trae 中用 <code>pptx</code> 技能可精修版式与公式。</td>
+          </tr>
+          <tr>
+            <td>数据分析 &amp; 可视化<small>Data Analysis &amp; Viz</small></td>
+            <td>
+              <a class="tool-chip" href="https://www.trae.ai" target="_blank">TraeCode</a>
+              <a class="tool-chip" href="https://github.com/features/copilot" target="_blank">Copilot</a>
+              <a class="tool-chip" href="https://chat.openai.com" target="_blank">ChatGPT</a>
+            </td>
+            <td class="tip-text">提示词写清楚数据格式（CSV / NetCDF）和期望输出（地图、剖面图、T-S 图），让 AI 直接生成 pandas + cartopy / matplotlib 代码。</td>
+          </tr>
+          <tr>
+            <td>科学绘图<small>Scientific Illustration</small></td>
+            <td>
+              <a class="tool-chip" href="https://www.midjourney.com" target="_blank">Midjourney</a>
+              <a class="tool-chip" href="https://openai.com/dall-e" target="_blank">DALL·E</a>
+              <a class="tool-chip" href="https://github.com/3b1b/manim" target="_blank">manim</a>
+            </td>
+            <td class="tip-text">概念示意图可用 MJ / DALL·E，提示词加入 <code>oceanographic diagram, labeled axes</code>；动画类推荐 manim（3Blue1Brown）。</td>
+          </tr>
+          <tr>
+            <td>论文英文润色<small>Paper Polishing</small></td>
+            <td>
+              <a class="tool-chip" href="https://www.anthropic.com/claude" target="_blank">Claude</a>
+              <a class="tool-chip" href="https://grammarly.com" target="_blank">Grammarly</a>
+              <a class="tool-chip" href="https://www.writefull.com" target="_blank">Writefull</a>
+            </td>
+            <td class="tip-text">Claude 可保持学术语气改写整段；Writefull 专为论文术语一致性检查设计；Grammarly 收尾语法。</td>
+          </tr>
+          <tr>
+            <td>代码编写 &amp; 调试<small>Coding &amp; Debugging</small></td>
+            <td>
+              <a class="tool-chip" href="https://www.trae.ai" target="_blank">TraeCode</a>
+              <a class="tool-chip" href="https://github.com/features/copilot" target="_blank">Copilot</a>
+              <a class="tool-chip" href="https://cursor.sh" target="_blank">Cursor</a>
+            </td>
+            <td class="tip-text">让 AI 先生成函数框架 + docstring 再填实现；调试时贴出报错堆栈并说明预期行为，AI 定位更快。</td>
+          </tr>
+          <tr>
+            <td>学术翻译<small>Academic Translation</small></td>
+            <td>
+              <a class="tool-chip" href="https://www.deepl.com" target="_blank">DeepL</a>
+              <a class="tool-chip" href="https://www.anthropic.com/claude" target="_blank">Claude</a>
+              <a class="tool-chip" href="https://chat.openai.com" target="_blank">ChatGPT</a>
+            </td>
+            <td class="tip-text">DeepL 译初稿，Claude 润色术语一致性；给 Claude 提供 5–10 条海洋学术语对照表让它统一。</td>
+          </tr>
+          <tr>
+            <td>公式推导 &amp; LaTeX<small>Formula &amp; LaTeX</small></td>
+            <td>
+              <a class="tool-chip" href="https://chat.openai.com" target="_blank">ChatGPT</a>
+              <a class="tool-chip" href="https://www.anthropic.com/claude" target="_blank">Claude</a>
+              <a class="tool-chip" href="https://www.overleaf.com" target="_blank">Overleaf AI</a>
+            </td>
+            <td class="tip-text">直接让 AI 输出 LaTeX 源码并标注变量含义；复杂推导分步骤问，每步让它检验量纲。</td>
+          </tr>
+          <tr>
+            <td>笔记整理 &amp; 思维导图<small>Notes &amp; Mind Map</small></td>
+            <td>
+              <a class="tool-chip" href="https://www.notion.so" target="_blank">Notion AI</a>
+              <a class="tool-chip" href="https://xmind.app" target="_blank">XMind AI</a>
+              <a class="tool-chip" href="https://www.trae.ai" target="_blank">Trae</a>
+            </td>
+            <td class="tip-text">Notion AI 一键把录音转章节笔记；Trae 中可用 Markdown + Mermaid 语法生成结构化导图。</td>
+          </tr>
+          <tr>
+            <td>参考管理<small>Reference Organizing</small></td>
+            <td>
+              <a class="tool-chip" href="https://www.zotero.org" target="_blank">Zotero AI</a>
+              <a class="tool-chip" href="https://www.mendeley.com" target="_blank">Mendeley</a>
+              <a class="tool-chip" href="https://citation.crossref.org" target="_blank">CrossRef</a>
+            </td>
+            <td class="tip-text">Zotero 7 内置 AI 自动提取 PDF 元数据；CrossRef 查 DOI 最全。</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Elicit 详解（Markdown 源码） -->
+    <div class="tool-deep-dive">
+      <h3 class="dyn-title">🔥 工具详解：Elicit<span class="dyn-zh-sub">Deep Dive — Elicit</span></h3>
+<pre class="md-source"><code># 🔥 工具详解：Elicit · Deep Dive
+
+> "The AI Research Assistant" —— 面向学术与工业研究场景的证据驱动型 AI 平台
+
+---
+
+## 一、基本信息 · About
+
+| 项目 | 内容 |
+|------|------|
+| **开发公司** | Elicit Inc.（美国，公共利益公司 PBC） |
+| **创始人** | Andreas Stuhlmüller（CEO）、Noah Goodman（首席科学家，斯坦福认知科学教授） |
+| **成立时间** | 2023 年 9 月（YC W23 孵化） |
+| **融资** | 2025 年 A 轮 $22M，估值 $100M；累计 $31M |
+| **定位** | 证据驱动型 AI 研究助手 |
+| **用户规模** | 超过 500 万研究者使用 |
+| **官网** | https://elicit.com |
+
+---
+
+## 二、核心功能 · Features
+
+### 🔍 Search — 语义检索
+- 跨 **1.38 亿篇学术论文 + 54.5 万条临床试验** 一键语义搜索
+- 无需精准关键词，直接用自然语言提问（如 *"ENSO 对北太平洋海温异常的影响"*）
+- 支持按年份、文献类型、学科领域筛选
+
+### 🤖 Research Agent — 自主研究代理
+- 自主跨库搜证，覆盖学术数据库、临床数据、公开数据源、内部上传文档
+- 生成带引用的 **报告 / 表格 / 图表 / Slides**
+- 上传自己的 NetCDF 脚本、LaTeX 草稿等，让 Agent 做方法学对照
+
+### 📋 Systematic Reviews — 系统综述
+- 自动化 **PRISMA 流程**（筛选 → 纳入 → 数据抽取）
+- 较传统方法提速 **80%**
+- 从数百篇论文表格中自动抽取指定字段
+
+### 📝 Research Reports — 研究简报
+- 一键生成结构化研究简报（类似综述初稿）
+- **可手动编辑**：勾选 / 剔除特定论文、增删信息维度（这是它比纯聊天式 AI 更可靠的关键）
+
+### 🔌 MCP / API — 接入 Agent 工作流
+- 提供 **MCP Server**，可接入 Trae、Claude Desktop 等 Agent
+- 通过 API 可嵌入自研科研管线
+
+### ⏰ Routines — 定期监测
+- 让 Agent 按周 / 月监测领域新证据并自动更新研究进展
+- 适合长期追踪 *"南大洋 ACC 观测"* 这类持续演进的领域
+
+---
+
+## 三、物理海洋学场景 · PO Use Cases
+
+1. **文献脉络快速检索**
+   输入 *"ENSO 对北太平洋海温异常的影响"*，几秒钟得到按时间排序、带引用的 20 篇核心论文。
+
+2. **系统综述自动化**
+   主题：*"2000 年后 Argo 浮标在西太平洋的观测质量评估"*，让 Elicit 自动从每篇文献抽取浮标数量、区域覆盖、偏差估计，输出结构化表格。
+
+3. **模式对比**
+   让 Research Agent 对比 **CMIP6 与 CMIP7** 在海洋温盐模拟上的改进，生成带引用的差异矩阵。
+
+4. **方法学对照**
+   上传自己的 NetCDF 处理脚本 + 5 篇参考 PDF，让 Agent 帮你梳理方法学差异并标注文献出处。
+
+5. **日常追踪**
+   用 Routines 让 Agent 每周推送 *"南大洋 ACC 观测"* 领域的最新预印本（arXiv / Ocean Sci. / J. Phys. Oceanogr.）。
+
+---
+
+## 四、与同类工具对比 · vs Others
+
+| 维度 | Elicit | Consensus | Semantic Scholar |
+|------|--------|-----------|------------------|
+| **引用精度** | ⭐⭐⭐⭐⭐ 段落级可追溯 | ⭐⭐⭐⭐ 句子级 | ⭐⭐⭐⭐ 句子级 |
+| **系统综述** | ✅ 原生 PRISMA 流程 | ❌ 无 | ❌ 无 |
+| **Research Agent** | ✅ 自主搜证 + 上传文档 | ❌ 无 | ❌ 无 |
+| **数据规模** | 1.38 亿论文 + 临床试验 | 学术论文 | 2 亿+ 学术论文 |
+| **中文支持** | 一般 | 一般 | 较好（支持中文学术库） |
+| **价格** | 免费 50 次/月；Pro $10/月 | 免费 + Pro | 完全免费 |
+| **最优场景** | 综述、系统比较、Agent 流程 | 快速答案、领域脉络 | 基础检索、引用网络 |
+
+---
+
+## 五、上手建议 · Tips for New Users
+
+1. **免费额度足够试用**：注册即送 **50 次 / 月**，日常查文献和生成简短报告完全够用；进阶功能（Systematic Review、Agent、API）需 Pro。
+
+2. **英文提问效果最佳**：物理海洋学术语直接用英文（*Ekman pumping, Sverdrup balance, ACC, thermocline*），能搜到更多高质量、高被引论文。
+
+3. **善用筛选器**：限定年份（如 2015–2026）、文献类型（Review / Article）、学科领域，能显著减少噪声。
+
+4. **生成后手动编辑**：Elicit Reports 允许你勾选 / 剔除特定论文、增删信息维度——这是它比 ChatGPT / Claude 纯聊天更"专业"的关键差异。
+
+5. **组合使用**：Consensus 擅长 *"XX 领域有哪些综述"*，Elicit 擅长 *"这些综述具体说了什么"*。二者串联效率最高。
+
+6. **接入 Trae 工作流**：通过 Elicit MCP Server，可让 Trae 在写代码前自动搜证、生成引用表格，再回填到 PPT 或 LaTeX 中。
+
+---
+
+## 六、快速上手命令参考
+
+```bash
+# 1. 注册后先试用：
+#    https://elicit.com → Sign Up → 免费额度激活
+
+# 2. 在 Trae 中接入 MCP（示意，路径以实际为准）：
+#    在 .trae/mcp.json 中添加：
+{
+  "mcpServers": {
+    "elicit": {
+      "command": "npx",
+      "args": ["-y", "@elicit/mcp-server"],
+      "env": { "ELICIT_API_KEY": "YOUR_KEY_HERE" }
+    }
+  }
+}
+
+# 3. 典型 Prompt 模板：
+#    "请按发表时间排序，帮我找 2015-2026 年间关于
+#     Western Pacific warm pool 与 ENSO 相互作用的
+#     综述类论文，每篇列出 3 条核心观点。"
+```
+
+---
+
+> **声明**：以上信息基于 Elicit 官网（2025-02 更新）整理，功能与价格可能变动，请以官方为准。使用 AI 产出请注意核对事实与原始文献引用。
+
+© 2026 幸好我们还有涡度
+</code></pre>
+    </div>
+
+    <p style="margin-top:14px;font-size:12px;color:#94a3b8;text-align:center;">
+      列表仅供参考 · 使用 AI 产出请注意核对事实与引用 · &copy; 2026
+    </p>
+
+    <a class="back-top" href="#top">↑ 返回顶层</a>
   </div>
 </section>
 
@@ -1727,6 +3279,47 @@
     function close() { lb.classList.remove('open'); lbImg.src = ''; }
     lb.addEventListener('click', function (e) { if (e.target === lb || e.target === lbClose) close(); });
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
+  })();
+</script>
+
+<script>
+  // dyn-card 折叠 / 展开
+  (function () {
+    document.querySelectorAll('.dyn-card').forEach(function (card) {
+      var title = card.querySelector(':scope > .dyn-title');
+      if (!title) return;
+      // 把 title 之后的所有子节点包进 dyn-body
+      var body = document.createElement('div');
+      body.className = 'dyn-body';
+      while (title.nextSibling) {
+        body.appendChild(title.nextSibling);
+      }
+      card.appendChild(body);
+      // 根据内容高度设置 max-height，用于 CSS 过渡
+      function setMaxHeight() {
+        if (!card.classList.contains('dyn-collapsed')) {
+          body.style.maxHeight = body.scrollHeight + 8 + 'px';
+        }
+      }
+      // 延迟设置，让子内容先渲染
+      requestAnimationFrame(setMaxHeight);
+      window.addEventListener('resize', setMaxHeight);
+      // 点击标题切换
+      title.addEventListener('click', function () {
+        var collapsing = !card.classList.contains('dyn-collapsed');
+        if (collapsing) {
+          // 先记录当前高度，让过渡有起点
+          body.style.maxHeight = body.scrollHeight + 8 + 'px';
+        }
+        card.classList.toggle('dyn-collapsed');
+        if (!collapsing) {
+          // 展开：下一帧把 max-height 设为实际高度，再由 CSS 过渡
+          requestAnimationFrame(function () {
+            body.style.maxHeight = body.scrollHeight + 8 + 'px';
+          });
+        }
+      });
+    });
   })();
 </script>
 
